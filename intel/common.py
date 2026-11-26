@@ -10,7 +10,7 @@ DATA = ROOT / "data"
 PUBLIC = ROOT / "public"
 UA = "Mozilla/5.0 (compatible; threat-intel-collector/1.0)"
 
-# Column order and header text of the 2026-11 sheet (IS-P-052). Line breaks are part of the header.
+# Column order and header text of the 2026-11 sheet . Line breaks are part of the header.
 COLUMNS = [
     ("date", "資料日期"),
     ("source", "資料來源"),
