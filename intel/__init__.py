@@ -1,1 +1,1 @@
-"""Automated threat-intel collection for IS-P-052 資訊安全情資管理表."""
+"""Automated threat-intel collection (資安內外部情資蒐集紀錄)."""
