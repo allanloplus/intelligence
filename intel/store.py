@@ -29,7 +29,7 @@ def save_month(year, month, recs):
 def months():
     """All stored (year, month) pairs, oldest first."""
     out = []
-    for p in sorted(DATA.glob("*/*.json")):
+    for p in sorted(DATA.glob("[0-9]*/*.json")):
         m = re.fullmatch(r"(\d{4})-(\d{2})", p.stem)
         if m:
             out.append((int(m[1]), int(m[2])))

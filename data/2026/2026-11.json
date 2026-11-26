@@ -17,7 +17,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-58882"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-58882",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 7.5
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "5d890917ea7f",
@@ -32,12 +49,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "是",
-  "automatable": "否",
-  "impact": "完全控制",
-  "dueInternal": "14天",
-  "duePublic": "3天",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e1b6b19f2d56",
@@ -57,7 +77,108 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-114625",
+   "CVE-2026-110447",
+   "CVE-2026-106931",
+   "CVE-2026-96652",
+   "CVE-2026-96654",
+   "CVE-2026-96655",
+   "CVE-2026-96656",
+   "CVE-2026-110936"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-114625",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-110447",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-106931",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 8.5
+   },
+   {
+    "cve": "CVE-2026-96652",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 4／12",
+    "cvss": 5.3
+   },
+   {
+    "cve": "CVE-2026-96654",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 2／10",
+    "cvss": 6.9
+   },
+   {
+    "cve": "CVE-2026-96655",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 4／12",
+    "cvss": 5.3
+   },
+   {
+    "cve": "CVE-2026-96656",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 8.6
+   },
+   {
+    "cve": "CVE-2026-110936",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 8.4
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "7310b8647a89",
@@ -77,7 +198,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "7cae55cef407",
@@ -92,12 +216,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "否",
-  "automatable": "是",
-  "impact": "部分控制",
-  "dueInternal": "60天",
-  "duePublic": "14天",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "fd2160cb251e",
@@ -117,7 +244,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "51c05e14c2d5",
@@ -137,7 +267,36 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-112709",
+   "CVE-2026-112710"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-112709",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-112710",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "8a66fd0403b8",
@@ -157,7 +316,144 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-48356",
+   "CVE-2026-41709",
+   "CVE-2026-76418",
+   "CVE-2026-97229",
+   "CVE-2026-111497",
+   "CVE-2026-111357",
+   "CVE-2026-118527",
+   "CVE-2026-104935",
+   "CVE-2026-46300",
+   "CVE-2026-109618",
+   "CVE-2026-109619"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109618",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-109619",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-48356",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-41709",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 4／12",
+    "cvss": 2.7
+   },
+   {
+    "cve": "CVE-2026-76418",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 2／10",
+    "cvss": 8.6
+   },
+   {
+    "cve": "CVE-2026-97229",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 1／9",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-111497",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-111357",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 7
+   },
+   {
+    "cve": "CVE-2026-118527",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 4／12",
+    "cvss": 4.3
+   },
+   {
+    "cve": "CVE-2026-104935",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 1／9",
+    "cvss": 8.6
+   },
+   {
+    "cve": "CVE-2026-46300",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 7.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "79171d9fbb4c",
@@ -177,7 +473,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a32953e9a917",
@@ -197,7 +496,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "bcf63f117ab0",
@@ -217,7 +519,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-58882"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-58882",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 7.5
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "de2c2fa273a9",
@@ -237,7 +556,24 @@
   "impact": "完全控制",
   "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-111497"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-111497",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "38318aa3d88d",
@@ -257,7 +593,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "6e0f246d75de",
@@ -277,7 +616,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e7a3972566ce",
@@ -297,7 +639,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c9c1e01954db",
@@ -317,7 +662,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "1e09dc1b9c1b",
@@ -332,12 +680,29 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "auto": false
+  "kev": "是",
+  "automatable": "否",
+  "impact": "完全控制",
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "auto": false,
+  "cves": [
+   "CVE-2026-123158"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123158",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "66c4e2d50f4d",
@@ -357,7 +722,36 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-98432",
+   "CVE-2026-9843"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-98432",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-9843",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "60天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 8／16",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "f4015e67510b",
@@ -377,7 +771,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-58882"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-58882",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 7.5
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "ed28148c8831",
@@ -397,7 +808,24 @@
   "impact": "完全控制",
   "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-111497"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-111497",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 3／11",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "6e2a714a549b",
@@ -417,7 +845,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "b12998c8f9b9",
@@ -437,7 +868,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109518"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109518",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 7.7
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "6a9644b1bc4f",
@@ -457,7 +905,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-114820"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-114820",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "35050bae6983",
@@ -477,7 +942,36 @@
   "impact": "完全控制",
   "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109618",
+   "CVE-2026-109619"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109618",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-109619",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c55e0c8b9da4",
@@ -497,7 +991,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109593"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109593",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "82db99d2a2ba",
@@ -517,7 +1028,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-98432"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-98432",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "04e0133f54a0",
@@ -537,7 +1065,36 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2023-22793",
+   "CVE-2026-107239"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2023-22793",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-107239",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a4d9adbb646c",
@@ -557,7 +1114,36 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-112709",
+   "CVE-2026-112710"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-112709",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-112710",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "973b729b76c4",
@@ -577,7 +1163,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-83844"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-83844",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 7
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "ec3d91641617",
@@ -597,7 +1200,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "273eeccc1c8d",
@@ -617,7 +1223,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e4fa08cb5f66",
@@ -637,7 +1246,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "4058f99bcb05",
@@ -657,7 +1269,24 @@
   "impact": "完全控制",
   "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123158"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123158",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e5c52dbf377c",
@@ -677,7 +1306,36 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-107155",
+   "CVE-2026-107154"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-107155",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-107154",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "5a28d1f3c2c7",
@@ -697,7 +1355,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "682df4eeb074",
@@ -712,12 +1373,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "是",
-  "automatable": "否",
-  "impact": "部分控制",
-  "dueInternal": "14天",
-  "duePublic": "14天",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "661dcdc9437f",
@@ -737,7 +1401,48 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2024-27834",
+   "CVE-2026-19868",
+   "CVE-2026-119977"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2024-27834",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "資安院指定期限",
+    "cvss": 5.5
+   },
+   {
+    "cve": "CVE-2026-19868",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "CISA SSVC",
+    "dueSource": "資安院指定期限",
+    "cvss": 7.5
+   },
+   {
+    "cve": "CVE-2026-119977",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "CISA SSVC",
+    "dueSource": "資安院指定期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "1ea3333f80c7",
@@ -757,7 +1462,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-115252"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-115252",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "46b7e8e89df2",
@@ -777,7 +1499,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "da1ff24df2c8",
@@ -792,12 +1517,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "是",
-  "automatable": "否",
-  "impact": "完全控制",
-  "dueInternal": "14天",
-  "duePublic": "3天",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "f46b4274fc39",
@@ -817,7 +1545,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "5eb321f06fbd",
@@ -837,7 +1568,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-119618"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-119618",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "29bd52eb85ce",
@@ -857,7 +1605,36 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-116606",
+   "CVE-2026-111560"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-116606",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-111560",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.6
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d67d202e2f37",
@@ -877,7 +1654,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126257"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126257",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "8f8cce5df3a6",
@@ -897,7 +1691,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126156"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126156",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a9cf1fc5edb2",
@@ -917,7 +1728,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126261"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126261",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "1a128f559d13",
@@ -937,7 +1765,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126229"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126229",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "62c3d3ae39d6",
@@ -957,7 +1802,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126253"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126253",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.3
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "84989b31d2fb",
@@ -977,7 +1839,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-121683"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-121683",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 9.4
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a13f55641cab",
@@ -997,7 +1876,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-121653"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-121653",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c2a4b7f6043e",
@@ -1017,7 +1913,132 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-76964",
+   "CVE-2026-89126",
+   "CVE-2026-89103",
+   "CVE-2026-120017",
+   "CVE-2026-109803",
+   "CVE-2026-76965",
+   "CVE-2026-109795",
+   "CVE-2026-89119",
+   "CVE-2026-109798",
+   "CVE-2026-76966"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-76964",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-89126",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-89103",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-120017",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-109803",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-76965",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-109795",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-89119",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.6
+   },
+   {
+    "cve": "CVE-2026-109798",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "60天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 8／16",
+    "cvss": 9.1
+   },
+   {
+    "cve": "CVE-2026-76966",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.9
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "bdc3c720b3c8",
@@ -1037,7 +2058,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-76954"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-76954",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "0873f579d557",
@@ -1057,7 +2095,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "9b77af36b5b5",
@@ -1077,7 +2118,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "79a8215b90c9",
@@ -1097,7 +2141,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "8cb7b521e3e5",
@@ -1112,12 +2159,53 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "auto": false
+  "kev": "是",
+  "automatable": "否",
+  "impact": "完全控制",
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "auto": false,
+  "cves": [
+   "CVE-2026-109618",
+   "CVE-2026-109619",
+   "CVE-2026-123039"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109618",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-109619",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123039",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 7.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "db97168622be",
@@ -1137,7 +2225,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-119618"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-119618",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "fa244a287e55",
@@ -1157,7 +2262,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109518"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109518",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 7.7
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d5241bcf7ced",
@@ -1177,7 +2299,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-98432"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-98432",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "ff5353876b4d",
@@ -1197,7 +2336,36 @@
   "impact": "完全控制",
   "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109618",
+   "CVE-2026-109619"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109618",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-109619",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a4cce6aaac7a",
@@ -1217,7 +2385,48 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2023-22793",
+   "CVE-2026-107238",
+   "CVE-2026-107239"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2023-22793",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-107238",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.7
+   },
+   {
+    "cve": "CVE-2026-107239",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "0df38a884fb4",
@@ -1237,7 +2446,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c55894522ef9",
@@ -1257,7 +2469,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e78b87c3ab7e",
@@ -1277,7 +2492,156 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-116606",
+   "CVE-2026-111560",
+   "CVE-2026-123039",
+   "CVE-2026-20320",
+   "CVE-2026-125350",
+   "CVE-2026-102895",
+   "CVE-2026-123218",
+   "CVE-2026-124194",
+   "CVE-2026-123158",
+   "CVE-2026-111793",
+   "CVE-2026-116779",
+   "CVE-2026-114713"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-116606",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-111560",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.6
+   },
+   {
+    "cve": "CVE-2026-123039",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 7.8
+   },
+   {
+    "cve": "CVE-2026-20320",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 7.5
+   },
+   {
+    "cve": "CVE-2026-125350",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-102895",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-123218",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-124194",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 6.5
+   },
+   {
+    "cve": "CVE-2026-123158",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   },
+   {
+    "cve": "CVE-2026-111793",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 4.3
+   },
+   {
+    "cve": "CVE-2026-116779",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-114713",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.6
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "91faa39e8471",
@@ -1297,7 +2661,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "82556d2c8fe5",
@@ -1312,12 +2679,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "ccc00313d37a",
@@ -1337,7 +2707,36 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-116606",
+   "CVE-2026-111560"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-116606",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.3
+   },
+   {
+    "cve": "CVE-2026-111560",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.6
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a18c6bbeaa46",
@@ -1357,7 +2756,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126257"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126257",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "1fb6dc2c8c63",
@@ -1377,7 +2793,24 @@
   "impact": "部分控制",
   "dueInternal": "60天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126253"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126253",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.3
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d70f6ba4b45b",
@@ -1397,7 +2830,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-126229"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-126229",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c0f12d35a107",
@@ -1417,7 +2867,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-121653"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-121653",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c59ae3b063ae",
@@ -1437,7 +2904,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-76954"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-76954",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "37da88603012",
@@ -1457,7 +2941,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-107441"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-107441",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "8eb2fc61784a",
@@ -1472,12 +2973,507 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "否",
+  "kev": "是",
   "automatable": "是",
   "impact": "完全控制",
-  "dueInternal": "60天",
+  "dueInternal": "14天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-118146",
+   "CVE-2026-114146",
+   "CVE-2026-118740",
+   "CVE-2026-109467",
+   "CVE-2026-85923",
+   "CVE-2026-114160",
+   "CVE-2026-119990",
+   "CVE-2026-105581",
+   "CVE-2026-109469",
+   "CVE-2026-119969",
+   "CVE-2026-96010",
+   "CVE-2026-96067",
+   "CVE-2026-96078",
+   "CVE-2026-122194",
+   "CVE-2026-118149",
+   "CVE-2026-118150",
+   "CVE-2026-118154",
+   "CVE-2026-118207",
+   "CVE-2026-114162",
+   "CVE-2026-109492",
+   "CVE-2026-111289",
+   "CVE-2026-116717",
+   "CVE-2026-120003",
+   "CVE-2026-122198",
+   "CVE-2026-109493",
+   "CVE-2026-110058",
+   "CVE-2026-110059",
+   "CVE-2026-110060",
+   "CVE-2026-111301",
+   "CVE-2026-111305",
+   "CVE-2026-116927",
+   "CVE-2026-118292",
+   "CVE-2026-118293",
+   "CVE-2026-118294",
+   "CVE-2026-118295",
+   "CVE-2026-118296",
+   "CVE-2026-118297",
+   "CVE-2026-118298",
+   "CVE-2026-118299",
+   "CVE-2026-118302",
+   "CVE-2026-118700",
+   "CVE-2026-118701",
+   "CVE-2026-118702",
+   "CVE-2026-118703",
+   "CVE-2026-118704",
+   "CVE-2026-118705",
+   "CVE-2026-118706",
+   "CVE-2026-118707",
+   "CVE-2026-118708",
+   "CVE-2026-118709",
+   "CVE-2026-118710",
+   "CVE-2026-118711",
+   "CVE-2026-118712",
+   "CVE-2026-118713",
+   "CVE-2026-118714",
+   "CVE-2026-118715",
+   "CVE-2026-118716",
+   "CVE-2026-118717",
+   "CVE-2026-118718",
+   "CVE-2026-118719",
+   "CVE-2026-118720",
+   "CVE-2026-118721",
+   "CVE-2026-118722",
+   "CVE-2026-118724",
+   "CVE-2026-118725",
+   "CVE-2026-118726",
+   "CVE-2026-118729",
+   "CVE-2026-118730",
+   "CVE-2026-118731",
+   "CVE-2026-118732",
+   "CVE-2026-119986",
+   "CVE-2026-120785",
+   "CVE-2026-120786",
+   "CVE-2026-120788",
+   "CVE-2026-120789",
+   "CVE-2026-120790",
+   "CVE-2026-120791",
+   "CVE-2026-123385",
+   "CVE-2026-124174",
+   "CVE-2026-124176",
+   "CVE-2026-124187",
+   "CVE-2026-110043",
+   "CVE-2026-110068",
+   "CVE-2026-111309",
+   "CVE-2026-123375",
+   "CVE-2026-123376",
+   "CVE-2026-123377",
+   "CVE-2026-123380",
+   "CVE-2026-123381",
+   "CVE-2026-123382",
+   "CVE-2026-123383",
+   "CVE-2026-123384",
+   "CVE-2026-124228",
+   "CVE-2026-112734",
+   "CVE-2026-112737",
+   "CVE-2026-120001",
+   "CVE-2026-120005",
+   "CVE-2026-80095",
+   "CVE-2026-88176",
+   "CVE-2026-109454",
+   "CVE-2026-109464",
+   "CVE-2026-109472",
+   "CVE-2026-109499",
+   "CVE-2026-109502",
+   "CVE-2026-110044",
+   "CVE-2026-120002",
+   "CVE-2026-123390",
+   "CVE-2026-123391",
+   "CVE-2026-109494",
+   "CVE-2026-109496",
+   "CVE-2026-109501",
+   "CVE-2026-109503",
+   "CVE-2026-109505",
+   "CVE-2026-110047",
+   "CVE-2026-110048",
+   "CVE-2026-110050",
+   "CVE-2026-110054",
+   "CVE-2026-110055",
+   "CVE-2026-110061",
+   "CVE-2026-110062",
+   "CVE-2026-110064",
+   "CVE-2026-110067",
+   "CVE-2026-111285",
+   "CVE-2026-111290",
+   "CVE-2026-111294",
+   "CVE-2026-111295",
+   "CVE-2026-111298",
+   "CVE-2026-111299",
+   "CVE-2026-111304",
+   "CVE-2026-111306",
+   "CVE-2026-111307",
+   "CVE-2026-111308",
+   "CVE-2026-111310",
+   "CVE-2026-112714",
+   "CVE-2026-112715",
+   "CVE-2026-112716",
+   "CVE-2026-112717",
+   "CVE-2026-112718",
+   "CVE-2026-112719",
+   "CVE-2026-112721",
+   "CVE-2026-112722",
+   "CVE-2026-112723",
+   "CVE-2026-112724",
+   "CVE-2026-112726",
+   "CVE-2026-112728",
+   "CVE-2026-112729",
+   "CVE-2026-112730",
+   "CVE-2026-112733",
+   "CVE-2026-112735",
+   "CVE-2026-112739",
+   "CVE-2026-112741",
+   "CVE-2026-116719",
+   "CVE-2026-116720",
+   "CVE-2026-116722",
+   "CVE-2026-116923",
+   "CVE-2026-116925",
+   "CVE-2026-123394",
+   "CVE-2026-85838",
+   "CVE-2026-85839",
+   "CVE-2026-88222",
+   "CVE-2026-114164",
+   "CVE-2026-96157",
+   "CVE-2026-116928",
+   "CVE-2026-119881",
+   "CVE-2026-122171",
+   "CVE-2026-119824",
+   "CVE-2026-119839",
+   "CVE-2026-119934",
+   "CVE-2026-96002",
+   "CVE-2026-96020",
+   "CVE-2026-96064",
+   "CVE-2026-112727",
+   "CVE-2026-67372",
+   "CVE-2026-67374",
+   "CVE-2026-67375",
+   "CVE-2026-67387",
+   "CVE-2026-67391",
+   "CVE-2026-67632",
+   "CVE-2026-67637",
+   "CVE-2026-67646",
+   "CVE-2026-94511",
+   "CVE-2026-116930",
+   "CVE-2026-116934",
+   "CVE-2026-116941",
+   "CVE-2026-116942",
+   "CVE-2026-116945",
+   "CVE-2026-116946",
+   "CVE-2026-118105",
+   "CVE-2026-118109",
+   "CVE-2026-118110",
+   "CVE-2026-118120",
+   "CVE-2026-114151",
+   "CVE-2026-114152",
+   "CVE-2026-114158",
+   "CVE-2026-114159",
+   "CVE-2026-118745",
+   "CVE-2026-70094",
+   "CVE-2026-114171",
+   "CVE-2026-119975",
+   "CVE-2026-119983",
+   "CVE-2026-120779",
+   "CVE-2026-121663",
+   "CVE-2026-121665",
+   "CVE-2026-95960",
+   "CVE-2026-105020",
+   "CVE-2026-105021",
+   "CVE-2026-105023",
+   "CVE-2026-105026",
+   "CVE-2026-105490",
+   "CVE-2026-105491",
+   "CVE-2026-105493",
+   "CVE-2026-105495",
+   "CVE-2026-105496",
+   "CVE-2026-105497",
+   "CVE-2026-105498",
+   "CVE-2026-105499",
+   "CVE-2026-118216",
+   "CVE-2026-118217",
+   "CVE-2026-118218",
+   "CVE-2026-118219",
+   "CVE-2026-118221",
+   "CVE-2026-118225",
+   "CVE-2026-118226",
+   "CVE-2026-118227",
+   "CVE-2026-118228",
+   "CVE-2026-118229",
+   "CVE-2026-118232",
+   "CVE-2026-118277",
+   "CVE-2026-118278",
+   "CVE-2026-118279",
+   "CVE-2026-118283",
+   "CVE-2026-95996",
+   "CVE-2026-88249",
+   "CVE-2026-118141",
+   "CVE-2026-113863",
+   "CVE-2026-88243",
+   "CVE-2026-88218",
+   "CVE-2026-109463",
+   "CVE-2026-96164",
+   "CVE-2026-119862",
+   "CVE-2026-119916",
+   "CVE-2026-88234",
+   "CVE-2026-105518",
+   "CVE-2026-85844",
+   "CVE-2026-112805",
+   "CVE-2026-119958",
+   "CVE-2026-88229",
+   "CVE-2026-95882",
+   "CVE-2026-95901",
+   "CVE-2026-125136",
+   "CVE-2026-105542",
+   "CVE-2026-108411",
+   "CVE-2026-95975",
+   "CVE-2026-124226",
+   "CVE-2026-112762",
+   "CVE-2026-119950",
+   "CVE-2026-114169",
+   "CVE-2026-108401",
+   "CVE-2026-122176",
+   "CVE-2026-105534",
+   "CVE-2026-113814",
+   "CVE-2026-119392",
+   "CVE-2026-119908",
+   "CVE-2026-122475",
+   "CVE-2026-119925",
+   "CVE-2026-95962",
+   "CVE-2026-112967",
+   "CVE-2026-113760",
+   "CVE-2026-66801",
+   "CVE-2026-124194"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-124194",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 6.5
+   },
+   {
+    "cve": "CVE-2026-118146",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-114146",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9
+   },
+   {
+    "cve": "CVE-2026-118740",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "60天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 8／16",
+    "cvss": 9.1
+   },
+   {
+    "cve": "CVE-2026-109467",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-85923",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-114160",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-119990",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-105581",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-109469",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   },
+   {
+    "cve": "CVE-2026-119969",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-96010",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-96067",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-96078",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-122194",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-118149",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-118150",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-118154",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-118207",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-114162",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "9ffc8519d01a",
@@ -1497,7 +3493,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "83f8ee774dd5",
@@ -1512,12 +3511,41 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "是",
-  "automatable": "是",
+  "kev": "否",
+  "automatable": "否",
   "impact": "完全控制",
-  "dueInternal": "3天",
-  "duePublic": "3天",
-  "auto": false
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "auto": false,
+  "cves": [
+   "CVE-2026-123007",
+   "CVE-2026-123633"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123007",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123633",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "e0c9a29b4178",
@@ -1537,7 +3565,24 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-114938"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-114938",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "CISA SSVC",
+    "dueSource": "資安院指定期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a0009fa66470",
@@ -1557,7 +3602,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-119618"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-119618",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.1
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "85fa7c14d638",
@@ -1577,7 +3639,24 @@
   "impact": "部分控制",
   "dueInternal": "14天",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-124194"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-124194",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 6.5
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "5eb7c29b5f2b",
@@ -1597,7 +3676,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c14b82176c89",
@@ -1617,7 +3699,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c03dc56fc1d1",
@@ -1637,7 +3722,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-107441"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-107441",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "18a25495c37d",
@@ -1657,7 +3759,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "9f0b977bc5b3",
@@ -1677,7 +3782,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c88824898c9a",
@@ -1697,7 +3805,25 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123890"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "30396c971c94",
@@ -1717,7 +3843,72 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-113425",
+   "CVE-2026-121810",
+   "CVE-2026-123007",
+   "CVE-2026-123633",
+   "CVE-2026-123634"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-113425",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-121810",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123007",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123633",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123634",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "619c42a7d021",
@@ -1737,7 +3928,10 @@
   "impact": "無 CVE 編號",
   "dueInternal": "無 CVE 編號",
   "duePublic": "無 CVE 編號",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "4d2ab421c9f2",
@@ -1757,7 +3951,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "5a03511c542b",
@@ -1777,7 +3974,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "c8d671003f31",
@@ -1792,12 +3992,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "否",
-  "automatable": "是",
-  "impact": "完全控制",
-  "dueInternal": "60天",
-  "duePublic": "3天",
-  "auto": false
+  "kev": "無 CVE 編號",
+  "automatable": "無 CVE 編號",
+  "impact": "無 CVE 編號",
+  "dueInternal": "無 CVE 編號",
+  "duePublic": "無 CVE 編號",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d90736097c5a",
@@ -1817,7 +4020,72 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-113425",
+   "CVE-2026-121810",
+   "CVE-2026-123007",
+   "CVE-2026-123633",
+   "CVE-2026-123634"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-113425",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-121810",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123007",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123633",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123634",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "f5f812099f67",
@@ -1837,7 +4105,96 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-115560",
+   "CVE-2026-126714",
+   "CVE-2026-129182",
+   "CVE-2026-129289",
+   "CVE-2026-129474",
+   "CVE-2026-129481",
+   "CVE-2026-129496"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-115560",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-126714",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129182",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129289",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129474",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129481",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129496",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "30e4b1f251bb",
@@ -1857,26 +4214,25 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
- },
- {
-  "id": "09ff0c217be1",
-  "date": "2026-11-23",
-  "source": "TechNews",
-  "title": "Amazon 揭露：中國駭客出動自主 AI 代理，僅 11 分鐘挖出零時差漏洞攻陷大學伺服器",
-  "url": "https://infosecu.technews.tw/2026/11/23/chinese-hackers-leverage-ai-agents-launch-automated-attacks/",
-  "origin": "外部資訊",
-  "progress": "OK",
-  "category": "外部：漏洞情報",
-  "cves": [],
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "severity": "現行不影響",
-  "countermeasure": "僅列入知識庫",
-  "auto": true
+  "auto": false,
+  "cves": [
+   "CVE-2026-123890"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "cfcd8aa3b5fc",
@@ -1896,7 +4252,25 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123890"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d33e33e55155",
@@ -1911,12 +4285,15 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "是",
-  "automatable": "否",
-  "impact": "完全控制",
-  "dueInternal": "14天",
-  "duePublic": "3天",
-  "auto": false
+  "kev": "不適用",
+  "automatable": "不適用",
+  "impact": "不適用",
+  "dueInternal": "不適用",
+  "duePublic": "不適用",
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a187acbaa011",
@@ -1936,7 +4313,25 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123890"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "2e015afdf23f",
@@ -1956,7 +4351,24 @@
   "impact": "完全控制（推定）",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-99676"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-99676",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a4123b6eab24",
@@ -1976,7 +4388,96 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-115560",
+   "CVE-2026-126714",
+   "CVE-2026-129182",
+   "CVE-2026-129289",
+   "CVE-2026-129474",
+   "CVE-2026-129481",
+   "CVE-2026-129496"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-115560",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-126714",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129182",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129289",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129474",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129481",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-129496",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "cf304052a231",
@@ -1996,7 +4497,36 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123633",
+   "CVE-2026-123007"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123633",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   },
+   {
+    "cve": "CVE-2026-123007",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.2
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d83a5d399e59",
@@ -2012,11 +4542,28 @@
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
   "kev": "否",
-  "automatable": "是（推定）",
-  "impact": "完全控制（推定）",
+  "automatable": "是",
+  "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-120382"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-120382",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "59e37f358a6f",
@@ -2036,26 +4583,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
- },
- {
-  "id": "7491f3e6a690",
-  "date": "2026-11-24",
-  "source": "TechNews",
-  "title": "AI 成網攻加速器：零時差漏洞翻倍、平均 11 天遭駭，雲端系統恐 3 小時內淪陷",
-  "url": "https://infosecu.technews.tw/2026/11/24/latest-battlefront-ai-cybersecurity/",
-  "origin": "外部資訊",
-  "progress": "OK",
-  "category": "外部：漏洞情報",
+  "auto": false,
   "cves": [],
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "severity": "現行不影響",
-  "countermeasure": "僅列入知識庫",
-  "auto": true
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "add8eaa7d38c",
@@ -2075,7 +4606,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
+  "auto": false,
+  "cves": [],
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "d719180f3cd7",
@@ -2095,7 +4629,37 @@
   "impact": "完全控制",
   "dueInternal": "3天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-123903",
+   "CVE-2026-123890"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   },
+   {
+    "cve": "CVE-2026-123903",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "156195d6bed0",
@@ -2115,7 +4679,24 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-118383"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-118383",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.5
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "034100599bc1",
@@ -2135,7 +4716,264 @@
   "impact": "完全控制",
   "dueInternal": "待下次系統更新",
   "duePublic": "14天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-6460",
+   "CVE-2026-18447",
+   "CVE-2026-116304",
+   "CVE-2026-116306",
+   "CVE-2026-116307",
+   "CVE-2026-116309",
+   "CVE-2026-116314",
+   "CVE-2026-116320",
+   "CVE-2026-116323",
+   "CVE-2026-116326",
+   "CVE-2026-116328",
+   "CVE-2026-116332",
+   "CVE-2026-116335",
+   "CVE-2026-116336",
+   "CVE-2026-120139",
+   "CVE-2026-120141",
+   "CVE-2026-120145",
+   "CVE-2026-120147",
+   "CVE-2026-120149",
+   "CVE-2026-120151",
+   "CVE-2026-116315",
+   "CVE-2026-116316",
+   "CVE-2026-116317",
+   "CVE-2026-116318",
+   "CVE-2026-116319",
+   "CVE-2026-116329",
+   "CVE-2026-116330",
+   "CVE-2026-116331",
+   "CVE-2026-120142",
+   "CVE-2026-120143",
+   "CVE-2026-120144",
+   "CVE-2026-120150"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-6460",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-18447",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116304",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116306",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116307",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116309",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116314",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116320",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116323",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116326",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116328",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116332",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116335",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116336",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120139",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120141",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120145",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120147",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120149",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120151",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "db92797f2baf",
@@ -2155,7 +4993,36 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-110697",
+   "CVE-2026-123710"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-110697",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-123710",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "4d5320911eb2",
@@ -2175,7 +5042,24 @@
   "impact": "完全控制",
   "dueInternal": "60天",
   "duePublic": "3天",
-  "auto": false
+  "auto": false,
+  "cves": [
+   "CVE-2026-109484"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-109484",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "a4cd61d0a057",
@@ -2195,26 +5079,10 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
- },
- {
-  "id": "b5c0c09f934f",
-  "date": "2026-11-25",
-  "source": "TechNews",
-  "title": "美國情報機構爆資安事件，傳 CIA、ODNI 部分資訊外洩",
-  "url": "https://infosecu.technews.tw/2026/11/25/u-s-spy-agencies-suffer-breach-of-some-unclassified-information/",
-  "origin": "外部資訊",
-  "progress": "OK",
-  "category": "外部：安全事件情報",
+  "auto": false,
   "cves": [],
-  "kev": "不適用",
-  "automatable": "不適用",
-  "impact": "不適用",
-  "duePublic": "不適用",
-  "dueInternal": "不適用",
-  "severity": "低",
-  "countermeasure": "列入風險評鑑",
-  "auto": true
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  },
  {
   "id": "9234ae84ef15",
@@ -2229,12 +5097,29 @@
   "affected": "",
   "countermeasure": "技術預防和檢測控制",
   "progress": "OK",
-  "kev": "無 CVE 編號",
-  "automatable": "無 CVE 編號",
-  "impact": "無 CVE 編號",
-  "dueInternal": "無 CVE 編號",
-  "duePublic": "無 CVE 編號",
-  "auto": false
+  "kev": "否",
+  "automatable": "是",
+  "impact": "部分控制",
+  "dueInternal": "60天",
+  "duePublic": "14天",
+  "auto": false,
+  "cves": [
+   "CVE-2026-25085"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-25085",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "14天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 6／14",
+    "cvss": 8.6
+   }
+  ],
+  "assessed": "2026-11-26"
  },
  {
   "id": "40896914f392",
@@ -2254,25 +5139,9 @@
   "impact": "不適用",
   "dueInternal": "不適用",
   "duePublic": "不適用",
-  "auto": false
- },
- {
-  "id": "389b08c9db8f",
-  "date": "2026-11-26",
-  "source": "TechNews",
-  "title": "境外拜票來電恐有詐，打詐中心：不接聽、打 165",
-  "url": "https://infosecu.technews.tw/2026/11/26/overseas-vote-soliciting-calls-scam-warning-165/",
-  "origin": "外部資訊",
-  "progress": "OK",
-  "category": "外部：威脅情報",
+  "auto": false,
   "cves": [],
-  "kev": "不適用",
-  "automatable": "不適用",
-  "impact": "不適用",
-  "duePublic": "不適用",
-  "dueInternal": "不適用",
-  "severity": "低",
-  "countermeasure": "列入風險評鑑",
-  "auto": true
+  "cve_detail": [],
+  "assessed": "2026-11-26"
  }
 ]

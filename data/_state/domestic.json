@@ -1,0 +1,257 @@
+{
+ "CVE-2023-22793": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2024-27834": {
+  "designated": "14天"
+ },
+ "CVE-2026-102895": {
+  "auto": true,
+  "dueInternal": "3天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-107238": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-107239": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-107441": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-109518": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-109618": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-109619": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-110697": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-111560": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-111793": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "14天",
+  "kev": true,
+  "total": false
+ },
+ "CVE-2026-113425": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-114713": {
+  "auto": true,
+  "dueInternal": "3天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-114938": {
+  "designated": "3天"
+ },
+ "CVE-2026-116606": {
+  "auto": true,
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-116779": {
+  "auto": true,
+  "dueInternal": "3天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-118383": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-119618": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-119977": {
+  "designated": "3天"
+ },
+ "CVE-2026-121653": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-121810": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-123007": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-123039": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-123158": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-123218": {
+  "auto": true,
+  "dueInternal": "3天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-123633": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-123634": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-123710": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-123890": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-124194": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "14天",
+  "kev": true,
+  "total": false
+ },
+ "CVE-2026-125350": {
+  "auto": false,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": true
+ },
+ "CVE-2026-126229": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-126253": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "14天",
+  "kev": false,
+  "total": false
+ },
+ "CVE-2026-126257": {
+  "auto": false,
+  "dueInternal": "待下次系統更新",
+  "duePublic": "14天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-19868": {
+  "designated": "14天"
+ },
+ "CVE-2026-20320": {
+  "auto": true,
+  "dueInternal": "14天",
+  "duePublic": "3天",
+  "kev": true,
+  "total": false
+ },
+ "CVE-2026-76954": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ },
+ "CVE-2026-98432": {
+  "auto": true,
+  "dueInternal": "60天",
+  "duePublic": "3天",
+  "kev": false,
+  "total": true
+ }
+}
