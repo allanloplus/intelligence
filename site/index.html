@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>資安情資查詢與下載</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1c2733;--mute:#62707f;--line:#d9dfe6;--brand:#1f4e78;--brand-ink:#fff;--hi:#f8cbad;--mid:#ffe699;--lo:#c6e0b4;--none:#e7e6e6;--chip-ink:#1c2733;--link:#0b5cad}
+@media (prefers-color-scheme:dark){:root{--bg:#12171d;--card:#1b222b;--ink:#e6ebf0;--mute:#9aa7b4;--line:#2e3945;--brand:#2f6ea5;--link:#7db8f0}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+header{background:var(--brand);color:var(--brand-ink);padding:18px 16px}
+header h1{margin:0;font-size:20px}
+header p{margin:4px 0 0;font-size:13px;opacity:.85}
+main{max-width:1500px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
+select,input{font:inherit;padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);min-width:110px}
+input[type=search]{min-width:240px;flex:1}
+.grow{flex:1;min-width:220px}
+.btn{display:inline-block;font:inherit;padding:8px 13px;border-radius:7px;border:1px solid var(--brand);background:var(--brand);color:#fff;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--link);border-color:var(--line)}
+.btn[aria-disabled=true]{opacity:.45;pointer-events:none}
+.stat{font-size:13px;color:var(--mute);margin-top:10px}
+.wrap{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:1500px;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:center;vertical-align:top;white-space:nowrap}
+th{position:sticky;top:0;background:var(--brand);color:#fff;font-weight:600;white-space:pre;z-index:1}
+td.t{text-align:left;white-space:normal;min-width:340px}
+td.t a{color:var(--link);text-decoration:none}
+td.t a:hover{text-decoration:underline}
+.chip{display:inline-block;padding:1px 9px;border-radius:99px;color:var(--chip-ink)}
+.s-高{background:var(--hi)}.s-中{background:var(--mid)}.s-低{background:var(--lo)}.s-現行不影響{background:var(--none)}
+.note{font-size:12px;color:var(--mute);margin:10px 0 0}
+.empty{padding:40px;text-align:center;color:var(--mute)}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="docName">資安情資查詢與下載</h1>
+  <p id="genInfo">載入中…</p>
+</header>
+<main>
+  <section class="card">
+    <div class="row">
+      <label>年度<select id="year"></select></label>
+      <label>月份<select id="month"></select></label>
+      <label>資料來源<select id="fSource"></select></label>
+      <label>威脅情報類別<select id="fCategory"></select></label>
+      <label>威脅程度<select id="fSeverity"></select></label>
+      <label>CISA KEV<select id="fKev"></select></label>
+      <label class="grow">關鍵字<input type="search" id="q" placeholder="標題、CVE 編號、網址…"></label>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <a class="btn" id="dlMonth" href="#">⬇️ 下載當月 Excel</a>
+      <a class="btn" id="dlYear" href="#">⬇️ 下載全年度 Excel</a>
+      <button class="btn alt" id="dlCsv" type="button">⬇️ 下載目前篩選結果 (CSV)</button>
+    </div>
+    <div class="stat" id="stat"></div>
+  </section>
+  <section class="card">
+    <div class="wrap"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div>
+    <p class="note" id="note"></p>
+    <p class="note">威脅程度與因應對策為系統依規則初判，請各組織依自身資產與環境覆核後調整。相關資訊版權為所連結之機關單位及企業所有。</p>
+  </section>
+</main>
+<script>
+"use strict";
+const COLS = [["date","資料日期"],["source","資料來源"],["title","資料標題"],["origin","威脅情資來源"],["category","威脅情報類別"],
+  ["severity","對組織的現況威脅程度"],["countermeasure","因應對策"],["progress","執行進度說明"],["kev","弱點已知被利用\n(CISA KEV)"],
+  ["automatable","弱點能否被\n自動化利用"],["impact","弱點遭利用後之\n技術影響程度"],["duePublic","弱點處置期限\n(曝露於公眾網路)"],
+  ["dueInternal","弱點處置期限\n(未曝露於公眾網路)"]];
+const CSV_COLS = [["date","資料日期"],["source","資料來源"],["title","資料標題"],["url","訊息網址連結"],["origin","威脅情資來源"],
+  ["category","威脅情報類別"],["severity","對組織的現況威脅程度"],["countermeasure","因應對策"],["progress","執行進度說明"],
+  ["kev","弱點已知被利用(CISA KEV)"],["automatable","弱點能否被自動化利用"],["impact","弱點遭利用後之技術影響程度"],
+  ["duePublic","弱點處置期限(曝露於公眾網路)"],["dueInternal","弱點處置期限(未曝露於公眾網路)"]];
+const $ = id => document.getElementById(id);
+const cache = {};
+let INDEX = null, recs = [], shown = [];
+
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function fill(sel, items, allLabel) {
+  const keep = sel.value;
+  sel.innerHTML = (allLabel ? `<option value="">${allLabel}</option>` : "") + items.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
+  if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
+}
+async function loadMonth(entry) {
+  if (!cache[entry.data]) cache[entry.data] = fetch(entry.data).then(r => { if (!r.ok) throw new Error(entry.data); return r.json(); });
+  return cache[entry.data];
+}
+function setLink(a, href, name) {
+  if (href) { a.href = href; a.setAttribute("download", name); a.removeAttribute("aria-disabled"); }
+  else { a.href = "#"; a.setAttribute("aria-disabled", "true"); }
+}
+async function loadScope() {
+  const y = $("year").value, m = $("month").value, months = [];
+  if (y) months.push(...INDEX.years[y].months); else Object.values(INDEX.years).forEach(v => months.push(...v.months));
+  const pick = m ? months.filter(e => String(e.month) === m) : months;
+  $("stat").textContent = "載入中…";
+  recs = (await Promise.all(pick.map(loadMonth))).flat().sort((a, b) => b.date.localeCompare(a.date));
+  const one = y && m ? pick[0] : null;
+  setLink($("dlMonth"), one && one.xlsx, one && one.xlsxName);
+  setLink($("dlYear"), y && INDEX.years[y].xlsx, y && INDEX.years[y].xlsxName);
+  const uniq = k => [...new Set(recs.map(r => r[k]).filter(Boolean))].sort().map(v => [v, v]);
+  fill($("fSource"), uniq("source"), "全部");
+  fill($("fCategory"), uniq("category"), "全部");
+  fill($("fSeverity"), ["高", "中", "低", "現行不影響"].map(v => [v, v]), "全部");
+  render();
+}
+function render() {
+  const f = { source: $("fSource").value, category: $("fCategory").value, severity: $("fSeverity").value, kev: $("fKev").value };
+  const words = $("q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  shown = recs.filter(r => {
+    for (const k in f) if (f[k] && r[k] !== f[k]) return false;
+    if (!words.length) return true;
+    const hay = [r.title, r.url, r.source, r.category, (r.cves || []).join(" ")].join(" ").toLowerCase();
+    return words.every(w => hay.includes(w));
+  });
+  const LIMIT = 1500;
+  $("body").innerHTML = shown.slice(0, LIMIT).map(r => "<tr>" + COLS.map(([k]) => {
+    if (k === "title") return `<td class="t">${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}</td>`;
+    if (k === "severity") return `<td><span class="chip s-${esc(r.severity)}">${esc(r.severity)}</span></td>`;
+    if (k === "date") return `<td>${esc((r.date || "").replace(/-/g, "/"))}</td>`;
+    return `<td>${esc(r[k])}</td>`;
+  }).join("") + "</tr>").join("") || `<tr><td class="empty" colspan="${COLS.length}">查無符合條件的情資</td></tr>`;
+  const hi = shown.filter(r => r.severity === "高").length, kev = shown.filter(r => r.kev === "是").length;
+  $("stat").textContent = `共 ${shown.length} 筆（範圍內 ${recs.length} 筆）｜威脅程度「高」${hi} 筆｜KEV 已知被利用 ${kev} 筆` +
+    (shown.length > LIMIT ? `｜畫面僅顯示前 ${LIMIT} 筆，CSV 下載為完整結果` : "");
+}
+function downloadCsv() {
+  const cell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [CSV_COLS.map(c => cell(c[1])).join(",")].concat(shown.map(r => CSV_COLS.map(([k]) => cell(k === "date" ? (r.date || "").replace(/-/g, "/") : r[k])).join(",")));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" }));
+  a.download = `情資查詢結果_${$("year").value || "全部年度"}${$("month").value ? "_" + $("month").value + "月" : ""}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function syncMonths() {
+  const y = $("year").value;
+  const ms = y ? INDEX.years[y].months.map(e => e.month).sort((a, b) => b - a) : [];
+  fill($("month"), ms.map(m => [String(m), `${m} 月`]), y ? "全年" : "全部月份");
+}
+(async () => {
+  try {
+    INDEX = await (await fetch("data/index.json", { cache: "no-store" })).json();
+  } catch (e) { $("genInfo").textContent = "資料載入失敗，請稍後再試。"; return; }
+  $("docName").textContent = INDEX.document + "｜查詢與下載";
+  $("genInfo").textContent = `資料更新時間：${INDEX.generated}（每日自動蒐集）`;
+  $("note").textContent = INDEX.note;
+  $("head").innerHTML = COLS.map(c => `<th>${esc(c[1])}</th>`).join("");
+  const ys = Object.keys(INDEX.years).sort().reverse();
+  fill($("year"), ys.map(y => [y, `${y} 年`]), `近 ${ys.length} 年全部`);
+  fill($("fKev"), [["是", "是"], ["否", "否"]], "全部");
+  $("year").value = ys[0] || "";
+  syncMonths();
+  if ($("month").options.length > 1) $("month").selectedIndex = 1;   // newest month
+  await loadScope();
+  $("year").onchange = () => { syncMonths(); loadScope(); };
+  $("month").onchange = loadScope;
+  ["fSource", "fCategory", "fSeverity", "fKev"].forEach(id => $(id).onchange = render);
+  $("q").oninput = render;
+  $("dlCsv").onclick = downloadCsv;
+})();
+</script>
+</body>
+</html>
