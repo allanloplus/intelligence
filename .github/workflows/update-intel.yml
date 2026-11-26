@@ -1,0 +1,55 @@
+name: 情資自動更新
+
+on:
+  schedule:
+    # 台北時間每日 08:23 與 17:23（cron 為 UTC）
+    - cron: "23 0,9 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["intel/**", "site/**", "config/**", "data/**", ".github/workflows/update-intel.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: intel-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      - name: 蒐集情資並產生網站
+        run: python -m intel run || echo "SOURCE_PROBLEM=1" >> "$GITHUB_ENV"
+
+      - name: 將新情資存回 repo
+        run: |
+          git config user.name "intel-bot"
+          git config user.email "intel-bot@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || (git commit -m "情資自動更新 $(TZ=Asia/Taipei date +%F)" && git push)
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: 來源異常時讓工作失敗（GitHub 會寄信通知）
+        if: env.SOURCE_PROBLEM == '1'
+        run: |
+          echo "至少一個情資來源抓取失敗或回傳 0 筆，請查看上方『蒐集情資並產生網站』步驟的 WARNING。"
+          exit 1
