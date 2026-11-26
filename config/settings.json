@@ -1,0 +1,25 @@
+{
+  "_說明": "情資自動蒐集設定。修改後下次排程即生效。",
+  "timezone_offset_hours": 8,
+  "retention_years": 3,
+  "document_name": "IS-P-052 資訊安全情資管理表",
+  "defaults": { "origin": "外部資訊", "progress": "OK" },
+  "sources": [
+    { "name": "TWCERT", "type": "twcert_list", "node": 169, "note": "漏洞警訊公告", "category": "外部：漏洞情報" },
+    { "name": "TWCERT", "type": "twcert_list", "node": 168, "note": "KEV 週報" },
+    { "name": "TWCERT", "type": "twcert_list", "node": 104, "note": "資安新聞" },
+    { "name": "NICS", "type": "nics_alerts", "category": "外部：漏洞情報",
+      "url": "https://www.nics.nat.gov.tw/core_business/information_security_information_sharing/Vulnerability_Alert_Announcements/" },
+    { "name": "ITHome", "type": "rss", "url": "https://www.ithome.com.tw/rss", "title_must_match": "^【資安日報】" },
+    { "name": "TechNews", "type": "rss", "url": "https://infosecu.technews.tw/feed/", "max_per_day": 1,
+      "prefer_keywords": ["漏洞", "零時差", "駭", "攻擊", "外洩", "洩漏", "勒索", "惡意", "木馬", "入侵", "釣魚", "詐騙", "間諜", "資安", "帳密", "CVE"] }
+  ],
+  "asset_watchlist": {
+    "_說明": "組織常見使用之產品關鍵字（不分大小寫）。漏洞情資命中者視為與組織相關，威脅程度提高；未命中者列為『現行不影響』。請依客戶環境調整。",
+    "keywords": ["Microsoft", "微軟", "Windows", "Office", "Exchange", "SharePoint", "Azure", "Fortinet", "FortiOS", "FortiGate",
+      "Cisco", "VMware", "ESXi", "vCenter", "Palo Alto", "PAN-OS", "Check Point", "SonicWall", "Ivanti", "Citrix", "F5",
+      "Chrome", "Edge", "Firefox", "Android", "iOS", "Apple", "Linux", "OpenSSH", "OpenSSL", "Apache", "Tomcat", "NGINX", "PHP",
+      "Oracle", "SQL Server", "MySQL", "SAP", "Synology", "QNAP", "Zyxel", "D-Link", "TP-Link", "HPE", "Aruba", "Veeam",
+      "WatchGuard", "Sophos", "Trend Micro", "趨勢科技", "Adobe", "Zoom", "WordPress", "GitLab", "Jenkins", "Kubernetes", "Docker"]
+  }
+}
