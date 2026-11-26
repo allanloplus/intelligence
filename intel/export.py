@@ -4,6 +4,7 @@ import json
 import shutil
 
 from openpyxl import Workbook
+from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
@@ -20,7 +21,28 @@ THIN = Side(style="thin", color="BFBFBF")
 BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 NOTE = ("註：「弱點處置期限」的天數係參考《各機關基於風險導向之弱點處置期限評估指引》（115 年 11 月 6 日訂定）表一，"
         "依是否曝露於公眾網路、弱點已知被利用、能否被自動化利用、技術影響程度評估；期限自知悉日起算，以日曆天計。"
-        "標示「（推定）」者為 CISA 尚未提供 SSVC 評估，依 CVSS 向量推定。")
+        "評估指標優先採用資安院、TWCERT/CC 警訊公布之結果，其次為 CISA SSVC；兩者皆無時依 CVSS 向量推定並標示「（推定）」。"
+        "「已知被利用」以 CISA KEV 清單現況為準，近 60 日情資每日重新評估。")
+
+
+def note(text):
+    cm = Comment(text[:3000], "情資自動蒐集系統")
+    cm.width, cm.height = 520, min(60 + 18 * text.count("\n"), 520)
+    return cm
+
+
+def cve_note(r):
+    """Per-CVE result and data source, attached to the J cell so the row can be audited."""
+    lines = [f"逐一 CVE 判定（評估日 {r.get('assessed', '')}）："]
+    for d in r["cve_detail"]:
+        lines.append(f"{d['cve']}｜被利用 {d['kev']}｜自動化 {d['automatable']}｜影響 {d['impact']}｜"
+                     f"{d['duePublic']}／{d['dueInternal']}｜{d['source']}｜{d['dueSource']}"
+                     + (f"｜{d['note']}" if d.get("note") else ""))
+    extra = len(r.get("cves", [])) - len(r["cve_detail"])
+    if extra > 0:
+        lines.append(f"另有 {extra} 個 CVE 未逐一評估（已優先評估列入 KEV 與警訊公布指標者）。")
+    lines.append("各欄取所有 CVE 中最嚴格者；類型 1、2、3、9 依指引應先檢視日誌確認是否已遭利用。")
+    return "\n".join(lines)
 
 
 def month_columns(recs):
@@ -54,6 +76,10 @@ def write_sheet(ws, recs):
                 c.font = Font(color="0563C1", underline="single")
             if key == "severity" and v in SEV_FILL:
                 c.fill = PatternFill("solid", fgColor=SEV_FILL[v])
+                if r.get("basis"):
+                    c.comment = note("判定依據（系統初判）：\n" + r["basis"].replace("；", "\n"))
+            if key == "kev" and r.get("cve_detail"):
+                c.comment = note(cve_note(r))
     ws.freeze_panes = "D2"
     ws.auto_filter.ref = f"A1:{get_column_letter(len(cols))}{max(len(recs) + 1, 2)}"
 
