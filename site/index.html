@@ -34,6 +34,11 @@ td.t a:hover{text-decoration:underline}
 .s-高{background:var(--hi)}.s-中{background:var(--mid)}.s-低{background:var(--lo)}.s-現行不影響{background:var(--none)}
 .note{font-size:12px;color:var(--mute);margin:10px 0 0}
 .empty{padding:40px;text-align:center;color:var(--mute)}
+tr.has-d{cursor:pointer}
+tr.d td{text-align:left;white-space:normal;background:var(--bg);font-size:12px;padding:10px 14px}
+tr.d table{min-width:0;width:auto;font-size:12px;margin-top:6px}
+tr.d th{position:static;background:transparent;color:var(--mute);border-bottom:1px solid var(--line);white-space:nowrap}
+.more{color:var(--link);font-size:12px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -118,8 +123,8 @@ function render() {
     return words.every(w => hay.includes(w));
   });
   const LIMIT = 1500;
-  $("body").innerHTML = shown.slice(0, LIMIT).map(r => "<tr>" + COLS.map(([k]) => {
-    if (k === "title") return `<td class="t">${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}</td>`;
+  $("body").innerHTML = shown.slice(0, LIMIT).map((r, i) => `<tr${hasDetail(r) ? ` class="has-d" data-i="${i}"` : ""}>` + COLS.map(([k]) => {
+    if (k === "title") return `<td class="t">${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}${hasDetail(r) ? ' <span class="more">▸ 判定依據</span>' : ""}</td>`;
     if (k === "severity") return `<td><span class="chip s-${esc(r.severity)}">${esc(r.severity)}</span></td>`;
     if (k === "date") return `<td>${esc((r.date || "").replace(/-/g, "/"))}</td>`;
     return `<td>${esc(r[k])}</td>`;
@@ -127,6 +132,27 @@ function render() {
   const hi = shown.filter(r => r.severity === "高").length, kev = shown.filter(r => r.kev === "是").length;
   $("stat").textContent = `共 ${shown.length} 筆（範圍內 ${recs.length} 筆）｜威脅程度「高」${hi} 筆｜KEV 已知被利用 ${kev} 筆` +
     (shown.length > LIMIT ? `｜畫面僅顯示前 ${LIMIT} 筆，CSV 下載為完整結果` : "");
+}
+function hasDetail(r) { return !!(r.basis || (r.cve_detail && r.cve_detail.length)); }
+function detailHtml(r) {
+  let h = r.basis ? `<div><b>判定依據（系統初判）：</b>${esc(r.basis)}</div>` : "";
+  if (r.cve_detail && r.cve_detail.length) {
+    h += `<table><thead><tr><th>CVE</th><th>CVSS</th><th>已知被利用</th><th>自動化利用</th><th>技術影響</th><th>期限(曝露)</th><th>期限(未曝露)</th><th>指標來源</th><th>期限依據</th><th>備註</th></tr></thead><tbody>` +
+      r.cve_detail.map(d => `<tr>${[d.cve, d.cvss ?? "", d.kev, d.automatable, d.impact, d.duePublic, d.dueInternal, d.source, d.dueSource, d.note || ""].map(v => `<td>${esc(v)}</td>`).join("")}</tr>`).join("") + "</tbody></table>";
+    const extra = (r.cves || []).length - r.cve_detail.length;
+    h += `<div style="margin-top:6px">各欄取所有 CVE 中最嚴格者${extra > 0 ? `；另有 ${extra} 個 CVE 未逐一評估` : ""}${r.assessed ? `｜評估日 ${esc(r.assessed)}` : ""}</div>`;
+  }
+  return h;
+}
+function toggleDetail(e) {
+  if (e.target.closest("a")) return;
+  const tr = e.target.closest("tr.has-d");
+  if (!tr) return;
+  if (tr.nextElementSibling && tr.nextElementSibling.classList.contains("d")) { tr.nextElementSibling.remove(); return; }
+  const row = document.createElement("tr");
+  row.className = "d";
+  row.innerHTML = `<td colspan="${COLS.length}">${detailHtml(shown[+tr.dataset.i])}</td>`;
+  tr.after(row);
 }
 function downloadCsv() {
   const cell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -162,6 +188,7 @@ function syncMonths() {
   ["fSource", "fCategory", "fSeverity", "fKev"].forEach(id => $(id).onchange = render);
   $("q").oninput = render;
   $("dlCsv").onclick = downloadCsv;
+  $("body").addEventListener("click", toggleDetail);
 })();
 </script>
 </body>
