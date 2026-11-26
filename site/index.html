@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>資安情資戰情看板</title>
+<title>資安內外部情資蒐集紀錄｜Allan's 戰情看板</title>
 <style>
 :root{color-scheme:light;--bg:#f9f9f9;--card:#fff;--ink:#191919;--mute:#666;--line:#e7e7e7;--axis:#c2c2c2;--brand:#1f4e78;--link:#0b5cad;
   --s1:#257de0;--s2:#f47230;--rest:#d5d9de;--crit:#dc3c3d;--ser:#f18a59;--warn:#fbb315;--none:#b9bec5;
@@ -98,7 +98,7 @@ tr.d table th{color:var(--mute);font-weight:600}
 <header>
   <div class="hd">
     <div>
-      <h1 id="docName">資安情資戰情看板</h1>
+      <h1 id="docName">資安內外部情資蒐集紀錄｜Allan's 戰情看板</h1>
       <p id="genInfo">載入中…</p>
     </div>
     <div class="scope">
@@ -159,7 +159,7 @@ tr.d table th{color:var(--mute);font-weight:600}
     <p class="note">點選任一列可展開判定依據與逐一 CVE 評估結果。</p>
   </section>
 </main>
-<p class="note" style="max-width:1500px;margin:0 auto;padding:0 16px 24px">威脅程度與因應對策為系統依規則初判，請各組織依自身資產與環境覆核後調整。相關資訊版權為所連結之機關單位及企業所有。</p>
+<p class="note" style="max-width:1500px;margin:0 auto;padding:0 16px 24px">威脅程度與因應對策為系統依規則初判，請各組織依自身資產與環境覆核後調整。相關資訊版權為所連結之機關單位及企業所有。<br>系統開發維護：Allan Lo，<a href="https://www.123hi.org" target="_blank" rel="noopener">https://www.123hi.org</a></p>
 <div id="tip"></div>
 
 <script>
@@ -372,8 +372,8 @@ function tipMove(e) {
   try {
     INDEX = await (await fetch("data/index.json", { cache: "no-store" })).json();
   } catch (e) { $("genInfo").textContent = "資料載入失敗，請稍後再試。"; return; }
-  document.title = INDEX.document + "｜戰情看板";
-  $("docName").textContent = INDEX.document + "｜戰情看板";
+  document.title = INDEX.document + "｜Allan's 戰情看板";
+  $("docName").textContent = INDEX.document + "｜Allan's 戰情看板";
   $("genInfo").textContent = `資料更新時間：${INDEX.generated}（每日自動蒐集與重新評估）`;
   $("note").textContent = INDEX.note;
   $("head").innerHTML = COLS.map(c => `<th>${esc(c[1])}</th>`).join("");
