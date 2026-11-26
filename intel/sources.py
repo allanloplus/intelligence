@@ -41,16 +41,9 @@ def fetch_rss(src, tz):
             continue
         out.append({"date": date, "source": src["name"], "title": title, "url": link,
                     "summary": clean(it.findtext("description"))})
-    cap = src.get("max_per_day")
-    if cap:  # busy news feed: keep only the N most security-relevant items of each day
-        words = src.get("prefer_keywords", [])
-        by_day = {}
-        for x in out:
-            by_day.setdefault(x["date"], []).append(x)
-        out = []
-        for day in by_day.values():
-            day.sort(key=lambda x: -sum(w.lower() in (x["title"] + x["summary"]).lower() for w in words))
-            out += day[:cap]
+    words = src.get("prefer_keywords")
+    if words:  # most security-relevant first; the per-day cap is applied after classification
+        out.sort(key=lambda x: -sum(w.lower() in (x["title"] + x["summary"]).lower() for w in words))
     return out
 
 
