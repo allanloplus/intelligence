@@ -3,17 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>資安情資查詢與下載</title>
+<title>資安情資戰情看板</title>
 <style>
-:root{--bg:#f4f6f9;--card:#fff;--ink:#1c2733;--mute:#62707f;--line:#d9dfe6;--brand:#1f4e78;--brand-ink:#fff;--hi:#f8cbad;--mid:#ffe699;--lo:#c6e0b4;--none:#e7e6e6;--chip-ink:#1c2733;--link:#0b5cad}
-@media (prefers-color-scheme:dark){:root{--bg:#12171d;--card:#1b222b;--ink:#e6ebf0;--mute:#9aa7b4;--line:#2e3945;--brand:#2f6ea5;--link:#7db8f0}}
+:root{color-scheme:light;--bg:#f9f9f9;--card:#fff;--ink:#191919;--mute:#666;--line:#e7e7e7;--axis:#c2c2c2;--brand:#1f4e78;--link:#0b5cad;
+  --s1:#257de0;--s2:#f47230;--rest:#d5d9de;--crit:#dc3c3d;--ser:#f18a59;--warn:#fbb315;--none:#b9bec5;
+  --hi:#f8cbad;--mid:#ffe699;--lo:#c6e0b4;--chipnone:#e7e6e6;--chip-ink:#191919}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#0b0b0b;--card:#191919;--ink:#efefef;--mute:#9c9c9c;--line:#303030;--axis:#474747;--brand:#17456f;--link:#7db8f0;
+  --s1:#338ced;--s2:#e76624;--rest:#3a3f46;--none:#5a6068}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
-header{background:var(--brand);color:var(--brand-ink);padding:18px 16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif}
+header{background:var(--brand);color:#fff;padding:16px}
+.hd{max-width:1500px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
 header h1{margin:0;font-size:20px}
 header p{margin:4px 0 0;font-size:13px;opacity:.85}
+.scope{display:flex;gap:10px}
+.scope label{color:#fff;opacity:.95}
 main{max-width:1500px;margin:0 auto;padding:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+.tabs{max-width:1500px;margin:0 auto;padding:12px 16px 0;display:flex;gap:6px}
+.tab{font:inherit;padding:8px 16px;border:1px solid var(--line);border-bottom:none;border-radius:8px 8px 0 0;background:transparent;color:var(--mute);cursor:pointer}
+.tab[aria-selected=true]{background:var(--card);color:var(--ink);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:15px}
+.card .sub{margin:0 0 12px;font-size:12px;color:var(--mute)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
 label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
 select,input{font:inherit;padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);min-width:110px}
@@ -23,34 +34,113 @@ input[type=search]{min-width:240px;flex:1}
 .btn.alt{background:transparent;color:var(--link);border-color:var(--line)}
 .btn[aria-disabled=true]{opacity:.45;pointer-events:none}
 .stat{font-size:13px;color:var(--mute);margin-top:10px}
+/* dashboard */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:30px;font-weight:650;line-height:1.15}
+.kpi .l{font-size:13px;color:var(--mute)}
+.kpi .n{font-size:12px;color:var(--mute);margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:14px}
+.grid .card{margin:0;min-width:0}
+.wide{grid-column:1/-1}
+.bars{display:grid;grid-template-columns:max-content minmax(70px,1fr) max-content;gap:7px 10px;align-items:center;font-size:13px}
+.bars .name{color:var(--ink);max-width:11em;overflow-wrap:anywhere}
+.bars .track{height:16px;position:relative}
+.bars .bar{height:16px;border-radius:0 4px 4px 0;background:var(--s1);min-width:2px}
+.bars .val{color:var(--mute);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bars .hit{display:contents;cursor:default}
+.pair .track{height:auto;display:grid;gap:2px}
+.pair .bar{height:11px}
+.pair .b2{background:var(--s2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mute);margin:0 0 10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.meter{display:flex;height:16px;gap:2px}
+.meter span{display:block;height:16px;min-width:2px}
+.meter .y{background:var(--s1)}
+.meter .n{background:var(--rest)}
+.meter span:last-child{border-radius:0 4px 4px 0}
+.trend{display:flex;align-items:flex-end;gap:2px;height:190px;border-bottom:1px solid var(--axis);padding-top:20px}
+.col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;cursor:pointer;position:relative}
+.col .c{width:100%;max-width:24px;background:var(--rest);border-radius:4px 4px 0 0;min-height:2px}
+.col.on .c{background:var(--s1)}
+.col .cv{font-size:11px;color:var(--mute);margin-bottom:3px;font-variant-numeric:tabular-nums}
+.col:hover .c{filter:brightness(.92)}
+.xax{display:flex;gap:2px;font-size:11px;color:var(--mute);margin-top:4px}
+.xax span{flex:1;min-width:0;text-align:center;white-space:nowrap;overflow:visible}
+.empty-note{color:var(--mute);font-size:13px;padding:18px 0}
+.scrollx{overflow-x:auto}
+.todo{width:100%;min-width:620px;border-collapse:collapse;font-size:13px}
+.todo th,.todo td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+.todo th{color:var(--mute);font-weight:600;font-size:12px}
+.todo td.nw{white-space:nowrap}
+#tip{position:fixed;z-index:9;pointer-events:none;background:var(--ink);color:var(--card);font-size:12px;padding:5px 9px;border-radius:6px;max-width:300px;display:none}
+/* detail */
 .wrap{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:8px}
-table{border-collapse:collapse;width:100%;min-width:1500px;font-size:13px}
-th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:center;vertical-align:top;white-space:nowrap}
-th{position:sticky;top:0;background:var(--brand);color:#fff;font-weight:600;white-space:pre;z-index:1}
-td.t{text-align:left;white-space:normal;min-width:340px}
-td.t a{color:var(--link);text-decoration:none}
-td.t a:hover{text-decoration:underline}
+table.data{border-collapse:collapse;width:100%;min-width:1500px;font-size:13px}
+table.data th,table.data td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:center;vertical-align:top;white-space:nowrap}
+table.data th{position:sticky;top:0;background:var(--brand);color:#fff;font-weight:600;white-space:pre;z-index:1}
+table.data td.t{text-align:left;white-space:normal;min-width:340px}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
 .chip{display:inline-block;padding:1px 9px;border-radius:99px;color:var(--chip-ink)}
-.s-高{background:var(--hi)}.s-中{background:var(--mid)}.s-低{background:var(--lo)}.s-現行不影響{background:var(--none)}
+.s-高{background:var(--hi)}.s-中{background:var(--mid)}.s-低{background:var(--lo)}.s-現行不影響{background:var(--chipnone)}
 .note{font-size:12px;color:var(--mute);margin:10px 0 0}
 .empty{padding:40px;text-align:center;color:var(--mute)}
 tr.has-d{cursor:pointer}
-tr.d td{text-align:left;white-space:normal;background:var(--bg);font-size:12px;padding:10px 14px}
-tr.d table{min-width:0;width:auto;font-size:12px;margin-top:6px}
-tr.d th{position:static;background:transparent;color:var(--mute);border-bottom:1px solid var(--line);white-space:nowrap}
+tr.d td{text-align:left!important;white-space:normal!important;background:var(--bg);font-size:12px;padding:10px 14px}
+tr.d table{font-size:12px;margin-top:6px;border-collapse:collapse}
+tr.d table th,tr.d table td{position:static;background:transparent;color:inherit;padding:4px 8px;border-bottom:1px solid var(--line);text-align:left!important;white-space:nowrap!important}
+tr.d table th{color:var(--mute);font-weight:600}
 .more{color:var(--link);font-size:12px;white-space:nowrap}
 </style>
 </head>
 <body>
 <header>
-  <h1 id="docName">資安情資查詢與下載</h1>
-  <p id="genInfo">載入中…</p>
-</header>
-<main>
-  <section class="card">
-    <div class="row">
+  <div class="hd">
+    <div>
+      <h1 id="docName">資安情資戰情看板</h1>
+      <p id="genInfo">載入中…</p>
+    </div>
+    <div class="scope">
       <label>年度<select id="year"></select></label>
       <label>月份<select id="month"></select></label>
+    </div>
+  </div>
+</header>
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" data-view="dash" aria-selected="true">📊 戰情看板</button>
+  <button class="tab" role="tab" data-view="detail" aria-selected="false">📋 情資明細與下載</button>
+</nav>
+
+<main id="view-dash">
+  <section class="kpis" id="kpis"></section>
+  <section class="grid">
+    <div class="card wide">
+      <h2>每月情資量</h2>
+      <p class="sub" id="trendSub">點選長條可切換月份</p>
+      <div class="trend" id="trend"></div>
+      <div class="xax" id="trendX"></div>
+    </div>
+    <div class="card"><h2>對組織的現況威脅程度</h2><p class="sub scopeTxt"></p><div id="cSeverity"></div></div>
+    <div class="card"><h2>威脅情報類別</h2><p class="sub scopeTxt"></p><div id="cCategory"></div></div>
+    <div class="card"><h2>情資來源</h2><p class="sub scopeTxt"></p><div id="cSource"></div></div>
+    <div class="card"><h2>因應對策</h2><p class="sub scopeTxt"></p><div id="cCounter"></div></div>
+    <div class="card"><h2>弱點評估指標</h2><p class="sub" id="vulnSub"></p>
+      <div class="legend"><span><i style="background:var(--s1)"></i>是／完全控制</span><span><i style="background:var(--rest)"></i>否／部分控制</span></div>
+      <div id="cVuln"></div></div>
+    <div class="card"><h2>弱點處置期限分布</h2><p class="sub" id="dueSub"></p>
+      <div class="legend"><span><i style="background:var(--s1)"></i>曝露於公眾網路</span><span><i style="background:var(--s2)"></i>未曝露於公眾網路</span></div>
+      <div id="cDue"></div></div>
+    <div class="card wide"><h2>優先處置清單</h2>
+      <p class="sub">已知被利用（CISA KEV）且曝露於公眾網路期限為 3 天的情資，依日期由新到舊，最多 15 筆</p>
+      <div id="todo" class="scrollx"></div></div>
+  </section>
+  <p class="note" id="note"></p>
+</main>
+
+<main id="view-detail" hidden>
+  <section class="card">
+    <div class="row">
       <label>資料來源<select id="fSource"></select></label>
       <label>威脅情報類別<select id="fCategory"></select></label>
       <label>威脅程度<select id="fSeverity"></select></label>
@@ -65,11 +155,13 @@ tr.d th{position:static;background:transparent;color:var(--mute);border-bottom:1
     <div class="stat" id="stat"></div>
   </section>
   <section class="card">
-    <div class="wrap"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div>
-    <p class="note" id="note"></p>
-    <p class="note">威脅程度與因應對策為系統依規則初判，請各組織依自身資產與環境覆核後調整。相關資訊版權為所連結之機關單位及企業所有。</p>
+    <div class="wrap"><table class="data"><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div>
+    <p class="note">點選任一列可展開判定依據與逐一 CVE 評估結果。</p>
   </section>
 </main>
+<p class="note" style="max-width:1500px;margin:0 auto;padding:0 16px 24px">威脅程度與因應對策為系統依規則初判，請各組織依自身資產與環境覆核後調整。相關資訊版權為所連結之機關單位及企業所有。</p>
+<div id="tip"></div>
+
 <script>
 "use strict";
 const COLS = [["date","資料日期"],["source","資料來源"],["title","資料標題"],["origin","威脅情資來源"],["category","威脅情報類別"],
@@ -80,9 +172,11 @@ const CSV_COLS = [["date","資料日期"],["source","資料來源"],["title","�
   ["category","威脅情報類別"],["severity","對組織的現況威脅程度"],["countermeasure","因應對策"],["progress","執行進度說明"],
   ["kev","弱點已知被利用(CISA KEV)"],["automatable","弱點能否被自動化利用"],["impact","弱點遭利用後之技術影響程度"],
   ["duePublic","弱點處置期限(曝露於公眾網路)"],["dueInternal","弱點處置期限(未曝露於公眾網路)"]];
+const SEVS = [["高", "var(--crit)"], ["中", "var(--ser)"], ["低", "var(--warn)"], ["現行不影響", "var(--none)"]];
+const DUES = ["3天", "14天", "60天", "待下次系統更新"];
 const $ = id => document.getElementById(id);
 const cache = {};
-let INDEX = null, recs = [], shown = [];
+let INDEX = null, yearRecs = [], recs = [], shown = [];
 
 function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 function fill(sel, items, allLabel) {
@@ -90,7 +184,7 @@ function fill(sel, items, allLabel) {
   sel.innerHTML = (allLabel ? `<option value="">${allLabel}</option>` : "") + items.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
   if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
 }
-async function loadMonth(entry) {
+function loadMonth(entry) {
   if (!cache[entry.data]) cache[entry.data] = fetch(entry.data).then(r => { if (!r.ok) throw new Error(entry.data); return r.json(); });
   return cache[entry.data];
 }
@@ -98,41 +192,113 @@ function setLink(a, href, name) {
   if (href) { a.href = href; a.setAttribute("download", name); a.removeAttribute("aria-disabled"); }
   else { a.href = "#"; a.setAttribute("aria-disabled", "true"); }
 }
+const base = v => String(v || "").replace(/（.*$/, "");
+const count = (list, key) => list.reduce((m, r) => { const v = typeof key === "function" ? key(r) : r[key]; if (v) m[v] = (m[v] || 0) + 1; return m; }, {});
+// Historical tabs spell the same source many ways; charts group them, the detail table keeps the original text.
+const SRC_ALIAS = [[/^i?t\s*home/i, "ITHome"], [/^t+ech?n+ews/i, "TechNews"], [/^(tw?c[ert]{2,3}|twcet)/i, "TWCERT"], [/^fi[sc]a[cs]/i, "FISAC"],
+  [/^h-?isac/i, "HISAC"], [/趨勢|tr?end|terend/i, "Trend Micro"], [/^nics/i, "NICS"]];
+const canonSource = v => { const t = String(v || "").trim(); const hit = SRC_ALIAS.find(([re]) => re.test(t)); return hit ? hit[1] : (t || "（未填）"); };
+const canonCategory = v => { const t = String(v || "").trim().replace(/^外部：/, ""); return /(戰略|戰術|作戰)威脅情報/.test(t) ? "威脅情報" : (t || "（未填）"); };
+const canonSeverity = v => SEVS.some(([s]) => s === v) ? v : "未分類";
+const pct = (n, d) => d ? Math.round(n / d * 100) + "%" : "–";
+
+/* ---------- data scope ---------- */
 async function loadScope() {
   const y = $("year").value, m = $("month").value, months = [];
-  if (y) months.push(...INDEX.years[y].months); else Object.values(INDEX.years).forEach(v => months.push(...v.months));
-  const pick = m ? months.filter(e => String(e.month) === m) : months;
+  if (y) months.push(...INDEX.years[y].months.map(e => ({ ...e, year: +y })));
+  else Object.entries(INDEX.years).forEach(([yy, v]) => months.push(...v.months.map(e => ({ ...e, year: +yy }))));
   $("stat").textContent = "載入中…";
-  recs = (await Promise.all(pick.map(loadMonth))).flat().sort((a, b) => b.date.localeCompare(a.date));
-  const one = y && m ? pick[0] : null;
+  const loaded = await Promise.all(months.map(loadMonth));
+  yearRecs = months.map((e, i) => ({ year: e.year, month: e.month, recs: loaded[i] })).sort((a, b) => a.year - b.year || a.month - b.month);
+  recs = yearRecs.filter(x => !m || String(x.month) === m).flatMap(x => x.recs).sort((a, b) => b.date.localeCompare(a.date));
+  const one = y && m ? months.find(e => String(e.month) === m) : null;
   setLink($("dlMonth"), one && one.xlsx, one && one.xlsxName);
   setLink($("dlYear"), y && INDEX.years[y].xlsx, y && INDEX.years[y].xlsxName);
   const uniq = k => [...new Set(recs.map(r => r[k]).filter(Boolean))].sort().map(v => [v, v]);
   fill($("fSource"), uniq("source"), "全部");
   fill($("fCategory"), uniq("category"), "全部");
-  fill($("fSeverity"), ["高", "中", "低", "現行不影響"].map(v => [v, v]), "全部");
+  fill($("fSeverity"), SEVS.map(([v]) => [v, v]), "全部");
+  renderDash();
   render();
 }
-function render() {
-  const f = { source: $("fSource").value, category: $("fCategory").value, severity: $("fSeverity").value, kev: $("fKev").value };
-  const words = $("q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  shown = recs.filter(r => {
-    for (const k in f) if (f[k] && r[k] !== f[k]) return false;
-    if (!words.length) return true;
-    const hay = [r.title, r.url, r.source, r.category, (r.cves || []).join(" ")].join(" ").toLowerCase();
-    return words.every(w => hay.includes(w));
-  });
-  const LIMIT = 1500;
-  $("body").innerHTML = shown.slice(0, LIMIT).map((r, i) => `<tr${hasDetail(r) ? ` class="has-d" data-i="${i}"` : ""}>` + COLS.map(([k]) => {
-    if (k === "title") return `<td class="t">${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}${hasDetail(r) ? ' <span class="more">▸ 判定依據</span>' : ""}</td>`;
-    if (k === "severity") return `<td><span class="chip s-${esc(r.severity)}">${esc(r.severity)}</span></td>`;
-    if (k === "date") return `<td>${esc((r.date || "").replace(/-/g, "/"))}</td>`;
-    return `<td>${esc(r[k])}</td>`;
-  }).join("") + "</tr>").join("") || `<tr><td class="empty" colspan="${COLS.length}">查無符合條件的情資</td></tr>`;
-  const hi = shown.filter(r => r.severity === "高").length, kev = shown.filter(r => r.kev === "是").length;
-  $("stat").textContent = `共 ${shown.length} 筆（範圍內 ${recs.length} 筆）｜威脅程度「高」${hi} 筆｜KEV 已知被利用 ${kev} 筆` +
-    (shown.length > LIMIT ? `｜畫面僅顯示前 ${LIMIT} 筆，CSV 下載為完整結果` : "");
+function scopeText() {
+  const y = $("year").value, m = $("month").value;
+  return (y ? `${y} 年` : "全部年度") + (m ? ` ${m} 月` : y ? " 全年" : "") + `，共 ${recs.length} 筆`;
 }
+
+/* ---------- dashboard ---------- */
+function bars(el, pairs, total, colorOf) {
+  if (!pairs.length) { el.innerHTML = `<div class="empty-note">此期間無資料</div>`; return; }
+  const max = Math.max(...pairs.map(p => p[1]), 1);
+  el.innerHTML = `<div class="bars">` + pairs.map(([name, n]) =>
+    `<div class="hit" data-tip="${esc(name)}：${n} 筆（${pct(n, total)}）"><span class="name">${esc(name)}</span>` +
+    `<span class="track"><span class="bar" style="display:block;width:${n / max * 100}%${colorOf ? `;background:${colorOf(name)}` : ""}"></span></span>` +
+    `<span class="val">${n}<span style="opacity:.7">　${pct(n, total)}</span></span></div>`).join("") + `</div>`;
+}
+function renderDash() {
+  const total = recs.length;
+  const vuln = recs.filter(r => base(r.kev) === "是" || base(r.kev) === "否");
+  const kev = vuln.filter(r => base(r.kev) === "是").length;
+  const hi = recs.filter(r => r.severity === "高").length, mid = recs.filter(r => r.severity === "中").length;
+  const due3 = recs.filter(r => r.duePublic === "3天").length;
+  const hasVuln = vuln.length > 0;
+  $("kpis").innerHTML = [
+    [total, "情資總數", `${new Set(recs.map(r => canonSource(r.source))).size} 個來源`],
+    [hi, "威脅程度「高」", `另有「中」${mid} 筆`],
+    [hasVuln ? kev : "–", "已知被利用（KEV）", hasVuln ? `占已評估弱點情資 ${pct(kev, vuln.length)}` : "此期間無弱點評估資料"],
+    [hasVuln ? due3 : "–", "曝露期限 3 天", hasVuln ? "曝露於公眾網路時須 3 天內處置" : "弱點欄位自 2026 年 11 月起提供"],
+    [recs.filter(r => r.kev === "無 CVE 編號" || r.kev === "待確認" || r.kev === "查詢失敗").length, "待人工查證", "無 CVE 編號、待確認或查詢失敗"],
+  ].map(([v, l, n]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join("");
+  document.querySelectorAll(".scopeTxt").forEach(e => e.textContent = scopeText());
+
+  const sev = count(recs, r => canonSeverity(r.severity));
+  const color = Object.fromEntries(SEVS);
+  bars($("cSeverity"), SEVS.map(([s]) => s).concat("未分類").filter(s => sev[s]).map(s => [s, sev[s]]), total, n => color[n] || "var(--rest)");
+  const ranked = key => Object.entries(count(recs, key)).sort((a, b) => b[1] - a[1]);
+  const top = (list, n) => list.length > n ? list.slice(0, n - 1).concat([["其他", list.slice(n - 1).reduce((s, x) => s + x[1], 0)]]) : list;
+  bars($("cCategory"), top(ranked(r => canonCategory(r.category)), 8), total);
+  bars($("cSource"), top(ranked(r => canonSource(r.source)), 8), total);
+  bars($("cCounter"), top(ranked(r => r.countermeasure || "（未填）"), 8), total);
+
+  // vulnerability indicators: share of "yes" among records that were assessed
+  $("vulnSub").textContent = hasVuln ? `已評估的弱點情資 ${vuln.length} 筆（含推定值）` : "此期間無弱點評估資料（欄位自 2026 年 11 月起提供）";
+  const meters = [["已知被利用", "kev", "是", "否"], ["可自動化利用", "automatable", "是", "否"], ["完全控制", "impact", "完全控制", "部分控制"]];
+  $("cVuln").innerHTML = !hasVuln ? "" : `<div class="bars">` + meters.map(([label, key, yes, no]) => {
+    const y = vuln.filter(r => base(r[key]) === yes).length, n = vuln.filter(r => base(r[key]) === no).length, t = y + n || 1;
+    return `<div class="hit" data-tip="${label}：${yes} ${y} 筆、${no} ${n} 筆"><span class="name">${label}</span>` +
+      `<span class="track meter">${y ? `<span class="y" style="width:${y / t * 100}%"></span>` : ""}${n ? `<span class="n" style="width:${n / t * 100}%"></span>` : ""}</span>` +
+      `<span class="val">${y}<span style="opacity:.7">　${pct(y, t)}</span></span></div>`;
+  }).join("") + `</div>`;
+
+  const dp = count(recs, "duePublic"), di = count(recs, "dueInternal");
+  const dueRows = DUES.filter(d => dp[d] || di[d]);
+  $("dueSub").textContent = hasVuln ? "依指引表一；兩種曝露情形並列，由資安負責人依資產選用" : "此期間無資料";
+  const dmax = Math.max(1, ...dueRows.map(d => Math.max(dp[d] || 0, di[d] || 0)));
+  $("cDue").innerHTML = !dueRows.length ? "" : `<div class="bars pair">` + dueRows.map(d =>
+    `<div class="hit" data-tip="${d}：曝露 ${dp[d] || 0} 筆、未曝露 ${di[d] || 0} 筆"><span class="name">${d}</span>` +
+    `<span class="track"><span class="bar" style="display:block;width:${(dp[d] || 0) / dmax * 100}%"></span><span class="bar b2" style="display:block;width:${(di[d] || 0) / dmax * 100}%"></span></span>` +
+    `<span class="val">${dp[d] || 0} ／ ${di[d] || 0}</span></div>`).join("") + `</div>`;
+
+  // monthly trend for the selected year(s); the selected month is emphasised
+  const m = $("month").value, multi = !$("year").value;
+  const tmax = Math.max(1, ...yearRecs.map(x => x.recs.length));
+  $("trend").innerHTML = yearRecs.map(x => {
+    const on = !m || String(x.month) === m;
+    return `<div class="col${on ? " on" : ""}" data-y="${x.year}" data-m="${x.month}" data-tip="${x.year} 年 ${x.month} 月：${x.recs.length} 筆">` +
+      (yearRecs.length <= 14 ? `<span class="cv">${x.recs.length}</span>` : "") + `<span class="c" style="height:${x.recs.length / tmax * 100}%"></span></div>`;
+  }).join("");
+  $("trendX").innerHTML = yearRecs.map(x => `<span>${multi ? (x.month === 1 ? x.year : "") : x.month + "月"}</span>`).join("");
+  $("trendSub").textContent = (multi ? "全部年度逐月" : `${$("year").value} 年逐月`) + `｜單月最高 ${tmax} 筆｜點選長條可切換月份`;
+
+  const urgent = recs.filter(r => base(r.kev) === "是" && r.duePublic === "3天").slice(0, 15);
+  $("todo").innerHTML = urgent.length ? `<table class="todo"><thead><tr><th>日期</th><th>來源</th><th>標題</th><th>威脅程度</th><th>期限（曝露／未曝露）</th></tr></thead><tbody>` +
+    urgent.map(r => `<tr><td class="nw">${esc(r.date.replace(/-/g, "/"))}</td><td class="nw">${esc(r.source)}</td>` +
+      `<td>${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}</td>` +
+      `<td class="nw"><span class="chip s-${esc(r.severity)}">${esc(r.severity)}</span></td><td class="nw">${esc(r.duePublic)}／${esc(r.dueInternal)}</td></tr>`).join("") +
+    `</tbody></table>` : `<div class="empty-note">此期間沒有符合條件的情資</div>`;
+}
+
+/* ---------- detail table ---------- */
 function hasDetail(r) { return !!(r.basis || (r.cve_detail && r.cve_detail.length)); }
 function detailHtml(r) {
   let h = r.basis ? `<div><b>判定依據（系統初判）：</b>${esc(r.basis)}</div>` : "";
@@ -143,6 +309,24 @@ function detailHtml(r) {
     h += `<div style="margin-top:6px">各欄取所有 CVE 中最嚴格者${extra > 0 ? `；另有 ${extra} 個 CVE 未逐一評估` : ""}${r.assessed ? `｜評估日 ${esc(r.assessed)}` : ""}</div>`;
   }
   return h;
+}
+function render() {
+  const f = { source: $("fSource").value, category: $("fCategory").value, severity: $("fSeverity").value, kev: $("fKev").value };
+  const words = $("q").value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  shown = recs.filter(r => {
+    for (const k in f) if (f[k] && r[k] !== f[k]) return false;
+    if (!words.length) return true;
+    const hay = [r.title, r.url, r.source, r.category, (r.cves || []).join(" "), (r.cves_other || []).join(" ")].join(" ").toLowerCase();
+    return words.every(w => hay.includes(w));
+  });
+  const LIMIT = 1500;
+  $("body").innerHTML = shown.slice(0, LIMIT).map((r, i) => `<tr${hasDetail(r) ? ` class="has-d" data-i="${i}"` : ""}>` + COLS.map(([k]) => {
+    if (k === "title") return `<td class="t">${/^https?:/.test(r.url) ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)}</a>` : esc(r.title)}${hasDetail(r) ? ' <span class="more">▸ 判定依據</span>' : ""}</td>`;
+    if (k === "severity") return `<td><span class="chip s-${esc(r.severity)}">${esc(r.severity)}</span></td>`;
+    if (k === "date") return `<td>${esc((r.date || "").replace(/-/g, "/"))}</td>`;
+    return `<td>${esc(r[k])}</td>`;
+  }).join("") + "</tr>").join("") || `<tr><td class="empty" colspan="${COLS.length}">查無符合條件的情資</td></tr>`;
+  $("stat").textContent = `${scopeText()}｜符合篩選 ${shown.length} 筆` + (shown.length > LIMIT ? `｜畫面僅顯示前 ${LIMIT} 筆，CSV 下載為完整結果` : "");
 }
 function toggleDetail(e) {
   if (e.target.closest("a")) return;
@@ -163,17 +347,34 @@ function downloadCsv() {
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+
+/* ---------- wiring ---------- */
 function syncMonths() {
   const y = $("year").value;
   const ms = y ? INDEX.years[y].months.map(e => e.month).sort((a, b) => b - a) : [];
   fill($("month"), ms.map(m => [String(m), `${m} 月`]), y ? "全年" : "全部月份");
 }
+function showView(v) {
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t.dataset.view === v));
+  $("view-dash").hidden = v !== "dash";
+  $("view-detail").hidden = v !== "detail";
+  try { history.replaceState(null, "", v === "detail" ? "#detail" : "#"); } catch (e) { /* preview frames may block history */ }
+}
+function tipMove(e) {
+  const t = e.target.closest ? e.target.closest("[data-tip]") : null, tip = $("tip");
+  if (!t) { tip.style.display = "none"; return; }
+  tip.textContent = t.dataset.tip;
+  tip.style.display = "block";
+  tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px";
+  tip.style.top = (e.clientY + 14) + "px";
+}
 (async () => {
   try {
     INDEX = await (await fetch("data/index.json", { cache: "no-store" })).json();
   } catch (e) { $("genInfo").textContent = "資料載入失敗，請稍後再試。"; return; }
-  $("docName").textContent = INDEX.document + "｜查詢與下載";
-  $("genInfo").textContent = `資料更新時間：${INDEX.generated}（每日自動蒐集）`;
+  document.title = INDEX.document + "｜戰情看板";
+  $("docName").textContent = INDEX.document + "｜戰情看板";
+  $("genInfo").textContent = `資料更新時間：${INDEX.generated}（每日自動蒐集與重新評估）`;
   $("note").textContent = INDEX.note;
   $("head").innerHTML = COLS.map(c => `<th>${esc(c[1])}</th>`).join("");
   const ys = Object.keys(INDEX.years).sort().reverse();
@@ -182,6 +383,7 @@ function syncMonths() {
   $("year").value = ys[0] || "";
   syncMonths();
   if ($("month").options.length > 1) $("month").selectedIndex = 1;   // newest month
+  if (location.hash === "#detail") showView("detail");
   await loadScope();
   $("year").onchange = () => { syncMonths(); loadScope(); };
   $("month").onchange = loadScope;
@@ -189,6 +391,13 @@ function syncMonths() {
   $("q").oninput = render;
   $("dlCsv").onclick = downloadCsv;
   $("body").addEventListener("click", toggleDetail);
+  document.querySelectorAll(".tab").forEach(t => t.onclick = () => showView(t.dataset.view));
+  $("trend").addEventListener("click", e => {
+    const c = e.target.closest(".col");
+    if (!c) return;
+    $("year").value = c.dataset.y; syncMonths(); $("month").value = c.dataset.m; loadScope();
+  });
+  document.addEventListener("mousemove", tipMove);
 })();
 </script>
 </body>

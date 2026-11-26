@@ -136,7 +136,7 @@ def build():
             entries.append({"month": m, "count": len(recs), "data": data, "xlsx": xlsx,
                             "xlsxName": f'{cfg["document_name"]}_{tab}.xlsx'})
         write_notes(annual, cfg, generated)
-        axlsx = f"downloads/IS-P-052_{y}.xlsx"
+        axlsx = f"downloads/intel-{y}.xlsx"
         annual.save(PUBLIC / axlsx)
         index["years"][str(y)] = {"xlsx": axlsx, "xlsxName": f'{cfg["document_name"]}_{y}.xlsx', "months": entries}
     (PUBLIC / "data" / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
