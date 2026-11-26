@@ -2,7 +2,7 @@
   "_說明": "情資自動蒐集設定。修改後下次排程即生效。",
   "timezone_offset_hours": 8,
   "retention_years": 3,
-  "document_name": "IS-P-052 資訊安全情資管理表",
+  "document_name": "資安內外部情資蒐集紀錄",
   "defaults": { "origin": "外部資訊", "progress": "OK" },
   "sources": [
     { "name": "TWCERT", "type": "twcert_list", "node": 169, "note": "漏洞警訊公告", "category": "外部：漏洞情報" },
