@@ -4296,6 +4296,139 @@
   "assessed": "2026-11-26"
  },
  {
+  "id": "32ffa90613e0",
+  "date": "2026-11-24",
+  "source": "TWCERT",
+  "title": "11/16至11/22 Known Exploited Vulnerabilities Catalog(KEV)週報",
+  "url": "https://www.twcert.org.tw/tw/cp-168-11467-0155a-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-90436",
+   "CVE-2026-129448",
+   "CVE-2026-40217",
+   "CVE-2026-123890",
+   "CVE-2026-76466",
+   "CVE-2026-115731",
+   "CVE-2025-42884",
+   "CVE-2024-10441",
+   "CVE-2026-90817"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-90436",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-129448",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-40217",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-123890",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "表一類型 1／9",
+    "cvss": 9.8,
+    "note": "警訊發布後已列入 CISA KEV，期限依表一重新評估"
+   },
+   {
+    "cve": "CVE-2026-76466",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-115731",
+    "kev": "是",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.4
+   },
+   {
+    "cve": "CVE-2025-42884",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "部分控制",
+    "duePublic": "3天",
+    "dueInternal": "14天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 6.5
+   },
+   {
+    "cve": "CVE-2024-10441",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-90817",
+    "kev": "是",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "3天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "是",
+  "automatable": "是",
+  "impact": "完全控制",
+  "duePublic": "3天",
+  "dueInternal": "3天",
+  "severity": "低",
+  "countermeasure": "列入風險評鑑",
+  "basis": "類別：標題含漏洞／修補字詞；資產：未命中資產清單；已知被利用；CVSS 最高 9.8 → 低",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
   "id": "a187acbaa011",
   "date": "2026-11-24",
   "source": "TWCERT",
@@ -5143,5 +5276,617 @@
   "cves": [],
   "cve_detail": [],
   "assessed": "2026-11-26"
+ },
+ {
+  "id": "15cccb612d76",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "D-Link R32 存在重大資安漏洞(CVE-2026-136823)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11478-0bfb0-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-136823"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-136823",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 10
+   }
+  ],
+  "kev": "否",
+  "automatable": "是（推定）",
+  "impact": "完全控制（推定）",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 D-Link；CVSS 最高 10 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "8f840ceebaab",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "Eclipse Ditto 存在重大資安漏洞(CVE-2026-135150)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11476-dfde5-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-135150"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-135150",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.1
+   }
+  ],
+  "kev": "否",
+  "automatable": "是",
+  "impact": "完全控制",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "現行不影響",
+  "countermeasure": "僅列入知識庫",
+  "basis": "類別：來源為漏洞警訊公告；資產：未命中資產清單；CVSS 最高 9.1 → 現行不影響",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "501830781db5",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "Microsoft Office Visio 存在重大資安漏洞(CVE-2026-112732)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11474-80ef1-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-112732"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-112732",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "是",
+  "impact": "完全控制",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 Microsoft、Office；CVSS 最高 9.8 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "c759ed3c0cc9",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "MongoDB Server存在高風險安全漏洞(CVE-2026-118383)，請儘速確認並進行處置",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11472-14e95-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-118383"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-118383",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.5
+   }
+  ],
+  "kev": "否",
+  "automatable": "否",
+  "impact": "完全控制",
+  "duePublic": "14天",
+  "dueInternal": "待下次系統更新",
+  "severity": "現行不影響",
+  "countermeasure": "僅列入知識庫",
+  "basis": "類別：來源為漏洞警訊公告；資產：未命中資產清單；CVSS 最高 10 → 現行不影響",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "43996e8e7532",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "PostgreSQL存在32項高風險安全漏洞，請儘速確認並進行處置",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11470-6578c-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-6460",
+   "CVE-2026-18447",
+   "CVE-2026-116304",
+   "CVE-2026-116306",
+   "CVE-2026-116307",
+   "CVE-2026-116309",
+   "CVE-2026-116314",
+   "CVE-2026-116320",
+   "CVE-2026-116323",
+   "CVE-2026-116326",
+   "CVE-2026-116328",
+   "CVE-2026-116332",
+   "CVE-2026-116335",
+   "CVE-2026-116336",
+   "CVE-2026-120139",
+   "CVE-2026-120141",
+   "CVE-2026-120145",
+   "CVE-2026-120147",
+   "CVE-2026-120149",
+   "CVE-2026-120151"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-6460",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-18447",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116304",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116306",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116307",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116309",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116314",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116320",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116323",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116326",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116328",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116332",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116335",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-116336",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120139",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120141",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120145",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120147",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120149",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   },
+   {
+    "cve": "CVE-2026-120151",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CISA SSVC",
+    "dueSource": "表一類型 7／15",
+    "cvss": 8.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "否",
+  "impact": "完全控制",
+  "duePublic": "14天",
+  "dueInternal": "待下次系統更新",
+  "severity": "現行不影響",
+  "countermeasure": "僅列入知識庫",
+  "basis": "類別：來源為漏洞警訊公告；資產：未命中資產清單；CVSS 最高 8.8 → 現行不影響",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "b7095c9f00e7",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "Red Hat Quay存在2項高風險安全漏洞，請儘速確認並進行處置",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11469-2d7e0-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-110697",
+   "CVE-2026-123710"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-110697",
+    "kev": "否",
+    "automatable": "否",
+    "impact": "完全控制",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.9
+   },
+   {
+    "cve": "CVE-2026-123710",
+    "kev": "否",
+    "automatable": "是",
+    "impact": "完全控制",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "國內警訊",
+    "dueSource": "警訊公布期限",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "是",
+  "impact": "完全控制",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "現行不影響",
+  "countermeasure": "僅列入知識庫",
+  "basis": "類別：來源為漏洞警訊公告；資產：未命中資產清單；CVSS 最高 9.9 → 現行不影響",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "a522e27ce833",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "VMware ESX 存在2個重大資安漏洞",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11481-b6915-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-123910",
+   "CVE-2026-123911"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123910",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   },
+   {
+    "cve": "CVE-2026-123911",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "是（推定）",
+  "impact": "完全控制（推定）",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 VMware、ESXi；CVSS 最高 9.8 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "86468fa7c9ca",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "VMware ESX、Workstation 和 Fusion 存在重大資安漏洞(CVE-2026-123912)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11482-dc4af-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-123912"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123912",
+    "kev": "否",
+    "automatable": "否（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "14天",
+    "dueInternal": "待下次系統更新",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 7／15",
+    "cvss": 9.3
+   }
+  ],
+  "kev": "否",
+  "automatable": "否（推定）",
+  "impact": "完全控制（推定）",
+  "duePublic": "14天",
+  "dueInternal": "待下次系統更新",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 VMware、ESXi；CVSS 最高 9.3 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "2b872519b7c6",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "VMware vCenter 存在重大資安漏洞(CVE-2026-123903)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11480-c378e-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-123903"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-123903",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "是（推定）",
+  "impact": "完全控制（推定）",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 VMware、vCenter；CVSS 最高 9.8 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
+ },
+ {
+  "id": "9c8d2856ba8b",
+  "date": "2026-11-27",
+  "source": "TWCERT",
+  "title": "WordPress 外掛 Ultimate Member 存在重大資安漏洞(CVE-2026-134481)",
+  "url": "https://www.twcert.org.tw/tw/cp-169-11484-4169b-1.html",
+  "origin": "外部資訊",
+  "progress": "OK",
+  "category": "外部：漏洞情報",
+  "cves": [
+   "CVE-2026-134481"
+  ],
+  "cve_detail": [
+   {
+    "cve": "CVE-2026-134481",
+    "kev": "否",
+    "automatable": "是（推定）",
+    "impact": "完全控制（推定）",
+    "duePublic": "3天",
+    "dueInternal": "60天",
+    "source": "CVSS 推定",
+    "dueSource": "表一類型 5／13",
+    "cvss": 9.8
+   }
+  ],
+  "kev": "否",
+  "automatable": "是（推定）",
+  "impact": "完全控制（推定）",
+  "duePublic": "3天",
+  "dueInternal": "60天",
+  "severity": "中",
+  "countermeasure": "技術預防和檢測控制",
+  "basis": "類別：來源為漏洞警訊公告；資產：命中 PHP、WordPress；CVSS 最高 9.8 → 中",
+  "auto": true,
+  "assessed": "2026-11-27"
  }
 ]
