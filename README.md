@@ -6,7 +6,7 @@
 ## 運作流程
 
 ```
-GitHub Actions 排程（每日 08:23、17:23 台北時間）
+GitHub Actions 排程（每日 08:23、11:23、14:23、17:23、21:23 台北時間）
   └─ python -m intel run
        1. 蒐集   TWCERT（漏洞警訊 / KEV 週報 / 資安新聞）、NICS 漏洞警訊、iThome 資安日報、TechNews 資安
        2. 去重   以網址為鍵；已存在的紀錄永不覆寫（人工修改會被保留）
