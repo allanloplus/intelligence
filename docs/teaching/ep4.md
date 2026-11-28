@@ -205,16 +205,28 @@ AI 也會記錯介面。看到不一樣就講，不用懷疑自己。
 > **🛠 動手做｜建立 GitHub 權杖（Fine-grained token）**
 > 1. GitHub 右上角**頭像** → **Settings**（⚠ 是帳號的 Settings，不是 repo 的）
 > 2. 左側最下方 **Developer settings** → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**
-> 3. **Token name**：取一個看得懂的名字，例如「情資監控補跑」
-> 4. **Expiration**：選 Custom，設為一年後
-> 5. **Repository access**：選 **Only select repositories** → 選你的 repo（本個案為 `intelligence`）
+> 3. **Token name**：取一個看得懂的名字，本個案取名 `intel-apps-script`
+> 4. **Expiration**：預設是 30 天，改選 **Custom**，設為一年後
+>
+> 【畫面：建立新權杖的上半部，紅框為 Token name 與 Expiration；Resource owner 維持自己的帳號（截圖 19）】
+>
+> 5. **Repository access**：⚠ 預設選在 **Public repositories**，一定要改選 **Only select repositories**，再選你的 repo（本個案為 `intelligence`）
 > 6. **Permissions**：按 **Add permissions** → 勾選 **Actions** → 把 Access 改為 **Read and write**
 >    （系統會自動加上 Metadata：Read-only，這是必要的）
+>
+> 【畫面：Repository access 與 Permissions，紅框為要改選的 Only select repositories 與 Add permissions 按鈕（截圖 20）】
+>
 > 7. 最下方 **Generate token** → **立刻複製**權杖。這個畫面離開後就再也看不到了。
 >
 > ⚠ 權杖等同密碼：不要貼在對話、文件、程式碼裡。下一步會把它存在 Apps Script 的「指令碼屬性」中。
 >
-> 【畫面待補：GitHub 權杖 Repository access 與 Permissions 設定畫面（權杖值請遮蔽）】
+> **建好之後，檢查一次設定對不對**
+>
+> 【畫面：權杖清單：本個案的 intel-apps-script，到期日為 2027 年 11 月 28 日，正好一年（截圖 21）】
+>
+> 【畫面：點進權杖看詳細設定。Repository access 只有 allanloplus/intelligence；Repository permissions 只有 metadata 讀取與 actions 讀寫，沒有其他權限（截圖 22）】
+>
+> 這一步就是最小權限的驗收：範圍只有一個 repo、權限只有 Actions、效期一年。
 
 > **📋 ISMS 旁註｜憑證管理**
 > - **最小權限**：單一 repo、單一權限（Actions）。
