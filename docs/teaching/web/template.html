@@ -1,0 +1,154 @@
+<meta charset="utf-8">
+<title>會自我檢查的自動化</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: masthead with the two characters, sticky PDCA tab rail, one reading column of dialogue and boxed asides */
+:root{
+  --bg:#f5f6f8; --paper:#ffffff; --ink:#1c2230; --muted:#5d6678; --line:#dde1e8;
+  --navy:#22355b; --navy-soft:#e8edf6; --teal:#0f777b; --teal-soft:#e3f3f2;
+  --sun:#e8a900; --sun-soft:#fff5d6; --ok:#2f8a4b; --wait:#c58a00; --bad:#c2412d;
+  --code:#f0f2f6;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-head:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151d; --paper:#181d27; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --navy:#9db4e6; --navy-soft:#1d2840; --teal:#5cc7c4; --teal-soft:#14302f;
+  --sun:#f2c440; --sun-soft:#2e2812; --ok:#5cc27a; --wait:#e2b33a; --bad:#ef7a65; --code:#202633; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151d; --paper:#181d27; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --navy:#9db4e6; --navy-soft:#1d2840; --teal:#5cc7c4; --teal-soft:#14302f;
+  --sun:#f2c440; --sun-soft:#2e2812; --ok:#5cc27a; --wait:#e2b33a; --bad:#ef7a65; --code:#202633; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.85}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* masthead */
+.mast{background:var(--paper);border-bottom:1px solid var(--line)}
+.mast .wrap{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;padding-block:36px 24px}
+.mast .kicker{font-size:13px;letter-spacing:.12em;color:var(--teal);font-weight:700;margin:0 0 6px}
+.mast h1{font-family:var(--f-head);font-weight:900;font-size:clamp(28px,5vw,42px);line-height:1.25;margin:0;text-wrap:balance}
+.mast .sub{margin:10px 0 0;color:var(--muted);font-size:16px}
+.cast{display:flex;gap:10px}
+.cast figure{margin:0;text-align:center;font-size:12px;color:var(--muted)}
+.cast img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid var(--navy-soft);background:#fff;display:block}
+.cast figure:last-child img{border-color:var(--teal-soft)}
+
+/* tabs */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.rail .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding-block:8px}
+.tab{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;text-decoration:none;color:var(--muted);padding:6px 8px;border-radius:8px;min-width:0}
+.tab b{grid-row:span 2;font-family:var(--f-head);font-size:22px;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:var(--bg);color:var(--navy)}
+.tab span{font-size:12px;line-height:1.3}
+.tab em{font-style:normal;font-size:13px;line-height:1.35;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab[aria-current="page"] b{background:var(--navy);color:var(--paper)}
+.tab[aria-current="page"]{background:var(--navy-soft)}
+.tab:focus-visible,.pager a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media (max-width:640px){.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}.tab em{display:none}.mast .wrap{grid-template-columns:1fr}.cast{order:-1}}
+
+/* episode */
+.ep{padding-block:28px 60px}
+.ephead{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin-bottom:8px}
+.phase{font-family:var(--f-head);font-weight:900;font-size:56px;line-height:1;color:var(--sun);width:72px;text-align:center}
+.eyebrow{margin:0;font-size:13px;color:var(--muted);letter-spacing:.06em}
+.ephead h2{font-family:var(--f-head);font-weight:900;font-size:clamp(24px,4vw,32px);line-height:1.35;margin:2px 0 0;text-wrap:balance}
+h3{font-family:var(--f-head);font-size:22px;margin:52px 0 14px;padding-top:18px;border-top:1px solid var(--line);text-wrap:balance}
+h3.end{color:var(--teal)}
+p{margin:0 0 12px}
+.direction{color:var(--muted);font-size:15px;background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:8px 14px;margin:14px 0}
+.direction::before{content:"畫面";font-size:11px;letter-spacing:.1em;font-weight:700;color:var(--paper);background:var(--muted);border-radius:4px;padding:1px 6px;margin-right:8px;vertical-align:2px}
+
+/* dialogue */
+.say{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;margin:16px 0;align-items:start}
+.say.r{grid-template-columns:minmax(0,1fr) 64px}
+.say.r .face{order:2}
+.face{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid var(--navy-soft)}
+.say.r .face{border-color:var(--teal-soft)}
+.bubble{background:var(--paper);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:10px 16px 6px;min-width:0}
+.say.r .bubble{border-radius:16px 4px 16px 16px;background:var(--teal-soft);border-color:transparent}
+.who{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.say.r .who{color:var(--teal)}
+.who span{font-weight:400;color:var(--muted);margin-left:8px;font-size:12px}
+blockquote.said{margin:6px 0 12px;padding:10px 14px;border-left:4px solid var(--sun);background:var(--sun-soft);border-radius:0 8px 8px 0;font-weight:500}
+.bubble ol,.bubble ul{padding-left:1.4em;margin:0 0 12px}
+
+/* boxes */
+.box{border-radius:12px;padding:16px 20px 8px;margin:22px 0;border:1px solid var(--line);background:var(--paper)}
+.box .lab{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;padding:2px 8px;border-radius:4px;margin-bottom:6px}
+.box h4{margin:0 0 8px;font-size:17px;line-height:1.5}
+.box.tip{border-left:6px solid var(--sun)}
+.box.tip .lab{background:var(--sun-soft);color:var(--ink)}
+.box.isms{border-left:6px solid var(--navy);background:var(--navy-soft);border-color:transparent}
+.box.isms .lab{background:var(--navy);color:var(--paper)}
+.box.howto{border:2px solid var(--teal)}
+.box.howto .lab{background:var(--teal);color:var(--paper)}
+.box.aside .lab{background:var(--bg);color:var(--muted)}
+.box ol,.box ul{padding-left:1.4em;margin:0 0 12px}
+.box li{margin:3px 0}
+.key{font-family:var(--f-head);font-size:20px;line-height:1.7;padding:18px 22px 8px;border-radius:12px;background:var(--sun-soft);border:1px solid var(--line)}
+.mail{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px 4px;font-size:15px;margin:14px 0}
+blockquote{margin:12px 0;padding:0 16px;border-left:3px solid var(--line);color:var(--muted)}
+.todo{font-size:14px;color:var(--muted);border:1px dashed var(--wait);border-radius:8px;padding:8px 12px;margin:10px 0}
+.todo span{font-weight:700;color:var(--wait);margin-right:8px}
+.shot{margin:14px 0}
+.shot img{width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+.shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* tables / code */
+.tw{overflow-x:auto;margin:8px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.6;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+pre{background:var(--code);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.6}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:4px}
+pre code{background:none;padding:0;overflow-wrap:normal}
+:not(pre)>code{overflow-wrap:anywhere}
+pre{max-width:100%}
+code,pre{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+@media (max-width:640px){.phase{font-size:40px;width:44px}.ephead{gap:12px}body{font-size:16px}}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:0}
+.dot.ok{background:var(--ok)} .dot.wait{background:var(--wait)} .dot.bad{background:var(--bad)}
+.chip{font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;vertical-align:2px}
+.chip.warn{background:var(--sun-soft);color:var(--wait);border:1px solid var(--wait)}
+.chip.q{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+a{color:var(--teal)}
+.pager{display:flex;justify-content:space-between;margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-weight:700}
+.pager a{text-decoration:none}
+footer{color:var(--muted);font-size:13px;padding-block:0 40px}
+@media (prefers-reduced-motion:no-preference){.ep{animation:in .25s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+</style>
+
+<header class="mast"><div class="wrap">
+  <div>
+    <p class="kicker">教學個案・對話式圖文　初稿</p>
+    <h1>會自我檢查的自動化</h1>
+    <p class="sub">用 AI 協作打造一條 PDCA 資料管線：以資安情資蒐集為例</p>
+  </div>
+  <div class="cast">
+    <figure><img src="img/allan-smile.jpg" alt="Allan 講師">Allan 講師</figure>
+    <figure><img src="img/arale-wave.jpg" alt="AI 小助理阿拉蕾">阿拉蕾</figure>
+  </div>
+</div></header>
+<nav class="rail" aria-label="集數"><div class="wrap">{{TABS}}</div></nav>
+<main class="wrap">{{SECTIONS}}</main>
+<footer class="wrap">初稿版本：民國 115 年 11 月 28 日。截圖中的寄件信箱與指令碼 ID 已遮蔽。</footer>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('.ep'));
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(){
+    var id=(location.hash||'#ep0').slice(1);
+    if(!document.getElementById(id)||!/^ep\d$/.test(id)) id='ep0';
+    secs.forEach(function(s){s.hidden=s.id!==id});
+    tabs.forEach(function(t){ if(t.dataset.ep===id) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('hashchange',function(){show();window.scrollTo(0,0)});
+  show();
+})();
+</script>
