@@ -342,10 +342,18 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 <li><strong>建立 GitHub 帳號與 repo</strong>：github.com → 右上「+」→ New repository → 輸入名稱 → 勾選 Add a README file（或隨意放一個檔案）→ Create repository。
     ※ 之後要用免費的 GitHub Pages 發佈網站，repo 請設為 <strong>Public</strong>；若資料不宜公開，需另外評估付費方案或其他發佈方式。</li>
 <li><strong>讓 Claude 能存取 GitHub</strong>：到 claude.ai/code，依畫面指示連結 GitHub 帳號，並在要使用的 repo 上安裝 Claude GitHub App（可只授權單一 repo）。</li>
-<li><strong>開一個工作階段</strong>：在 claude.ai/code 選擇剛建立的 repo，開新的 session，就可以開始用中文交代工作。</li>
-<li><strong>AI 的成果會變成 Pull Request（PR）</strong>：AI 在 <code>claude/…</code> 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 <strong>Merge pull request</strong>，才會進入正式的 <code>main</code> 分支。</li>
+<li>
+<p><strong>開一個工作階段</strong>：在 Claude 應用程式的 Code 分頁（或網頁版 claude.ai/code）按「<strong>新增</strong>」。輸入框下方的工具列由左到右是：</p>
+<ul>
+<li><strong>雲端環境</strong>：決定 AI 的工作環境能連到哪些網站。本個案要抓四個情資網站，所以選「允許網路完整存取」。</li>
+<li><strong>repo</strong>：選剛建立的 repo（本個案為 <code>intelligence</code>）。</li>
+<li><strong>分支</strong>：AI 會自動建一個 <code>claude/</code> 開頭的分支，在上面工作。</li>
+</ul>
+<p>選好之後，在「描述任務或提出問題」的輸入框用中文交代工作即可。
+4. <strong>AI 的成果會變成 Pull Request（PR）</strong>：AI 在 <code>claude/…</code> 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 <strong>Merge pull request</strong>，才會進入正式的 <code>main</code> 分支。</p>
+</li>
 </ol>
-<div class="todo"><span>畫面待補</span>claude.ai/code 選擇 repo 開 session 的畫面</div></aside>
+<figure class="shot"><img src="img/shot17.jpg" alt="開新工作階段的畫面" loading="lazy"><figcaption>開新工作階段的畫面。紅框由左到右是雲端環境、repo、分支；上方是點開雲端環境後的選單。此圖以另一個 repo（123hi.org）示意</figcaption></figure></aside>
 <aside class="box isms"><div class="lab">ISMS 旁註</div><h4>最小授權與變更核准</h4><p>Claude GitHub App 可以只授權單一 repo，這是最小權限原則。
 「AI 在分支工作、人核准合併」對應變更管理：每一次變更都有申請（PR）、有審查、有核准者（合併的人），而且全部留在 GitHub 紀錄裡。</p></aside>
 <h3>場景 2：Allan 的第一段話</h3>
@@ -548,7 +556,7 @@ Allan 刻意區分「像不像」和「對不對」，因為驗收標準是後�
 <li><strong>手動執行一次</strong>：repo 上方 <strong>Actions</strong> → 左側選「<strong>情資自動更新</strong>」→ 右側 <strong>Run workflow</strong> → 選 <code>main</code> → 綠色 <strong>Run workflow</strong>。</li>
 <li><strong>確認結果</strong>：執行完成（綠色勾勾）後，網站網址會顯示在該次執行的頁面上。本個案為 <code>https://allanloplus.github.io/intelligence/</code>。</li>
 </ol>
-<div class="todo"><span>畫面待補</span>Settings → Pages → Source 選 GitHub Actions 的畫面</div></aside>
+<figure class="shot"><img src="img/shot16.jpg" alt="GitHub Pages 設定畫面" loading="lazy"><figcaption>repo 的 Settings → 左側 Pages → Build and deployment 的 Source 選 GitHub Actions；設定完成後，上方會顯示「Your site is live at」與網站網址</figcaption></figure></aside>
 <h3>場景 6：第一天的結算</h3>
 <div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>所以第一天結束，我們有什麼？</p></div></div>
 <div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><ul>
