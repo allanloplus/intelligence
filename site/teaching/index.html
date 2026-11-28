@@ -92,6 +92,7 @@ footer .credit{margin:0 0 6px}
 .ephead h2{font-family:var(--f-head);font-weight:900;font-size:clamp(24px,4vw,32px);line-height:1.35;margin:2px 0 0;text-wrap:balance}
 h3{font-family:var(--f-head);font-size:22px;margin:52px 0 14px;padding-top:18px;border-top:1px solid var(--line);text-wrap:balance}
 h3.end{color:var(--teal)}
+h4.sub{font-family:var(--f-head);font-size:19px;margin:30px 0 10px;color:var(--navy);text-wrap:balance}
 p{margin:0 0 12px}
 .direction{color:var(--muted);font-size:15px;background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:8px 14px;margin:14px 0}
 .direction::before{content:"畫面";font-size:11px;letter-spacing:.1em;font-weight:700;color:var(--paper);background:var(--muted);border-radius:4px;padding:1px 6px;margin-right:8px;vertical-align:2px}
@@ -1388,7 +1389,7 @@ iThome 資安日報漏一則，其他來源仍會涵蓋重大弱點，對使用�
 <li>自建的責任清單：省下平台之後，要自己扛的事</li>
 <li>選擇的判斷方式</li>
 </ul>
-<aside class="box tip"><div class="lab">提醒</div><h4>說明</h4><p>本集討論的是選擇原則。文中提到工作流程平台（例如 n8n）通常具備的能力為一般性描述，各平台的實際功能、版本差異與定價，請以官方文件為準。</p></aside>
+<aside class="box tip"><div class="lab">提醒</div><h4>說明</h4><p>本集場景 2–4 為一般性的選擇原則；場景 5 的 n8n 方案、價格與功能，為民國 115 年 11 月 28 日查詢 n8n 官方網站的資料，之後可能調整，請以官方最新公告為準。</p></aside>
 <h3>場景 1：把架構拆開來看</h3>
 <p class="direction">阿拉蕾的平板上是五個積木，分別寫著「排程、執行、資料、呈現、監控」</p>
 <div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>這次的系統可以拆成五塊：</p>
@@ -1571,6 +1572,141 @@ iThome 資安日報漏一則，其他來源仍會涵蓋重大弱點，對使用�
 <div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>本個案剛好落在左邊。但如果明天客戶說：「情資進來後，要經過資安主管在系統上核准，再自動開工單給 IT」，那就是右邊了。</p></div></div>
 <div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>而且不論選哪一邊，排程、監控、憑證都要有人負責。</p></div></div>
 <div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>工具會變，責任不會。</p></div></div>
+<h3>場景 5：那 n8n 還有存在的價值嗎？</h3>
+<p class="direction">Allan 坐下來，難得露出困惑的表情</p>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>說真的，我以前也很迷 n8n。拉一拉節點，流程就跑起來，覺得這就是不會寫程式的人的救星。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>但這陣子用 AI 之後，我反而困惑了：AI 都能直接寫程式了，n8n 存在的價值是什麼？它的未來在哪裡？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我先把 n8n 現在的樣子攤開來，再來談。以下是民國 115 年 11 月 28 日查詢 n8n 官方網站的資料：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>n8n 的現況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位</td>
+<td>視覺化工作流程平台，官方整合頁標示 2,000+ 個整合</td>
+</tr>
+<tr>
+<td>免費版</td>
+<td>Community Edition 可免費自架，只付主機費用</td>
+</tr>
+<tr>
+<td>雲端方案</td>
+<td>Starter 每月 €20（年繳）含 2,500 次執行；Pro 每月 €50（年繳）含 1 萬次執行</td>
+</tr>
+<tr>
+<td>企業方案</td>
+<td>Business 每月 €667（年繳）含 4 萬次執行，僅限自架；Enterprise 需洽詢</td>
+</tr>
+<tr>
+<td>計費單位</td>
+<td>一次「執行」＝整個流程跑一次，不論有幾個步驟</td>
+</tr>
+<tr>
+<td>治理功能</td>
+<td>SSO、Git 版本控制、多環境、外部密鑰庫等，社群版沒有，要 Business 以上</td>
+</tr>
+<tr>
+<td>AI 方向</td>
+<td>2026 年推出 AI Assistant（用自然語言建立、測試、除錯流程）與 Agents 功能</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>n8n 自己也在用 AI 做流程？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>對。所以這題不是「AI 對上 n8n」。我幫大家拆三個常見的誤解。</p></div></div>
+<h4 class="sub">誤解一：「AI 會寫程式了，所以不需要 n8n」</h4>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>寫程式只是 n8n 價值的一小部分。它真正賣的是<strong>寫完之後的事</strong>：執行環境、排程、憑證保管、執行紀錄、失敗重試、人工核准，以及讓不寫程式的同事看得懂、改得動。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>我們第 4 集補的排程、監控、權杖，就是這些。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>AI 拿掉的，是「不會寫程式」這個門檻。拿不掉的，是「誰負責讓它每天正常運作」。</p></div></div>
+<h4 class="sub">誤解二：「用 n8n 就不用懂技術、也比較安全」</h4>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>複雜的流程一樣要懂邏輯、要除錯。而且<strong>自架的 n8n 本身就是一個要維護的系統</strong>。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>2026 年起，n8n 陸續公布多個 CVSS 9 分以上的重大弱點，例如 CVE-2026-21858，CVSS 10.0。自架的人要自己追版本、自己修補。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>而且 n8n 裡面存著它串接的每一個系統的帳密和權杖。它一旦被攻破，影響的不是一個流程，是所有串接的系統。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>工作流程平台也是資產</h4><ul>
+<li>自架的 n8n 要列入資產清冊，納入弱點管理與修補程序。用本系列的情資表追蹤 n8n 自己的弱點，也是一種應用。</li>
+<li>它集中保管多個系統的憑證，屬於高價值資產，存取控制、備份與日誌都要比照重要系統。</li>
+<li>用雲端版，則是供應商管理的問題：資料存放位置、服務水準、事件通報。</li>
+</ul></aside>
+<h4 class="sub">誤解三：「只能二選一」</h4>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>其實可以混著用：</p>
+<ul>
+<li><strong>AI 幫你做 n8n 流程</strong>：n8n 自己的 AI Assistant，或請 AI 寫流程設定。</li>
+<li><strong>n8n 裡面跑 AI</strong>：讓 n8n 負責串接與核准，AI 負責判讀內容。</li>
+<li><strong>程式做核心，平台做串接</strong>：像本個案的判定邏輯用程式寫、放在 Git 裡；要接 Slack、工單、核准流程時，再交給平台。</li>
+</ul></div></div>
+<h4 class="sub">2026 年怎麼選：問自己六個問題</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>問題</th>
+<th>偏向平台（如 n8n）</th>
+<th>偏向 AI 直接寫程式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>誰來維護？</td>
+<td>不寫程式的同事</td>
+<td>有人能看懂程式，或願意請 AI 協助</td>
+</tr>
+<tr>
+<td>要串幾個系統？</td>
+<td>很多，尤其是需要帳號授權的雲端服務</td>
+<td>少，資料多為公開來源</td>
+</tr>
+<tr>
+<td>需要人工核准或即時事件觸發嗎？</td>
+<td>需要</td>
+<td>不需要，定時跑就好</td>
+</tr>
+<tr>
+<td>邏輯要逐行可稽核嗎？</td>
+<td>看流程圖與執行紀錄即可</td>
+<td>要，程式碼與每次變更都在 Git</td>
+</tr>
+<tr>
+<td>執行量與費用？</td>
+<td>依執行次數計費，量大要估算</td>
+<td>本個案用 GitHub Actions，一天六次，沒有額外費用</td>
+</tr>
+<tr>
+<td>維運誰扛？</td>
+<td>雲端版由廠商扛；自架版自己扛，含修補</td>
+<td>自己扛：排程、監控、憑證（第 4 集）</td>
+</tr>
+</tbody>
+</table></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>用這張表回頭看本個案：一個人維護、四個公開來源、不需要核准、要逐筆可稽核。四題都偏右邊。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>但如果明天客戶說：情資進來後，要資安主管在系統上核准，再自動開工單給 IT，還要通知 Teams，那就換到左邊了。</p></div></div>
+<h4 class="sub">n8n 的未來：價值移到哪裡</h4>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我的觀察是，n8n 的價值正在移動：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>過去</th>
+<th>現在與未來</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>讓不會寫程式的人也能做自動化</td>
+<td>讓自動化<strong>可治理、可交接、看得見</strong></td>
+</tr>
+<tr>
+<td>拉節點取代寫程式</td>
+<td>當 AI 與各系統之間的<strong>編排與管控層</strong></td>
+</tr>
+<tr>
+<td>一個人的效率工具</td>
+<td>團隊與組織的流程基礎設施（權限、版本、稽核）</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>所以我的困惑可以這樣解開：<strong>n8n 不是被 AI 取代，而是它過去最好賣的那個理由「不會寫程式」變弱了。</strong> 它要靠治理、整合和協作來證明自己的價值。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>對使用者來說也一樣：選工具前，先問需求，不是先問「我會不會寫程式」。</p></div></div>
 <h3 class="end">本集一句話</h3>
 <div class="key"><p><strong>選工具的依據要回到需求本身，而不是「會不會寫程式」。</strong>
 省下平台之後，排程可靠性、監控告警、憑證管理的責任要自己扛；這個個案後半段遇到的問題，正是平台原本會處理掉的。</p></div>
@@ -1579,7 +1715,10 @@ iThome 資安日報漏一則，其他來源仍會涵蓋重大弱點，對使用�
 <li>拿你手上一個自動化需求，對照場景 4 的表格，它落在哪一邊？</li>
 <li>如果你選擇自建，場景 3 的責任清單裡，哪幾項你現在還沒有人負責？</li>
 </ol>
-<blockquote><p>※ 本集關於工作流程平台的描述為一般性選擇原則，n8n 等平台的實際功能與定價請以官方文件為準。</p></blockquote><nav class="pager"><a href="#ep5">← 延伸 1</a><span></span></nav></section></main>
+<blockquote><p>※ 資料來源（民國 115 年 11 月 28 日查詢）：
+n8n 官方方案與價格 https://n8n.io/pricing ；n8n 官方整合列表 https://n8n.io/integrations ；n8n 社群版功能說明 https://docs.n8n.io/hosting/community-edition-features/ ；
+n8n 弱點報導 The Hacker News https://thehackernews.com/2026/01/n8n-warns-of-cvss-100-rce-vulnerability.html 、Rapid7 https://www.rapid7.com/blog/post/etr-ni8mare-n8scape-flaws-multiple-critical-vulnerabilities-affecting-n8n/ 。
+價格與功能會隨時調整，請以官方最新公告為準。</p></blockquote><nav class="pager"><a href="#ep5">← 延伸 1</a><span></span></nav></section></main>
 <footer class="wrap"><p class="credit"><span class="cl">無私分享／個案設計</span><span>Allan Lo</span><a href="mailto:allanlo.plus@gmail.com">allanlo.plus@gmail.com</a><a href="https://www.123hi.org" target="_blank" rel="noopener">www.123hi.org</a></p>民國 115 年 11 月 28 日。主篇 5 集＋延伸篇 2 集。截圖中的寄件信箱與指令碼 ID 已遮蔽。</footer>
 
 <script>
