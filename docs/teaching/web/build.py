@@ -160,13 +160,13 @@ def buf_continues(l):
     return False
 
 
-eps = [render_episode((SRC / f'ep{n}.md').read_text()) for n in range(7)]
+eps = [render_episode((SRC / f'ep{n}.md').read_text()) for n in range(8)]
 if missing:
     print('MISSING faces', missing, file=sys.stderr)
 
-PH = {'前導': '序', 'Plan': 'P', 'Do': 'D', 'Check': 'C', 'Act': 'A', '判斷': 'E1', '架構': 'E2'}
-SHORT = ['需求由來', '交代工作', '系統長出來了', '什麼叫做對', '它沒在跑', '從寫到判斷', '平台還是程式碼']
-LAB = lambda n: f'延伸 {n[1:]}' if n.startswith('E') else f'第 {n} 集'
+PH = {'前導': '序', 'Plan': 'P', 'Do': 'D', 'Check': 'C', 'Act': 'A', '判斷': 'E1', '架構': 'E2', '技術': '技'}
+SHORT = ['需求由來', '交代工作', '系統長出來了', '什麼叫做對', '它沒在跑', '從寫到判斷', '平台還是程式碼', '工具與技術']
+LAB = lambda n: '技術彙整' if n == 'T' else (f'延伸 {n[1:]}' if n.startswith('E') else f'第 {n} 集')
 tabs = ''.join(f'<a class="tab" href="#ep{k}" data-ep="ep{k}" title="{html.escape(t)}"><b>{PH.get(ph, ph)}</b><span>{LAB(n)}</span><em>{SHORT[k]}</em></a>'
                for k, (n, ph, t, _, _) in enumerate(eps))
 sections = ''
@@ -174,7 +174,7 @@ for k, (n, ph, t, meta, body) in enumerate(eps):
     prev = f'<a href="#ep{k-1}">← {LAB(eps[k-1][0])}</a>' if k else '<span></span>'
     nxt = f'<a href="#ep{k+1}">{LAB(eps[k+1][0])} →</a>' if k < len(eps) - 1 else '<span></span>'
     sections += (f'<section class="ep" id="ep{k}" aria-labelledby="t{k}"><header class="ephead">'
-                 f'<div class="phase">{PH.get(ph, ph)}</div><div><p class="eyebrow">{"延伸篇・" if n.startswith("E") else ""}{LAB(n)}・{ph}{"・" + meta[0] if meta else ""}</p>'
+                 f'<div class="phase">{PH.get(ph, ph)}</div><div><p class="eyebrow">{"延伸篇・" if n.startswith("E") else ""}{LAB(n)}・{"給工程師的速查頁" if n == "T" else ph}{"・" + meta[0] if meta else ""}</p>'
                  f'<h2 id="t{k}">{html.escape(t)}</h2></div></header>{body}'
                  f'<nav class="pager">{prev}{nxt}</nav></section>')
 
