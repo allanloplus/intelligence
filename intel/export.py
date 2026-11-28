@@ -107,6 +107,8 @@ def build():
     (PUBLIC / "downloads").mkdir()
     shutil.copy(ROOT / "site" / "index.html", PUBLIC / "index.html")
     (PUBLIC / ".nojekyll").write_text("")
+    if (ROOT / "site" / "teaching").is_dir():  # 教學個案網頁（docs/teaching/web/build.py 產生）
+        shutil.copytree(ROOT / "site" / "teaching", PUBLIC / "teaching")
 
     years = {}
     for y, m in store.months():

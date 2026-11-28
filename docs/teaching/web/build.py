@@ -1,7 +1,7 @@
 import re, html, sys, pathlib, markdown
 
 SRC = pathlib.Path(__file__).resolve().parent.parent
-OUT = pathlib.Path(__file__).parent / 'site' / 'index.html'
+OUT = pathlib.Path(__file__).resolve().parents[3] / 'site' / 'teaching' / 'index.html'
 
 FACE = {
     'Allan': {'微笑': 'allan-smile', '大笑': 'allan-laugh', '思考': 'allan-think', '抓頭': 'allan-scratch',
@@ -82,7 +82,7 @@ def render_episode(text):
                 if part.startswith('時間：'):
                     meta.append(part[3:])
         i += 1
-    m = re.match(r'第 (\d) 集（(.+?)）：(.+)', sub)
+    m = re.match(r'第 (\S+) 集（(.+?)）：(.+)', sub)
     num, phase, title = m.groups()
     while i < len(lines):
         l = lines[i]
@@ -150,22 +150,24 @@ def buf_continues(l):
     return False
 
 
-eps = [render_episode((SRC / f'ep{n}.md').read_text()) for n in range(5)]
+eps = [render_episode((SRC / f'ep{n}.md').read_text()) for n in range(7)]
 if missing:
     print('MISSING faces', missing, file=sys.stderr)
 
-PH = {'前導': '序', 'Plan': 'P', 'Do': 'D', 'Check': 'C', 'Act': 'A'}
-tabs = ''.join(f'<a class="tab" href="#ep{n}" data-ep="ep{n}"><b>{PH.get(ph, ph)}</b><span>第 {n} 集</span><em>{html.escape(t)}</em></a>'
-               for n, ph, t, _, _ in eps)
+PH = {'前導': '序', 'Plan': 'P', 'Do': 'D', 'Check': 'C', 'Act': 'A', '判斷': 'E1', '架構': 'E2'}
+LAB = lambda n: f'延伸 {n[1:]}' if n.startswith('E') else f'第 {n} 集'
+tabs = ''.join(f'<a class="tab" href="#ep{k}" data-ep="ep{k}"><b>{PH.get(ph, ph)}</b><span>{LAB(n)}</span><em>{html.escape(t)}</em></a>'
+               for k, (n, ph, t, _, _) in enumerate(eps))
 sections = ''
 for k, (n, ph, t, meta, body) in enumerate(eps):
-    prev = f'<a href="#ep{k-1}">← 第 {k-1} 集</a>' if k else '<span></span>'
-    nxt = f'<a href="#ep{k+1}">第 {k+1} 集 →</a>' if k < 4 else '<span></span>'
-    sections += (f'<section class="ep" id="ep{n}" aria-labelledby="t{n}"><header class="ephead">'
-                 f'<div class="phase">{PH.get(ph, ph)}</div><div><p class="eyebrow">第 {n} 集・{ph}{"・" + meta[0] if meta else ""}</p>'
-                 f'<h2 id="t{n}">{html.escape(t)}</h2></div></header>{body}'
+    prev = f'<a href="#ep{k-1}">← {LAB(eps[k-1][0])}</a>' if k else '<span></span>'
+    nxt = f'<a href="#ep{k+1}">{LAB(eps[k+1][0])} →</a>' if k < len(eps) - 1 else '<span></span>'
+    sections += (f'<section class="ep" id="ep{k}" aria-labelledby="t{k}"><header class="ephead">'
+                 f'<div class="phase">{PH.get(ph, ph)}</div><div><p class="eyebrow">{"延伸篇・" if n.startswith("E") else ""}{LAB(n)}・{ph}{"・" + meta[0] if meta else ""}</p>'
+                 f'<h2 id="t{k}">{html.escape(t)}</h2></div></header>{body}'
                  f'<nav class="pager">{prev}{nxt}</nav></section>')
 
 tpl = (pathlib.Path(__file__).parent / 'template.html').read_text()
+OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(tpl.replace('{{TABS}}', tabs).replace('{{SECTIONS}}', sections))
 print('ok', OUT, len(OUT.read_text()))
