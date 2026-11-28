@@ -120,6 +120,9 @@ blockquote.said{margin:6px 0 12px;padding:10px 14px;border-left:4px solid var(--
 .box.isms .lab{background:var(--navy);color:var(--paper)}
 .box.howto{border:2px solid var(--teal)}
 .box.howto .lab{background:var(--teal);color:var(--paper)}
+.box.result{border:2px solid var(--sun);background:var(--sun-soft)}
+.box.result .lab{background:var(--sun);color:#1c2230}
+.box.result h4{font-family:var(--f-head);font-size:20px}
 .box.aside .lab{background:var(--bg);color:var(--muted)}
 .box ol,.box ul{padding-left:1.4em;margin:0 0 12px}
 .box li{margin:3px 0}
@@ -130,6 +133,11 @@ blockquote{margin:12px 0;padding:0 16px;border-left:3px solid var(--line);color:
 .todo span{font-weight:700;color:var(--wait);margin-right:8px}
 .shot{margin:14px 0}
 .shot img{width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+.shot.big{margin:18px -24px 22px;padding:14px;background:var(--navy);border-radius:14px}
+.shot.big img{border:0;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.shot.big figcaption{color:#dfe6f2;font-size:14px;margin-top:10px}
+.shot.big figcaption a{color:var(--sun)}
+@media (max-width:860px){.shot.big{margin-inline:0}}
 .shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
 
 /* tables / code */
@@ -171,7 +179,17 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
   </div>
 </div></header>
 <nav class="rail" aria-label="集數"><div class="wrap"><a class="tab" href="#ep0" data-ep="ep0" title="一張表是怎麼長大的"><b>序</b><span>第 0 集</span><em>需求由來</em></a><a class="tab" href="#ep1" data-ep="ep1" title="交代工作，不是寫提示詞"><b>P</b><span>第 1 集</span><em>交代工作</em></a><a class="tab" href="#ep2" data-ep="ep2" title="第一天，系統長出來了，但還不能信"><b>D</b><span>第 2 集</span><em>系統長出來了</em></a><a class="tab" href="#ep3" data-ep="ep3" title="什麼叫「做對」？要有標準答案"><b>C</b><span>第 3 集</span><em>什麼叫做對</em></a><a class="tab" href="#ep4" data-ep="ep4" title="它沒在跑，而且沒人告訴我"><b>A</b><span>第 4 集</span><em>它沒在跑</em></a><a class="tab" href="#ep5" data-ep="ep5" title="AI 寫程式之後，我的工作重心移到哪裡"><b>E1</b><span>延伸 1</span><em>從寫到判斷</em></a><a class="tab" href="#ep6" data-ep="ep6" title="平台還是程式碼？省下的平台，責任誰扛"><b>E2</b><span>延伸 2</span><em>平台還是程式碼</em></a></div></nav>
-<main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>本集你會看到</h3>
+<main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>先看成果：三天後，它長這樣</h3>
+<figure class="shot big"><img src="img/shot12.jpg" alt="情資網站戰情看板（上半）" loading="lazy"><figcaption>最後做出來的「資安內外部情資蒐集紀錄｜Allan's 戰情看板」，每天自動蒐集、評估，自己檢查有沒有在跑　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
+<aside class="box result"><div class="lab">成果</div><h4>這個個案最後做出了什麼</h4><ul>
+<li><strong>每天自動蒐集</strong>：TWCERT、資安院 NICS、iThome 資安日報、TechNews 四個來源，一天六個時間點</li>
+<li><strong>自動評估弱點</strong>：依指引表一判定處置期限，曝露與未曝露兩種並列；以 36 個官方公布的 CVE 驗證，36/36 一致</li>
+<li><strong>三年資料可查詢下載</strong>：戰情看板、明細查詢、每月與年度 Excel、CSV</li>
+<li><strong>會自我檢查</strong>：超過 12 小時沒更新，自動補跑並寄信通知</li>
+<li><strong>舊系統零影響</strong>：原本的 Google Sheet 與相依系統全程沒有被修改</li>
+</ul>
+<p>從民國 115 年 11 月 26 日下午開始，到 11 月 28 日完成監控，前後三天。<strong>程式由 AI 撰寫</strong>，但每一個關鍵決定都是 Allan 做的。這個系列要講的，就是他在每一步說了什麼、為什麼這樣說。</p></aside>
+<h3>本集你會看到</h3>
 <ul>
 <li>一份「威脅情資紀錄表」從哪裡來、為什麼後來又多了五個欄位</li>
 <li>為什麼這五個欄位特別適合交給 AI 去查</li>
@@ -1036,6 +1054,41 @@ iThome 資安日報漏一則，其他來源仍會涵蓋重大弱點，對使用�
 </table></div></div></div>
 <div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>最後，舊的 Google Sheet 和所有相依的系統，<strong>從頭到尾都沒有被動過</strong>，到現在還在運作。12 月初使用者照樣可以下載！</p></div></div>
 <div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>這是第一天就說好的。</p></div></div>
+<h3>最後成果</h3>
+<figure class="shot big"><img src="img/shot12.jpg" alt="情資網站戰情看板（上半）" loading="lazy"><figcaption>戰情看板：情資總數、威脅程度、KEV、3 天期限、待人工查證，以及每月情資量與各項分布　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
+<figure class="shot"><img src="img/shot13.jpg" alt="情資網站戰情看板（弱點評估與優先處置清單）" loading="lazy"><figcaption>弱點評估指標、處置期限分布與優先處置清單：已知被利用且曝露時期限為 3 天的情資，依日期排列　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
+<figure class="shot"><img src="img/shot14.jpg" alt="情資網站明細與下載" loading="lazy"><figcaption>情資明細與下載：每一筆都能展開判定依據，可下載當月、全年度 Excel 與篩選結果 CSV　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
+<aside class="box result"><div class="lab">成果</div><h4>三天的成果，對照第 1 集的交代</h4><div class="tw"><table>
+<thead>
+<tr>
+<th>Allan 第一天的要求</th>
+<th>最後的結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>建立自動化情資更新機制</td>
+<td>GitHub Actions 一天六個時間點自動蒐集與評估</td>
+</tr>
+<tr>
+<td>Excel 欄位以 2026 年 11 月為準</td>
+<td>14 個欄位，每月與年度 Excel 都可下載</td>
+</tr>
+<tr>
+<td>保留過去 3 年資料提供查詢及下載</td>
+<td>2023 年起的歷史資料，可依年月、來源、類別、KEV 篩選</td>
+</tr>
+<tr>
+<td>別影響目前的 Google Sheet</td>
+<td>全程未修改，舊系統與使用者照常運作</td>
+</tr>
+<tr>
+<td>（第 4 集才加上的）沒更新要主動通知</td>
+<td>Apps Script 監控，超過 12 小時自動補跑並寄信</td>
+</tr>
+</tbody>
+</table></div>
+<p>實際網站：https://allanloplus.github.io/intelligence/</p></aside>
 <h3 class="end">本集一句話</h3>
 <div class="key"><p><strong>自動化不是設好就好。</strong>
 你要知道它有在做、做得對，沒做時會自己補上，補不了時會叫人。

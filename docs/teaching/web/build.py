@@ -15,9 +15,9 @@ SHOT_ALT = {'4': 'Apps Script 程式碼編輯畫面', '5': '編輯觸發條件�
             '7': '指令碼屬性畫面', '8': 'Gmail 收到的補跑通知信',
             '12': '情資網站戰情看板（上半）', '13': '情資網站戰情看板（弱點評估與優先處置清單）',
             '14': '情資網站明細與下載', '15': '情資網站資料更新時間'}
-EMOJI = '💡📋🛠🔍🎒💬'
+EMOJI = '💡📋🛠🔍🎒💬🏁'
 CALLOUT = {'💡': ('tip', '教學重點'), '📋': ('isms', 'ISMS 旁註'), '🛠': ('howto', '動手做'),
-           '🔍': ('aside', '小插曲'), '💬': ('tip', '提醒')}
+           '🔍': ('aside', '小插曲'), '💬': ('tip', '提醒'), '🏁': ('result', '成果')}
 
 
 def prep(md):
@@ -51,7 +51,8 @@ def md(text):
     h = re.sub(r'<p>【畫面待補：(.+?)】</p>', r'<div class="todo"><span>畫面待補</span>\1</div>', h)
     def shot(m):
         n = m.group(2)
-        return (f'<figure class="shot"><img src="img/shot{n}.jpg" alt="{SHOT_ALT[n]}" loading="lazy">'
+        big = ' big' if '大圖' in m.group(0) else ''
+        return (f'<figure class="shot{big}"><img src="img/shot{n}.jpg" alt="{SHOT_ALT[n]}" loading="lazy">'
                 f'<figcaption>{m.group(1)}'
                 + ('　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a>' if int(n) >= 12 else '')
                 + '</figcaption></figure>')
