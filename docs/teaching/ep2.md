@@ -157,6 +157,8 @@
 **阿拉蕾**【表情：眨眼比讚】
 對，是 repo 的設定頁，要您動手。改完之後，網站就正常了！
 
+【畫面：修正後的情資網站「情資明細與下載」頁，網址 allanloplus.github.io/intelligence（截圖 14）】
+
 > **🛠 動手做｜合併 PR 並發佈網站**
 > 1. **合併 PR**：GitHub repo → Pull requests → 點開 AI 提出的 PR → 看過「Files changed」→ 按 **Merge pull request** → **Confirm merge**。
 > 2. **設定 Pages 來源**：repo 上方 **Settings**（這是 repo 的 Settings，不是個人帳號的）→ 左側 **Pages** → Build and deployment 的 **Source** 選 **GitHub Actions**。
