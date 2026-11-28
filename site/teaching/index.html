@@ -1,0 +1,1441 @@
+<meta charset="utf-8">
+<title>會自我檢查的自動化</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: masthead with the two characters, sticky PDCA tab rail, one reading column of dialogue and boxed asides */
+:root{
+  --bg:#f5f6f8; --paper:#ffffff; --ink:#1c2230; --muted:#5d6678; --line:#dde1e8;
+  --navy:#22355b; --navy-soft:#e8edf6; --teal:#0f777b; --teal-soft:#e3f3f2;
+  --sun:#e8a900; --sun-soft:#fff5d6; --ok:#2f8a4b; --wait:#c58a00; --bad:#c2412d;
+  --code:#f0f2f6;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-head:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151d; --paper:#181d27; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --navy:#9db4e6; --navy-soft:#1d2840; --teal:#5cc7c4; --teal-soft:#14302f;
+  --sun:#f2c440; --sun-soft:#2e2812; --ok:#5cc27a; --wait:#e2b33a; --bad:#ef7a65; --code:#202633; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151d; --paper:#181d27; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --navy:#9db4e6; --navy-soft:#1d2840; --teal:#5cc7c4; --teal-soft:#14302f;
+  --sun:#f2c440; --sun-soft:#2e2812; --ok:#5cc27a; --wait:#e2b33a; --bad:#ef7a65; --code:#202633; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.85}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* masthead */
+.mast{background:var(--paper);border-bottom:1px solid var(--line)}
+.mast .wrap{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;padding-block:36px 24px}
+.mast .kicker{font-size:13px;letter-spacing:.12em;color:var(--teal);font-weight:700;margin:0 0 6px}
+.mast h1{font-family:var(--f-head);font-weight:900;font-size:clamp(28px,5vw,42px);line-height:1.25;margin:0;text-wrap:balance}
+.mast .sub{margin:10px 0 0;color:var(--muted);font-size:16px}
+.cast{display:flex;gap:10px}
+.cast figure{margin:0;text-align:center;font-size:12px;color:var(--muted)}
+.cast img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid var(--navy-soft);background:#fff;display:block}
+.cast figure:last-child img{border-color:var(--teal-soft)}
+
+/* tabs */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.rail .wrap{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding-block:8px}
+.tab{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;text-decoration:none;color:var(--muted);padding:6px 8px;border-radius:8px;min-width:0}
+.tab b{grid-row:span 2;font-family:var(--f-head);font-size:20px;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:var(--bg);color:var(--navy)}
+.tab span{font-size:12px;line-height:1.3}
+.tab em{font-style:normal;font-size:13px;line-height:1.35;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab[aria-current="page"] b{background:var(--navy);color:var(--paper)}
+.tab[aria-current="page"]{background:var(--navy-soft)}
+.tab:focus-visible,.pager a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media (max-width:980px){.tab em{display:none}.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}}
+@media (max-width:640px){.tab b{width:32px;height:32px;font-size:16px}.tab span{font-size:11px}.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}.tab em{display:none}.mast .wrap{grid-template-columns:1fr}.cast{order:-1}}
+
+/* episode */
+.ep{padding-block:28px 60px}
+.ephead{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin-bottom:8px}
+.phase{font-family:var(--f-head);font-weight:900;font-size:56px;line-height:1;color:var(--sun);width:72px;text-align:center}
+.eyebrow{margin:0;font-size:13px;color:var(--muted);letter-spacing:.06em}
+.ephead h2{font-family:var(--f-head);font-weight:900;font-size:clamp(24px,4vw,32px);line-height:1.35;margin:2px 0 0;text-wrap:balance}
+h3{font-family:var(--f-head);font-size:22px;margin:52px 0 14px;padding-top:18px;border-top:1px solid var(--line);text-wrap:balance}
+h3.end{color:var(--teal)}
+p{margin:0 0 12px}
+.direction{color:var(--muted);font-size:15px;background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:8px 14px;margin:14px 0}
+.direction::before{content:"畫面";font-size:11px;letter-spacing:.1em;font-weight:700;color:var(--paper);background:var(--muted);border-radius:4px;padding:1px 6px;margin-right:8px;vertical-align:2px}
+
+/* dialogue */
+.say{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;margin:16px 0;align-items:start}
+.say.r{grid-template-columns:minmax(0,1fr) 64px}
+.say.r .face{order:2}
+.face{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid var(--navy-soft)}
+.say.r .face{border-color:var(--teal-soft)}
+.bubble{background:var(--paper);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:10px 16px 6px;min-width:0}
+.say.r .bubble{border-radius:16px 4px 16px 16px;background:var(--teal-soft);border-color:transparent}
+.who{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.say.r .who{color:var(--teal)}
+.who span{font-weight:400;color:var(--muted);margin-left:8px;font-size:12px}
+blockquote.said{margin:6px 0 12px;padding:10px 14px;border-left:4px solid var(--sun);background:var(--sun-soft);border-radius:0 8px 8px 0;font-weight:500}
+.bubble ol,.bubble ul{padding-left:1.4em;margin:0 0 12px}
+
+/* boxes */
+.box{border-radius:12px;padding:16px 20px 8px;margin:22px 0;border:1px solid var(--line);background:var(--paper)}
+.box .lab{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;padding:2px 8px;border-radius:4px;margin-bottom:6px}
+.box h4{margin:0 0 8px;font-size:17px;line-height:1.5}
+.box.tip{border-left:6px solid var(--sun)}
+.box.tip .lab{background:var(--sun-soft);color:var(--ink)}
+.box.isms{border-left:6px solid var(--navy);background:var(--navy-soft);border-color:transparent}
+.box.isms .lab{background:var(--navy);color:var(--paper)}
+.box.howto{border:2px solid var(--teal)}
+.box.howto .lab{background:var(--teal);color:var(--paper)}
+.box.aside .lab{background:var(--bg);color:var(--muted)}
+.box ol,.box ul{padding-left:1.4em;margin:0 0 12px}
+.box li{margin:3px 0}
+.key{font-family:var(--f-head);font-size:20px;line-height:1.7;padding:18px 22px 8px;border-radius:12px;background:var(--sun-soft);border:1px solid var(--line)}
+.mail{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px 4px;font-size:15px;margin:14px 0}
+blockquote{margin:12px 0;padding:0 16px;border-left:3px solid var(--line);color:var(--muted)}
+.todo{font-size:14px;color:var(--muted);border:1px dashed var(--wait);border-radius:8px;padding:8px 12px;margin:10px 0}
+.todo span{font-weight:700;color:var(--wait);margin-right:8px}
+.shot{margin:14px 0}
+.shot img{width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+.shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* tables / code */
+.tw{overflow-x:auto;margin:8px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.6;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+pre{background:var(--code);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.6}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:4px}
+pre code{background:none;padding:0;overflow-wrap:normal}
+:not(pre)>code{overflow-wrap:anywhere}
+pre{max-width:100%}
+code,pre{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+@media (max-width:640px){.phase{font-size:40px;width:44px}.ephead{gap:12px}body{font-size:16px}}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:0}
+.dot.ok{background:var(--ok)} .dot.wait{background:var(--wait)} .dot.bad{background:var(--bad)}
+.chip{font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;vertical-align:2px}
+.chip.warn{background:var(--sun-soft);color:var(--wait);border:1px solid var(--wait)}
+.chip.q{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+a{color:var(--teal)}
+.pager{display:flex;justify-content:space-between;margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-weight:700}
+.pager a{text-decoration:none}
+footer{color:var(--muted);font-size:13px;padding-block:0 40px}
+@media (prefers-reduced-motion:no-preference){.ep{animation:in .25s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+</style>
+
+<header class="mast"><div class="wrap">
+  <div>
+    <p class="kicker">教學個案・對話式圖文　初稿</p>
+    <h1>會自我檢查的自動化</h1>
+    <p class="sub">用 AI 協作打造一條 PDCA 資料管線：以資安情資蒐集為例</p>
+  </div>
+  <div class="cast">
+    <figure><img src="img/allan-smile.jpg" alt="Allan 講師">Allan 講師</figure>
+    <figure><img src="img/arale-wave.jpg" alt="AI 小助理阿拉蕾">阿拉蕾</figure>
+  </div>
+</div></header>
+<nav class="rail" aria-label="集數"><div class="wrap"><a class="tab" href="#ep0" data-ep="ep0"><b>序</b><span>第 0 集</span><em>一張表是怎麼長大的</em></a><a class="tab" href="#ep1" data-ep="ep1"><b>P</b><span>第 1 集</span><em>交代工作，不是寫提示詞</em></a><a class="tab" href="#ep2" data-ep="ep2"><b>D</b><span>第 2 集</span><em>第一天，系統長出來了，但還不能信</em></a><a class="tab" href="#ep3" data-ep="ep3"><b>C</b><span>第 3 集</span><em>什麼叫「做對」？要有標準答案</em></a><a class="tab" href="#ep4" data-ep="ep4"><b>A</b><span>第 4 集</span><em>它沒在跑，而且沒人告訴我</em></a><a class="tab" href="#ep5" data-ep="ep5"><b>E1</b><span>延伸 1</span><em>AI 寫程式之後，我的工作重心移到哪裡</em></a><a class="tab" href="#ep6" data-ep="ep6"><b>E2</b><span>延伸 2</span><em>平台還是程式碼？省下的平台，責任誰扛</em></a></div></nav>
+<main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>一份「威脅情資紀錄表」從哪裡來、為什麼後來又多了五個欄位</li>
+<li>為什麼這五個欄位特別適合交給 AI 去查</li>
+<li>下一集要解決的問題：原本的作業方式長什麼樣子</li>
+</ul>
+<h3>場景 1：這張表一開始只是為了稽核</h3>
+<p class="direction">Allan 拿著平板，螢幕上是一張密密麻麻的 Excel 表，標題「資安內外部情資蒐集紀錄」</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>先說這份情資表是怎麼來的。一開始很單純，就是為了 ISO 27001:2022 附錄 A 的 5.7「威脅情資」。標準要求組織蒐集跟資訊安全威脅有關的資訊，而且要加以分析。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-wave.jpg" alt="阿拉蕾（揮手）"><div class="bubble"><div class="who">阿拉蕾<span>揮手</span></div><p>大家好，我是 AI 小助理阿拉蕾！所以這張表是「為了標準」而生的？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>對。我設計了幾個欄位：資料日期、來源、標題、網址、威脅情資來源、威脅情報類別、對組織的現況威脅程度、因應對策、執行進度說明。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>前面幾欄記錄「看到了什麼」，後面幾欄記錄「我們覺得多嚴重、打算怎麼辦、做到哪裡了」。聽起來是「有在看、有在想、有在做」的紀錄。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>對，稽核時看的就是這個。有蒐集、有分析、有對應的處理方式，這三件事有留下紀錄，A 5.7 就站得住。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>A 5.7 威脅情資</h4><p>ISO/IEC 27001:2022 新增的控制措施。重點不在「蒐集了多少」，而在蒐集之後有沒有分析、有沒有轉成組織的行動。
+稽核時常見的缺失是：只有一份轉貼新聞的清單，沒有「對組織的影響」與「因應對策」。這張表的後四欄就是為了補上這一段。</p></aside>
+<h3>場景 2：民國 115 年 11 月，事情變了</h3>
+<p class="direction">一封公文的示意圖，附件標題《各機關基於風險導向之弱點處置期限評估指引》，日期「115 年 11 月 6 日訂定」</p>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>但民國 115 年 11 月事情變了。我們收到公務機關的來函，附了一份 115 年 11 月 6 日訂定的新指引，叫《各機關基於風險導向之弱點處置期限評估指引》。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我讀過了。它的依據是《資通安全責任等級分級辦法》的應辦事項，訂定背景寫得很直接：AI 快速發展，自動化攻擊跟弱點武器化的速度都在加快。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>所以它要求的不再只是「看到弱點要修」，而是「依風險決定多久內修完」。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>不過這份指引是給公務機關和特定非公務機關用的，民間企業不受拘束吧？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>沒錯。適用對象是資通安全管理法所定的公務機關與特定非公務機關，民間企業不在裡面，沒有法遵的問題，只需要參考。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>但我的客戶兩種都有。表單做成一份就能兩邊適用：公務機關拿來符合指引的要求，民間企業則多一個判斷「先修哪個」的依據。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>顧問的習慣是「一份工具，兩種客戶」。他先釐清指引的適用對象，避免把「參考」講成「必須」，再決定欄位設計要能同時服務兩邊。
+這也是後面交代 AI 工作時的前提：<strong>誰會用這份表、他們拿它做什麼</strong>。</p></aside>
+<h3>場景 3：四個問題，十六種答案</h3>
+<p class="direction">阿拉蕾舉著平板，投影出指引的表一「弱點處置期限評估表」</p>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>這份指引用四個問題判斷一個弱點有多急：</p>
+<ol>
+<li>這台設備或系統，<strong>有沒有曝露在公眾網路</strong>上？外面的人能不能直接連到它？</li>
+<li>這個弱點<strong>是不是已經有人在利用</strong>？判斷標準是有沒有列入美國 CISA 的「已知被利用弱點（KEV）清單」。</li>
+<li>這個弱點<strong>能不能被自動化攻擊</strong>？也就是攻擊者能不能用程式穩定地大量掃、大量打。</li>
+<li>被打進來之後，<strong>會被控制到什麼程度</strong>？完全控制，還是部分控制？</li>
+</ol></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>四個問題，每個兩種答案。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>二乘二乘二乘二，剛好十六種類型。每一種對應一個處置期限：<strong>3 天、14 天、60 天</strong>，或是<strong>待下次系統更新</strong>。</p></div></div>
+<p class="direction">表一節錄，標出類型 1（是／是／是／完全控制 → 3 天）與類型 16（否／否／否／部分控制 → 待下次系統更新）</p>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>最急的要 3 天內處理完？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>對。而且有幾個細節要注意：</p>
+<ul>
+<li>期限<strong>從知悉日起算，以日曆天計</strong>，週末也算。</li>
+<li>如果資安署或資安院就特定弱點另外指定期限，<strong>從其規定</strong>。</li>
+<li>有例外情形時，要經資訊（安）主管核准並<strong>留存紀錄</strong>。</li>
+<li>類型 1、2、3、9 要先<strong>檢視日誌</strong>，確認是不是已經被打進來了。</li>
+<li>期限不是定了就不動，條件改變時要<strong>重新評估</strong>，可以展延也可以縮短。指引叫它「動態調整」。</li>
+</ul></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>最後一條要記住，後面會用到。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>指引與 ISMS 的關係</h4><p>指引第七點要求各機關把這套作法<strong>納入機關的 ISMS 相關程序</strong>辦理。換句話說，它不是另一套系統，而是弱點管理程序的具體化。
+對稽核員來說，可以觀察三件事：期限判定有沒有依據、例外有沒有主管核准紀錄、條件改變時有沒有重新評估的軌跡。</p></aside>
+<h3>場景 4：表單長出新欄位</h3>
+<p class="direction">原本 9 欄的表格右邊，「長出」5 個新欄位，用不同顏色標示</p>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>所以我的表就得多幾欄。為了讓它能直接支援這份指引，新增了五個：</p>
+<ol>
+<li>弱點已知被利用</li>
+<li>弱點能否被自動化利用</li>
+<li>弱點遭利用後之技術影響程度</li>
+<li>弱點處置期限（曝露於公眾網路）</li>
+<li>弱點處置期限（未曝露於公眾網路）</li>
+</ol></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>咦，四個指標，為什麼期限要分成兩欄？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>妳說說看，第一個指標「資產有沒有曝露在公眾網路」，妳從一則情資看得出來嗎？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>……看不出來。同一個 VPN 設備的弱點，A 機關的設備直接對外，B 機關的放在內網，答案就不一樣。那要看每個機關自己的環境。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>所以兩種情形並列：曝露一欄、未曝露一欄，由各機關的資安負責人依實際資產選用。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>沒錯。情資表能做的到這裡為止，剩下的是使用者自己的判斷。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>Allan 沒有直接告訴阿拉蕾答案，而是反問「妳從情資看得出來嗎？」。
+這是一個重要的界線：<strong>哪些事可以從資料判斷，哪些事只有組織自己知道</strong>。把這條界線畫清楚，自動化才不會做出「看起來有答案、其實是亂猜」的結果。</p></aside>
+<h3>場景 5：靠人工填不完，但答案都是公開的</h3>
+<p class="direction">Allan 看著日曆，上面標著「一個月上百則情資」</p>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>問題來了。這幾欄靠人工根本填不完。一個月上百則情資，每一則都要去查：這個 CVE 有沒有在 KEV 清單上？能不能自動化？影響多大？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>這些其實都有公開答案！</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我可以依這個順序逐一去比對：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>要判斷的事</th>
+<th>去哪裡查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>弱點是否已知被利用</td>
+<td>美國 CISA 的 KEV 清單</td>
+</tr>
+<tr>
+<td>能否自動化利用、技術影響程度</td>
+<td>美國 CISA 對各 CVE 的公開評估</td>
+</tr>
+<tr>
+<td>以上指標與處置期限</td>
+<td>國內資安院（NICS）與 TWCERT/CC 的警訊<strong>有公布時優先採用</strong></td>
+</tr>
+<tr>
+<td>上面都查不到</td>
+<td>依 CVSS 分數推定，並標示「（推定）」</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>查不到的呢？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>我會照 CVSS 推定，但一定標上「推定」兩個字，讓您知道那不是官方的判定。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-wink.jpg" alt="Allan 講師（眨眼）"><div class="bubble"><div class="who">Allan 講師<span>眨眼</span></div><p>很好。這一點很重要。稽核的時候，「推定」和「官方判定」是兩種完全不同的證據強度。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>為什麼這是適合交給 AI 的工作</h4><p>不是所有工作都適合自動化。這五個欄位有三個特點：</p>
+<ol>
+<li><strong>有明確的規則</strong>：指引表一就是查表。</li>
+<li><strong>有公開的權威來源</strong>：CISA、資安院、TWCERT 都公開資料。</li>
+<li><strong>量大而重複</strong>：每月上百則，每則都要查一樣的東西。</li>
+</ol>
+<p>反過來，「資產是否曝露」「對組織的威脅程度」需要組織自己的資產清單。這類工作 AI 可以幫忙初判，但不能代替人做決定。這一點在第 3 集會再遇到。</p></aside>
+<h3>場景 6：那原本是怎麼做的？</h3>
+<p class="direction">一條手繪流程線，六個步驟依序亮起</p>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>在我出場之前，這張表是怎麼產生的？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>我在自己電腦上有一支 bat 程式，每個月跑一次，產生當月的情資 Excel，共 14 個欄位。然後：</p>
+<ol>
+<li>執行 bat，產生當月情資 Excel</li>
+<li>手動複製貼上到 Google Sheet</li>
+<li>我的個人分享網站首頁連到這份 Google Sheet，讓客戶下載</li>
+<li>一個戰情看板網站也讀同一份 Google Sheet</li>
+<li>每年換一份新的 Google Sheet</li>
+<li>另外還有客戶專案的網頁也抓同一份資料</li>
+</ol></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>一份 Google Sheet，後面接了三個網站跟一群下載的客戶……</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>所以我最怕的不是做不出新系統，而是<strong>動到舊的</strong>。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>那下一集，我們就來談您要怎麼把這件事交代給我！</p></div></div>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>需求不是一次到位的。</strong> 同一份表單，先是為了管理系統標準而設計，後來因主管機關的指引而長出新欄位。
+新欄位的值<strong>有規則、有公開權威來源、量大重複</strong>，這正是適合交給 AI 自動比對的工作。</p></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>你手上有沒有一份「為了稽核而做」的表單，後來被要求多填一些東西？那些新欄位的答案從哪裡來？</li>
+<li>那些答案裡，哪些是公開資料查得到的？哪些只有你的組織自己知道？</li>
+</ol>
+<h3 class="end">附錄：本集引用</h3>
+<ul>
+<li>《各機關基於風險導向之弱點處置期限評估指引》（115 年 11 月 6 日訂定）：第一點（依據與目的）、第二點（適用對象）、第四點與表一（評估指標及期限）、圖一（評估流程）、第五點（期限起算、例外核准、日誌檢視、動態調整）、第七點（納入 ISMS）</li>
+<li>ISO/IEC 27001:2022 附錄 A 5.7 威脅情資</li>
+</ul><nav class="pager"><span></span><a href="#ep1">第 1 集 →</a></nav></section><section class="ep" id="ep1" aria-labelledby="t1"><header class="ephead"><div class="phase">P</div><div><p class="eyebrow">第 1 集・Plan・民國 115 年（2026 年）11 月 26 日下午</p><h2 id="t1">交代工作，不是寫提示詞</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>怎麼準備一個讓 AI 可以工作的雲端環境（動手做）</li>
+<li>Allan 的第一段話，為什麼不需要任何「提示詞技巧」</li>
+<li>AI 動手前的第一件事：先看現況，而且只看不碰</li>
+<li>帶得走的工具：交代工作的五個問題、三個習慣</li>
+</ul>
+<h3>場景 1：先給 AI 一個工作的地方</h3>
+<p class="direction">Allan 坐在電腦前，螢幕是 GitHub 的「Create a new repository」頁面</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>民國 115 年 11 月 26 日下午，我先在 GitHub 開了一個新的空 repo，叫 <code>intelligence</code>。裡面只放了一個檔案，什麼程式都沒有。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>Repo 是什麼？聽起來好像很工程師。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>妳就當它是一個<strong>會記住每一次修改的雲端資料夾</strong>。誰在什麼時候改了什麼，全部留紀錄。對稽核員來說，這是天生的稽核軌跡。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>然後您在 claude.ai/code 開了一個工作階段，把這個 repo 交給我。我在雲端的工作環境裡寫程式、測試，做好了推到一個 <code>claude/</code> 開頭的分支上。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>重點是：<strong>妳推上來的東西，要我按下合併才會生效。</strong> 妳可以提案，決定權在我。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>AI 提案、人核准。這本身就是一個控制點！</p></div></div>
+<aside class="box howto"><div class="lab">動手做</div><h4>準備 AI 的工作環境</h4><ol>
+<li><strong>建立 GitHub 帳號與 repo</strong>：github.com → 右上「+」→ New repository → 輸入名稱 → 勾選 Add a README file（或隨意放一個檔案）→ Create repository。
+    ※ 之後要用免費的 GitHub Pages 發佈網站，repo 請設為 <strong>Public</strong>；若資料不宜公開，需另外評估付費方案或其他發佈方式。</li>
+<li><strong>讓 Claude 能存取 GitHub</strong>：到 claude.ai/code，依畫面指示連結 GitHub 帳號，並在要使用的 repo 上安裝 Claude GitHub App（可只授權單一 repo）。</li>
+<li><strong>開一個工作階段</strong>：在 claude.ai/code 選擇剛建立的 repo，開新的 session，就可以開始用中文交代工作。</li>
+<li><strong>AI 的成果會變成 Pull Request（PR）</strong>：AI 在 <code>claude/…</code> 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 <strong>Merge pull request</strong>，才會進入正式的 <code>main</code> 分支。</li>
+</ol>
+<div class="todo"><span>畫面待補</span>claude.ai/code 選擇 repo 開 session 的畫面</div></aside>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>最小授權與變更核准</h4><p>Claude GitHub App 可以只授權單一 repo，這是最小權限原則。
+「AI 在分支工作、人核准合併」對應變更管理：每一次變更都有申請（PR）、有審查、有核准者（合併的人），而且全部留在 GitHub 紀錄裡。</p></aside>
+<h3>場景 2：Allan 的第一段話</h3>
+<p class="direction">對話框，完整呈現 Allan 的開場訊息，字體放大</p>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>環境準備好之後，我跟阿拉蕾說的第一段話是這樣的：</p>
+<blockquote class="said">「能不能建立自動化情資更新機制？不一定要依照上述模式，但 Excel 表的欄位需求是必要的（以 2026 年 11 月的為主）。也希望能保留過去 3 年的資料提供查詢及下載。請另外建立新的機制，別影響目前的 Google sheet，好多系統及好多 User 需要它，而且 12 月初快到了 User 會來網頁下載情資資料。」</blockquote>
+
+<p>前面我還交代了現況，也就是上一集講的那六個步驟。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>就這樣？沒有「你是一位資深工程師」、沒有特殊格式、沒有一長串規則？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>沒有。我就是用平常交代顧問案的方式講。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>可是我收到的時候，覺得資訊非常完整。我把它拆給大家看：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>要素</th>
+<th>Allan 說的</th>
+<th>對我的意義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>現況</strong></td>
+<td>六個步驟，包含哪些系統相依</td>
+<td>我知道問題在哪、牽涉到什麼</td>
+</tr>
+<tr>
+<td><strong>目標</strong></td>
+<td>建立自動化情資更新機制</td>
+<td>方向明確</td>
+</tr>
+<tr>
+<td><strong>放手的範圍</strong></td>
+<td>「不一定要依照上述模式」</td>
+<td>我可以提出不同的架構</td>
+</tr>
+<tr>
+<td><strong>不能妥協的條件</strong></td>
+<td>Excel 欄位（以 2026 年 11 月為準）、保留三年可查詢下載</td>
+<td>驗收標準明確</td>
+</tr>
+<tr>
+<td><strong>不能碰的東西與原因</strong></td>
+<td>別影響現有 Google Sheet，因為很多系統、很多人在用，12 月初要下載</td>
+<td>說了原因，我才能自己判斷邊界</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>最值得學的是最後一句：<strong>不只說「不能碰」，還說了「為什麼不能碰」。</strong>
+如果只說「別動 Google Sheet」，AI 只會遵守這一條。說了「好多系統及好多 User 需要它，12 月初要下載」，AI 就能自己推論：任何會影響那份 Sheet 的動作，包括寫入、改格式、改分頁名稱，都不能做；而且新系統要在 12 月初前可用。
+交代原因，等於把判斷力一起交出去。</p></aside>
+<h3>場景 3：「需要任何權限請直接跟我說」</h3>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>我還加了一句：「需要任何權限請直接跟我說，我開放。」</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>這句話我很感謝，但聽起來有點危險耶？給 AI 全部的權限？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-wink.jpg" alt="Allan 講師（眨眼）"><div class="bubble"><div class="who">Allan 講師<span>眨眼</span></div><p>妳仔細看，我說的是「<strong>跟我說</strong>，我開放」，不是「妳自己拿」。權限還是我給的，只是我不希望妳因為卡在權限上，就默默換一個比較差的做法。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>懂了。所以我的責任是：需要什麼權限，要先說清楚<strong>要什麼、為什麼要、範圍多大</strong>，讓您判斷。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>對。到第 4 集我們會遇到一個真實的例子：要建一把 GitHub 權杖。那時候範圍要怎麼開、效期要多長，就是這樣討論出來的。</p></div></div>
+<h3>場景 4：動手前的第一件事：只看，不碰</h3>
+<p class="direction">阿拉蕾戴著耳機、拿著放大鏡看一份試算表，旁邊有一個大大的「唯讀」印章</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>收到需求後，我做的第一件事不是寫程式，而是<strong>以唯讀方式下載現有的 Google Sheet</strong>，確認三件事：</p>
+<ol>
+<li>2026 年 11 月的分頁有哪 14 個欄位、順序是什麼</li>
+<li>每個欄位的資料長什麼樣子、來自哪些情資來源</li>
+<li>過去三年的資料有多少、格式有沒有變過</li>
+</ol></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>然後妳跟我回報。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>對。而且回報時我會講清楚：我<strong>讀了</strong>什麼，我<strong>沒有寫入任何現有系統</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>這就是我要的。先看現況再動手，而且讓我知道妳碰了什麼、沒碰什麼。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>為什麼「先看現況」這麼重要</h4><p>AI 很擅長「直接做出一個東西」。但如果它不知道現況，做出來的可能是一個漂亮、卻跟你的欄位、你的資料、你的使用者都對不上的系統。
+請 AI 先盤點現況，有兩個好處：</p>
+<ol>
+<li>它的設計會建立在真實資料上，不是想像。</li>
+<li>你可以從它的回報檢查：<strong>它理解的現況，跟你認知的一樣嗎？</strong> 不一樣的話，在動手前修正最便宜。</li>
+</ol></aside>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>先盤點再變更</h4><p>唯讀盤點對應資產盤點與變更前的影響分析。
+對稽核員來說，可以問：導入自動化之前，有沒有確認既有資料流與相依系統？有沒有證據顯示既有系統未受影響？本個案中，舊 Google Sheet 與相依系統全程沒有被修改。</p></aside>
+<h3>場景 5：不懂技術，可以開始嗎？</h3>
+<p class="direction">一位上班族學員縮在角落，頭上冒出「我又不會寫程式……」的對話框</p>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>我想替不寫程式的朋友問一句：Allan 老師，您懂 GitHub，所以才能這樣做。一般資安承辦也可以嗎？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>我觀察到，不寫程式的人最大的障礙是<strong>不敢開始</strong>，以為要先懂技術。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>但你剛剛看到的那段話，有任何技術名詞嗎？沒有。要懂的是<strong>自己的業務</strong>，還有「<strong>什麼叫做對</strong>」。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>不知道怎麼做沒關係，那是我的工作。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>對。<strong>不知道怎麼做沒關係，不知道怎麼驗收才是問題。</strong> 如果你說不出「做對」長什麼樣子，AI 做完了你也不知道能不能用。</p></div></div>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>大家以為要學的是「正確的提示詞」，其實要學的是「怎麼交代工作」。</strong>
+用交代顧問案的方式講：現況、目標、能放手的、不能妥協的、不能碰的與原因。</p></div>
+<h3 class="end">帶得走的工具卡</h3>
+<p><strong>交代工作的五個問題</strong></p>
+<ol>
+<li>現在怎麼做？</li>
+<li>想變成什麼樣？</li>
+<li>哪些要保留、哪些可以改？</li>
+<li>什麼絕對不能碰？<strong>為什麼？</strong></li>
+<li>怎麼知道做對了？</li>
+</ol>
+<p><strong>跟 AI 協作的三個習慣</strong></p>
+<ol>
+<li><strong>請 AI 先看現況再動手</strong>，並回報它碰了什麼、沒碰什麼。</li>
+<li><strong>每個階段都問：你驗證了什麼？沒驗證什麼？</strong>（下一集會看到這句話有多重要）</li>
+<li><strong>看到不對勁，直接講你觀察到的現象</strong>，不必先下診斷。（第 4 集的主角）</li>
+</ol>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>拿一件你想自動化的工作，試著用五個問題寫一段交代。第 4 題的「為什麼」寫得出來嗎？</li>
+<li>第 5 題「怎麼知道做對了」，你能拿出一個標準答案嗎？</li>
+</ol><nav class="pager"><a href="#ep0">← 第 0 集</a><a href="#ep2">第 2 集 →</a></nav></section><section class="ep" id="ep2" aria-labelledby="t2"><header class="ephead"><div class="phase">D</div><div><p class="eyebrow">第 2 集・Do・民國 115 年（2026 年）11 月 26 日傍晚</p><h2 id="t2">第一天，系統長出來了，但還不能信</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>新系統長什麼樣子（不講程式，只講流程）</li>
+<li>AI 坦白的第一個限制：看不到舊程式</li>
+<li>第一版的成績單：哪些欄位準、哪些不準</li>
+<li>上線後的第一個意外：網站顯示的不是網站（動手做）</li>
+</ul>
+<h3>場景 1：一條每天自己跑的管線</h3>
+<p class="direction">阿拉蕾舉著平板，投影出一條由左到右的流程圖</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>盤點完現況，我提出的架構是這樣的。不用懂程式，看流程就好：</p>
+<pre><code>每天自動啟動（GitHub Actions 排程）
+  ① 蒐集：TWCERT、資安院 NICS、iThome 資安日報、TechNews 四個來源
+  ② 去重：同一個網址只留一筆
+  ③ 評估：從內文抓出 CVE 編號，去查公開資料，填好弱點五欄
+  ④ 儲存：每月一個資料檔，存在 GitHub repo，每次變更都有紀錄
+  ⑤ 產出：每月 Excel、年度 Excel、查詢網站
+  ⑥ 發佈：自動發佈到 GitHub Pages（免費的網站空間）
+</code></pre></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>我原本以為這種需求一定要用 n8n 之類的工作流程平台來串。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>這次不用。資料都是公開的、流程是直線的，我直接寫程式，交給 GitHub 每天執行就好。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>這個選擇的代價，我們第 4 集再算。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>資料存在哪裡、誰能改</h4><p>每月一個 JSON 資料檔放在 repo 裡，所有新增、修改都有版本紀錄：誰、何時、改了什麼。
+稽核時要佐證「這筆情資何時進來、後來有沒有被改過」，翻 GitHub 的歷史紀錄即可。</p></aside>
+<h3>場景 2：三年的歷史資料搬家</h3>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>我要求保留過去三年的資料。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我從原本的 Google Sheet 唯讀讀出 2023 到 2026 年的資料，一共 1,908 筆，轉成新系統的格式。之後整理為 1,904 筆。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>所以客戶到新網站，一樣查得到三年前的情資。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>對。不過 2026 年 10 月以前的月份，原本就沒有弱點五欄的資料，那五欄會留白。指引是 115 年 11 月才訂的，我不會回頭去補舊資料。</p></div></div>
+<h3>場景 3：阿拉蕾的第一個坦白</h3>
+<p class="direction">阿拉蕾抓頭，頭上一個問號；背景是 Allan 的筆電，上面一支被鎖起來的 bat 檔</p>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>老師，我要先坦白一件事。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>說。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>您原本產生情資的那支 bat 程式在您自己的電腦上，<strong>我看不到</strong>。我在雲端的工作環境，只碰得到這個 repo 和公開網路。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>所以舊表的「威脅程度」「因應對策」是用什麼規則判斷的，我只能<strong>從三年的資料反推</strong>：什麼樣的情資被標成高、什麼樣的被寫成「持續觀察」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>那就是用猜的。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>用「有根據地猜」……但確實繞了一段路。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>這是教學重點：AI 看不到的地方</h4><p>AI 只能根據你給它的東西工作。它看不到你電腦上的檔案、你腦中的規則、你同事口頭約定的慣例。
+這不是 AI 不夠聰明，而是<strong>交代時漏了素材</strong>。如果一開始就提供舊程式或規則文件，這段路可以少繞很多。下一集，Allan 會補上規則文件，但他會說一句出人意料的話。</p></aside>
+<h3>場景 4：第一版的成績單</h3>
+<p class="direction">一張成績單，各科分數用紅綠燈標示</p>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>系統做好了，那怎麼知道它做得對？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我拿 <strong>2026 年 11 月的 110 筆</strong>情資，用新系統重新判定一次，再跟原本 Google Sheet 裡人工填的結果逐欄比對：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>與原表一致的比例</th>
+<th>燈號</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>威脅情報類別</td>
+<td>93%</td>
+<td><span class="dot ok" aria-label="綠燈"></span></td>
+</tr>
+<tr>
+<td>弱點五欄</td>
+<td>85–90%</td>
+<td><span class="dot wait" aria-label="黃燈"></span></td>
+</tr>
+<tr>
+<td>因應對策</td>
+<td>58%</td>
+<td><span class="dot bad" aria-label="紅燈"></span></td>
+</tr>
+<tr>
+<td>對組織的現況威脅程度</td>
+<td>45%</td>
+<td><span class="dot bad" aria-label="紅燈"></span></td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>威脅程度只有四成五？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>是……</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>不過我很高興妳把數字攤開來。如果妳只跟我說「做好了」，我根本不知道哪些能信、哪些不能信。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>這就是習慣二：每個階段都說清楚<strong>驗證了什麼、沒驗證什麼</strong>。這次我驗證了「跟舊結果像不像」，還沒驗證「到底對不對」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>這兩件事不一樣。「跟以前一樣」不等於「正確」。下一集我們處理這個。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>「回測」是拿舊的結果當對照組，是最便宜的第一道檢查。但舊結果也是人填的，也可能錯。
+Allan 刻意區分「像不像」和「對不對」，因為驗收標準是後者。這個區分，決定了下一集的走向。</p></aside>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>上線前驗收</h4><p>回測相當於系統上線前的驗收測試。稽核員可以觀察：驗收有沒有量化結果？未達標的項目有沒有被記錄、追蹤，而不是被略過？</p></aside>
+<h3>場景 5：合併上線，然後……網站呢？</h3>
+<p class="direction">Allan 在 GitHub 的 PR 頁面按下綠色的 Merge 按鈕，時間 18:30</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>傍晚六點半，我合併了第一個 PR，系統正式上線。打開網站——</p></div></div>
+<p class="direction">瀏覽器打開 <code>allanloplus.github.io/intelligence/</code>，畫面上只有一份 README 說明文件</p>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>……這是 README 吧？我的查詢網站呢？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>程式沒問題，是 GitHub Pages 的設定。網站的來源選成了「Deploy from a branch」，所以 GitHub 直接把 repo 首頁的說明檔當成網站。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>要改成「GitHub Actions」，讓每天的排程產生網站後再發佈。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>這個設定只有我能改吧？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>對，是 repo 的設定頁，要您動手。改完之後，網站就正常了！</p></div></div>
+<aside class="box howto"><div class="lab">動手做</div><h4>合併 PR 並發佈網站</h4><ol>
+<li><strong>合併 PR</strong>：GitHub repo → Pull requests → 點開 AI 提出的 PR → 看過「Files changed」→ 按 <strong>Merge pull request</strong> → <strong>Confirm merge</strong>。</li>
+<li><strong>設定 Pages 來源</strong>：repo 上方 <strong>Settings</strong>（這是 repo 的 Settings，不是個人帳號的）→ 左側 <strong>Pages</strong> → Build and deployment 的 <strong>Source</strong> 選 <strong>GitHub Actions</strong>。
+    <span class="chip warn">注意</span> 預設可能是「Deploy from a branch」，網站會顯示 README，這正是本集遇到的狀況。</li>
+<li><strong>手動執行一次</strong>：repo 上方 <strong>Actions</strong> → 左側選「<strong>情資自動更新</strong>」→ 右側 <strong>Run workflow</strong> → 選 <code>main</code> → 綠色 <strong>Run workflow</strong>。</li>
+<li><strong>確認結果</strong>：執行完成（綠色勾勾）後，網站網址會顯示在該次執行的頁面上。本個案為 <code>https://allanloplus.github.io/intelligence/</code>。</li>
+</ol>
+<div class="todo"><span>畫面待補</span>Settings → Pages → Source 選 GitHub Actions 的畫面</div></aside>
+<h3>場景 6：第一天的結算</h3>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>所以第一天結束，我們有什麼？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><ul>
+<li><span class="dot ok" aria-label="已驗證"></span> 一條每天會跑的管線，四個來源</li>
+<li><span class="dot ok" aria-label="已驗證"></span> 三年的歷史資料，可以查詢、下載</li>
+<li><span class="dot ok" aria-label="已驗證"></span> 網站正常顯示</li>
+<li><span class="chip warn">注意</span> 弱點五欄八成多跟原表一樣，但還沒確認「正確」</li>
+<li><span class="chip warn">注意</span> 威脅程度、因應對策跟原表差很多</li>
+<li><span class="chip q">待確認</span> 舊規則是反推的</li>
+</ul></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>很好。這份清單比一句「完成了」有用一百倍。</p></div></div>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>「做出來」不等於「做對」。</strong>
+每個階段都要問 AI：你驗證了什麼？沒驗證什麼？
+而「跟以前一樣」也不等於「正確」。</p></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>你的自動化需求裡，有沒有規則只存在某個人的電腦、某份舊文件、或某個人的腦中？交代時有沒有一起給？</li>
+<li>如果你要驗收一個系統，你會拿什麼當「對照組」？那個對照組本身可信嗎？</li>
+</ol><nav class="pager"><a href="#ep1">← 第 1 集</a><a href="#ep3">第 3 集 →</a></nav></section><section class="ep" id="ep3" aria-labelledby="t3"><header class="ephead"><div class="phase">C</div><div><p class="eyebrow">第 3 集・Check・民國 115 年（2026 年）11 月 26 日晚上</p><h2 id="t3">什麼叫「做對」？要有標準答案</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>Allan 補上舊規則文件時，說的那句出人意料的話</li>
+<li>怎麼證明弱點欄位「做對了」：36 題標準答案</li>
+<li>跟舊表不一樣的 13 筆，每一筆都說得出原因</li>
+<li>有一個欄位，AI 到現在都做不好，而且這是應該的</li>
+<li>碰到沒有權限的牆，Allan 怎麼換路</li>
+</ul>
+<h3>場景 1：「舊規則不重要」</h3>
+<p class="direction">Allan 把一份文件拖進對話框，檔名「舊工具判斷規則說明」</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>上一集妳說舊規則是反推的。我把舊工具的規則文件找出來了，給妳。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>太好了！我馬上照著規則，把結果調到跟舊表一模一樣——</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>等一下。我先說清楚：</p>
+<blockquote class="said">「之前程式的規則不重要，重要是要生成合理正確的情資資料，尤其需要比對的那幾個欄位。」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>咦？那您為什麼還給我？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>給妳參考，讓妳知道過去是怎麼想的。但<strong>驗收標準是「正確」，不是「跟以前一樣」</strong>。舊工具也是人寫的，舊表也是照它填的，它錯的地方妳照抄，只是把錯誤自動化。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>懂了。舊規則是線索，不是答案。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>這句話是整個個案的轉捩點。
+如果 Allan 只丟文件、不說這句，AI 很可能會把目標設成「盡量跟舊表一致」，因為那是最容易量化的目標。上一集的回測數字也會讓人有這種錯覺。
+Allan 在給素材的同時<strong>重新定義了驗收標準</strong>，而且特別點名「需要比對的那幾個欄位」，也就是有公開權威來源可查的弱點五欄。</p></aside>
+<h3>場景 2：重寫弱點評估：先查誰、再查誰</h3>
+<p class="direction">阿拉蕾的平板上是一個由上往下的漏斗</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我重寫了弱點評估，判斷的優先順序是這樣：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>順位</th>
+<th>來源</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>國內警訊</strong>：資安院、TWCERT 公布的指標與期限</td>
+<td>國內主管機關已經判定過，優先採用</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>美國 CISA 的公開評估</strong></td>
+<td>國內沒有公布時採用</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>依 CVSS 推定</strong></td>
+<td>都沒有時才用，並標示「（推定）」</td>
+</tr>
+<tr>
+<td>—</td>
+<td>「已知被利用」</td>
+<td>一律以 CISA KEV 清單的<strong>現況</strong>為準</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>「現況」是什麼意思？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>一個弱點今天不在 KEV，下週可能就被列進去了。所以<strong>近 60 日的紀錄，每次執行都重新評估一次</strong>。CISA 補了評估、KEV 新增了，期限就跟著變。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>這就是指引說的「動態調整」。第 0 集叫大家記住的那一條。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>而且每一筆，我都保留了<strong>逐一 CVE 的判定值、來源和依據</strong>。網站上點開那一列看得到，Excel 則寫在儲存格的註解裡。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>這個好。稽核的時候，我不用相信妳，我可以<strong>查妳</strong>。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>稽核軌跡與動態調整</h4><ul>
+<li>每筆判定都有「值、來源、依據」，任何人可以追溯：這個期限是資安院公布的，還是依 CVSS 推定的？</li>
+<li>近 60 日重新評估，對應指引第五點（四）「弱點處置期限應進行動態調整」。</li>
+<li>對稽核員：自動化結果的可信度，取決於它能不能被追溯。<strong>不能追溯的自動化，稽核上等同沒有證據。</strong></li>
+</ul></aside>
+<h3>場景 3：36 題標準答案</h3>
+<p class="direction">一張考卷，36 題，全部打勾</p>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>好，那怎麼證明妳做對了？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我找了一份<strong>標準答案</strong>。資安院和 TWCERT 的警訊裡，有 <strong>36 個 CVE</strong> 同時公布了「指標」和「處置期限」。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>我只拿它們公布的指標，用指引表一自己查一次期限，再跟它們公布的期限比對。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>結果？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p><strong>36 題全對，36/36 一致。</strong></p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>這才叫驗證。上一集那個 85–90%，是「跟舊表像不像」；這個 36/36，是「跟權威答案對不對」。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>好的驗證長什麼樣子</h4><ol>
+<li><strong>標準答案來自權威來源</strong>，不是來自舊系統、也不是來自 AI 自己。</li>
+<li><strong>題目夠具體</strong>：36 個 CVE，每一個都能逐一對照。</li>
+<li><strong>結果可以重現</strong>：任何人拿同樣的 36 個 CVE 都能再驗一次。</li>
+</ol>
+<p>不寫程式的人也能要求 AI 這樣做。你只要問：「<strong>有沒有一份公開的標準答案，可以拿來對？</strong>」</p></aside>
+<h3>場景 4：不一樣的 13 筆</h3>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>接著我再拿 2026 年 11 月全月 110 筆，跟原 Sheet 比對弱點欄位。<strong>有 13 筆不同</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>13 筆？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>但每一筆都說得出原因：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>筆數</th>
+<th>原因</th>
+<th>處理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11 筆</td>
+<td>iThome 資安日報：一篇文章裡有好幾則新聞、好幾個 CVE</td>
+<td>改為以<strong>標題頭條</strong>那一則評估</td>
+</tr>
+<tr>
+<td>1 筆</td>
+<td>微軟每月例行更新：一次 270 個 CVE</td>
+<td>改為<strong>優先評估已列入 KEV</strong> 的</td>
+</tr>
+<tr>
+<td>1 筆</td>
+<td>CISA 事後才補上正式評估</td>
+<td>原本的推定值改為正式值</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>所以不是錯，是<strong>判斷方式不同</strong>，而且新的判斷方式比較合理。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>其餘 NICS、TWCERT 的紀錄，跟原表完全一致。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼接受「不一樣」</h4><p>驗收不是追求 100% 一致，而是<strong>每一個不一致都能被解釋</strong>。
+能逐筆說出原因的差異，是設計決策；說不出原因的差異，才是缺陷。</p></aside>
+<h3>場景 5：做不好的欄位，以及為什麼這是應該的</h3>
+<p class="direction">阿拉蕾低頭，平板上「威脅程度 45%」閃著紅燈</p>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>那威脅程度呢？上一集只有 45%。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>這個……到現在還是只能做到<strong>初判</strong>。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>因為「對組織的現況威脅程度」取決於<strong>這個組織有沒有用到那個產品</strong>。我手上只有一份通用的產品關鍵字清單，例如 Microsoft、Fortinet、VMware。命中就判斷威脅較高，沒命中就列為「現行不影響」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>但每個客戶的資產都不一樣。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>對。A 客戶全是 Fortinet，B 客戶一台都沒有。同一則情資，答案完全不同。這一欄我沒有辦法替組織決定。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>所以這一欄要<strong>人工覆核</strong>。妳能做的是：把判定依據寫清楚，標上「這是自動初判」，讓負責人月底發佈前看過。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>新蒐集的紀錄我都會標 <code>"auto": true</code>，人工覆核後可以改成 <code>false</code>。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>這是教學重點：不是所有欄位都該被自動化</h4><p>弱點五欄能做到 36/36，因為答案在公開的權威來源裡。
+威脅程度做不到，因為答案在<strong>組織自己的資產清單</strong>裡。這跟第 0 集「資產有沒有曝露在公眾網路」是同一個道理。
+好的自動化不是假裝什麼都能判斷，而是<strong>清楚標出哪些是自動判定、哪些需要人</strong>。</p></aside>
+<aside class="box howto"><div class="lab">動手做</div><h4>調整你自己的資產關鍵字</h4><p>如果你要用這套機制，請先把通用清單改成你的資產：</p>
+<ol>
+<li>GitHub repo → 點開 <code>config/settings.json</code></li>
+<li>右上角<strong>鉛筆圖示</strong>（Edit this file）</li>
+<li>找到 <code>asset_watchlist</code> 的 <code>keywords</code>，增刪你組織實際使用的產品名稱</li>
+<li>右上 <strong>Commit changes…</strong> → 填寫說明 → <strong>Commit changes</strong></li>
+<li>下次排程執行時生效</li>
+</ol>
+<p>改完之後，每一次修改都留在 GitHub 的 History 裡：誰、什麼時候、改了哪個關鍵字。</p></aside>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>自動化不能取代風險評鑑</h4><p>威脅程度本質上是風險評鑑的一部分，必須以組織的資產清冊為基礎。
+稽核員可以問：自動初判的結果，有沒有經過人工覆核的紀錄？覆核者是誰？覆核依據是什麼？</p></aside>
+<h3>場景 6：碰到牆，換條路</h3>
+<p class="direction">阿拉蕾站在一道寫著「另一個 GitHub 帳號」的牆前面</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>弱點評估穩了。下一步，我想讓舊的戰情看板改讀新系統的資料。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>老師，那個看板的程式在<strong>另一個 GitHub 帳號</strong>的 repo 裡，我沒有權限。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>……</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><blockquote class="said">「換個方式：那個我暫時不動。直接寫新的統計畫面在這個新系統即可。我計畫用新的逐步取代舊的。」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>您不叫我想辦法拿權限？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>拿權限可以，但舊看板也是很多人在用的東西。為了改它去動另一個帳號，風險比效益大。新系統裡直接做一個，兩個並行，等新的穩了，使用者自然會換過來。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>收到！</p></div></div>
+<p class="direction">當晚 19:17，新的戰情看板上線：指標、每月趨勢、各項分布、優先處置清單</p>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>AI 碰到牆時，常見的反應是「想辦法繞過去」。
+Allan 的判斷是<strong>換一個目標</strong>：真正的需求是「有一個能看的統計畫面」，不是「一定要改舊看板」。
+這呼應第 1 集的「不能碰的東西」：舊 Google Sheet 不動，舊看板也不動。新舊並行、逐步取代，是對使用者最安全的轉換方式。</p></aside>
+<aside class="box howto"><div class="lab">動手做</div><h4>查看稽核軌跡</h4><ol>
+<li><strong>網站上</strong>：打開 <code>https://allanloplus.github.io/intelligence/</code> → 明細查詢 → 點任一筆有 CVE 的情資 → 展開可看到逐一 CVE 的判定值、指標來源、期限依據。</li>
+<li><strong>GitHub 上</strong>：repo → <code>data</code> → <code>2026</code> → <code>2026-11.json</code> → 右上 <strong>History</strong>，可看到這個月的資料每一次被誰、在什麼時候改過。</li>
+</ol>
+<div class="todo"><span>畫面待補</span>網站展開單筆判定依據的畫面</div></aside>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>「對」要有可以驗的標準答案，不一致的地方要能逐筆說出原因。</strong>
+答案在公開權威來源裡的，交給 AI 去比對；答案在組織自己手上的，要由人來決定。</p></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>你的自動化工作裡，有沒有一份「公開的標準答案」可以拿來驗證？</li>
+<li>哪些欄位的答案，只存在你組織的資產清單、流程或人的判斷裡？你會怎麼標示它們？</li>
+</ol><nav class="pager"><a href="#ep2">← 第 2 集</a><a href="#ep4">第 4 集 →</a></nav></section><section class="ep" id="ep4" aria-labelledby="t4"><header class="ephead"><div class="phase">A</div><div><p class="eyebrow">第 4 集・Act・民國 115 年（2026 年）11 月 27 日至 28 日</p><h2 id="t4">它沒在跑，而且沒人告訴我</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>第二天早上，Allan 發現了一件 AI 沒發現的事</li>
+<li>為什麼「沒有收到失敗通知」不代表「沒有失敗」</li>
+<li>用 Google Apps Script 幫自動化裝上監控與自動補跑（動手做，完整步驟）</li>
+<li>「自己寫程式」和「用 n8n 這類平台」該怎麼選</li>
+</ul>
+<h3>場景 1：「我今天似乎沒感覺情資有更新」</h3>
+<p class="direction">民國 115 年 11 月 27 日早上，Allan 拿著咖啡打開網站，皺眉</p>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><blockquote class="said">「我今天似乎沒感覺情資有更新。」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>我馬上查！</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><blockquote class="said">「我記得 github 失敗應該會收到通知。都沒收到通知是根本沒啟動嗎？」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>您猜對了。我看了 Actions 的執行紀錄：<strong>排程根本沒有啟動過</strong>。之前的每一次執行，都是手動按的，或是合併程式碼時觸發的。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>而且 GitHub 的通知規則是：<strong>「執行了但失敗」才會寄信，「沒執行」不會通知。</strong> 所以您什麼信都沒收到。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>沒有消息，不代表好消息。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>習慣三：講你看到的現象，不必先下診斷</h4><p>Allan 沒有說「排程壞了」或「程式有 bug」，他說的是「<strong>我今天似乎沒感覺情資有更新</strong>」。
+接著他用自己知道的事實推理：「失敗應該會收到通知 → 沒收到 → 是不是根本沒啟動？」
+描述現象，讓 AI 去查證；你的推理是線索，不是結論。這比直接下指令「去修排程」有效得多。</p></aside>
+<h3>場景 2：阿拉蕾的第三個坦白</h3>
+<p class="direction">阿拉蕾低頭，眼角有淚</p>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>老師，我要坦白。第一天我跟您說「完成了」的時候，我驗證的是「<strong>手動觸發會成功</strong>」。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>我<strong>沒有驗證「排程自己會跑」</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>這兩件事差很多。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>是。手動觸發成功，只證明程式本身沒問題；排程會不會準時啟動，要等時間到了才知道。我當時沒有等，也沒有說「這一項還沒驗證」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>而且是我發現的，不是妳。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>這是教學重點：「AI 說完成」和「它真的在運作」之間的落差</h4><p>回顧這三集的三個坦白：</p>
+<ol>
+<li>第 2 集：AI 看不到舊程式，只能反推規則。</li>
+<li>第 3 集：威脅程度到現在仍是初判，需要人工覆核。</li>
+<li>本集：排程沒啟動，是人發現的，不是 AI。</li>
+</ol>
+<p>共同點是：<strong>AI 說完成，不等於它真的在運作。</strong> 中間的落差要靠人去盯。
+所以習慣二要再加一句：問 AI「你驗證了什麼、沒驗證什麼」時，特別問「<strong>有沒有哪一項，要等時間過了才驗證得到？</strong>」</p></aside>
+<h3>場景 3：排程為什麼不跑？</h3>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>GitHub 的排程在尖峰時段可能延遲或略過。我先把排程從一天兩次加到一天五次，漏掉一次，下一次還能補上。</p></div></div>
+<p class="direction">11 月 27 日 14:36，Allan 合併 PR #5「Run the collection five times a day」</p>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>……下午還是沒動。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>我有一個推測，但<strong>要先說清楚，這是未驗證的推測</strong>：排程檔最後一次是我修改的，提交者不是一個有效的 GitHub 帳號。GitHub 有可能因此不啟動這個排程。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>那就用我的帳號改一次看看。</p></div></div>
+<p class="direction">11 月 27 日 20:50，Allan 在 GitHub 網頁上用鉛筆圖示編輯 <code>.github/workflows/update-intel.yml</code>，順手多加一個時間點</p>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>我用自己的帳號在網頁上改了排程檔，順便加到一天六個時間點。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>台北時間 08:23、11:23、14:23、17:23、21:23、23:23。</p></div></div>
+<p class="direction">隔天，Actions 頁面出現第一筆由「schedule」觸發的執行紀錄</p>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>排程第一次自己啟動了！不過……<strong>比設定的時間晚了將近七小時</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>所以結論是：<strong>排程會動，但不能依賴它準時。</strong></p></div></div>
+<aside class="box howto"><div class="lab">動手做</div><h4>在網頁上修改排程時間</h4><ol>
+<li>repo → <code>.github/workflows/update-intel.yml</code> → 右上<strong>鉛筆圖示</strong></li>
+<li>找到 <code>cron:</code> 那一行。cron 用的是 <strong>UTC 時間</strong>，台北時間要<strong>減 8 小時</strong>：</li>
+</ol>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>台北時間</th>
+<th>UTC</th>
+<th>cron 寫法中的「時」</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>08:23</td>
+<td>00:23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11:23</td>
+<td>03:23</td>
+<td>3</td>
+</tr>
+<tr>
+<td>14:23</td>
+<td>06:23</td>
+<td>6</td>
+</tr>
+<tr>
+<td>17:23</td>
+<td>09:23</td>
+<td>9</td>
+</tr>
+<tr>
+<td>21:23</td>
+<td>13:23</td>
+<td>13</td>
+</tr>
+<tr>
+<td>23:23</td>
+<td>15:23</td>
+<td>15</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code>本個案的寫法：`cron: "23 0,3,6,9,13,15 * * *"`（分 時 日 月 星期）
+</code></pre>
+<ol>
+<li><strong>Commit changes…</strong> → <strong>Commit changes</strong></li>
+</ol>
+<p>💬 小提醒：分鐘刻意設在 23 分，不設整點。整點是 GitHub 排程最擁擠的時段。</p></aside>
+<aside class="box aside"><div class="lab">小插曲</div><h4>小插曲：設定改了，文件沒跟著改</h4><p>Allan 改成一天六次之後，排程檔裡的註解和 README 都還寫著「一天五次」。
+系統照六次在跑，但看文件的人會以為是五次。這種落差很常見，也是稽核時常見的發現：<strong>文件與實際設定不一致</strong>。改設定時，記得一起改說明。</p></aside>
+<h3>場景 4：誰來盯著它？</h3>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><blockquote class="said">「是指每天都由 Claude 這個 Session 自動觸發？還是其他機制？」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>不是我。每天執行的是 <strong>GitHub 自己的排程</strong>，跟我們這個對話完全無關。就算這個對話關掉了，它還是會跑。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><blockquote class="said">「除了自己看，有沒有機制可以主動通知我已經 28 小時沒執行自動更新？」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>可以！我們需要一個<strong>站在 GitHub 外面的監控者</strong>。它每隔一段時間去看網站的「資料更新時間」，太久沒更新就做兩件事：</p>
+<ol>
+<li><strong>自動叫 GitHub 補跑一次</strong></li>
+<li><strong>寄信通知您</strong></li>
+</ol></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>用什麼來做？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p><strong>Google Apps Script</strong>。免費、在 Google 的雲端上跑、可以定時執行、可以寄 Gmail。您已經有 Google 帳號了。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>它要怎麼叫 GitHub 補跑？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>需要一把 <strong>GitHub 權杖</strong>，就像一張只能開一扇門的鑰匙。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>為什麼監控者要在外面</h4><p>如果監控程式也放在 GitHub Actions 裡，GitHub 排程不動的時候，監控也一起不動。
+監控者和被監控者<strong>要放在不同的地方</strong>，一邊故障時另一邊才看得到。</p></aside>
+<h3>場景 5：做一把只能開一扇門的鑰匙</h3>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>權杖的範圍我建議這樣開：</p>
+<ul>
+<li><strong>只限這一個 repo</strong></li>
+<li><strong>只開 Actions 的讀寫</strong>（夠用來叫它補跑，碰不到程式碼和資料）</li>
+<li><strong>效期一年</strong></li>
+</ul></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>為什麼不設永不過期？省得每年換。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>三個理由選一年：一年換一次維護成本很低；GitHub 到期前會寄信提醒；萬一真的過期，補跑會失敗，Apps Script 會寄「自動補跑失敗」的信給您，不會默默壞掉。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>好，一年。</p></div></div>
+<p class="direction">Allan 在 GitHub 上找了半天</p>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>……妳說的 Settings，我在 repo 裡找不到權杖的選項。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>啊！GitHub 有<strong>兩個 Settings</strong>：repo 上方的那個是 repo 的設定；權杖要到<strong>右上角您的頭像</strong>裡面那個「帳號的 Settings」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>找到了。可是妳說的權限選單，畫面上沒有啊？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>抱歉，介面跟我描述的不一樣。現在的畫面要按「<strong>Add permissions</strong>」把 Actions 加進來，再把權限改成 Read and write。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>AI 也會記錯介面。看到不一樣就講，不用懷疑自己。</p></div></div>
+<aside class="box howto"><div class="lab">動手做</div><h4>建立 GitHub 權杖（Fine-grained token）</h4><ol>
+<li>GitHub 右上角<strong>頭像</strong> → <strong>Settings</strong>（<span class="chip warn">注意</span> 是帳號的 Settings，不是 repo 的）</li>
+<li>左側最下方 <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Fine-grained tokens</strong> → <strong>Generate new token</strong></li>
+<li><strong>Token name</strong>：取一個看得懂的名字，例如「情資監控補跑」</li>
+<li><strong>Expiration</strong>：選 Custom，設為一年後</li>
+<li><strong>Repository access</strong>：選 <strong>Only select repositories</strong> → 選你的 repo（本個案為 <code>intelligence</code>）</li>
+<li><strong>Permissions</strong>：按 <strong>Add permissions</strong> → 勾選 <strong>Actions</strong> → 把 Access 改為 <strong>Read and write</strong>
+    （系統會自動加上 Metadata：Read-only，這是必要的）</li>
+<li>最下方 <strong>Generate token</strong> → <strong>立刻複製</strong>權杖。這個畫面離開後就再也看不到了。</li>
+</ol>
+<p><span class="chip warn">注意</span> 權杖等同密碼：不要貼在對話、文件、程式碼裡。下一步會把它存在 Apps Script 的「指令碼屬性」中。</p>
+<div class="todo"><span>畫面待補</span>GitHub 權杖 Repository access 與 Permissions 設定畫面（權杖值請遮蔽）</div></aside>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>憑證管理</h4><ul>
+<li><strong>最小權限</strong>：單一 repo、單一權限（Actions）。</li>
+<li><strong>有效期限</strong>：一年，並有到期前提醒與失效時的告警。</li>
+<li><strong>保管方式</strong>：存在指令碼屬性，不寫進程式碼。程式碼可以分享、可以截圖教學，權杖不會跟著外流。
+稽核員可以檢視：權杖的範圍、效期、保管位置、到期後的更新程序。</li>
+</ul></aside>
+<h3>場景 6：架設監控：Google Apps Script</h3>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>監控程式只有 26 行。不用看懂，照著貼上就好。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>我只要知道哪裡可以調。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>第 2 行 <code>MAX_HOURS</code>：超過幾小時沒更新就補跑。您剛剛說 28 小時，我先設 28。</p></div></div>
+<aside class="box howto"><div class="lab">動手做</div><h4>建立 Apps Script 監控</h4><p><strong>第一步：建立專案、貼上程式碼</strong></p>
+<ol>
+<li>打開 script.google.com → 左上 <strong>新專案</strong></li>
+<li>點左上「未命名的專案」，改名為「情資蒐集自動化通知」</li>
+<li>刪掉編輯器裡原有的內容，貼上下方程式碼 → 按儲存（磁片圖示）
+    （下方為最終版本，MAX_HOURS 已是 12；第一次設定時 Allan 用的是 28）</li>
+</ol>
+<pre><code class="language-javascript">const URL = &quot;https://allanloplus.github.io/intelligence/data/index.json&quot;;
+const MAX_HOURS = 12;
+const DISPATCH = &quot;https://api.github.com/repos/allanloplus/intelligence/actions/workflows/update-intel.yml/dispatches&quot;;
+
+function checkIntelFreshness() {
+  const data = JSON.parse(UrlFetchApp.fetch(URL + &quot;?t=&quot; + Date.now()).getContentText());
+  const last = new Date(data.generated.replace(&quot; &quot;, &quot;T&quot;) + &quot;:00+08:00&quot;);
+  const hours = (Date.now() - last.getTime()) / 3600000;
+  if (hours &lt;= MAX_HOURS) return;
+
+  const token = PropertiesService.getScriptProperties().getProperty(&quot;GITHUB_TOKEN&quot;);
+  const res = UrlFetchApp.fetch(DISPATCH, {
+    method: &quot;post&quot;,
+    contentType: &quot;application/json&quot;,
+    headers: { Authorization: &quot;Bearer &quot; + token, Accept: &quot;application/vnd.github+json&quot; },
+    payload: JSON.stringify({ ref: &quot;main&quot; }),
+    muteHttpExceptions: true
+  });
+  const ok = res.getResponseCode() === 204;
+  MailApp.sendEmail(Session.getActiveUser().getEmail(),
+    &quot;【情資看板】已 &quot; + Math.floor(hours) + &quot; 小時未更新，&quot; + (ok ? &quot;已自動補跑&quot; : &quot;自動補跑失敗&quot;),
+    &quot;最後更新時間：&quot; + data.generated + &quot;\n&quot; +
+    (ok ? &quot;已觸發「情資自動更新」，約一分鐘後完成。&quot;
+        : &quot;GitHub 回應 &quot; + res.getResponseCode() + &quot;：&quot; + res.getContentText() + &quot;\n請手動執行或檢查權杖是否過期。&quot;) +
+    &quot;\nhttps://github.com/allanloplus/intelligence/actions/workflows/update-intel.yml&quot;);
+}
+</code></pre>
+<p>要套用到自己的系統，只需改前三行：網站資料網址、門檻小時數、你的 repo 與 workflow 檔名。</p>
+<figure class="shot"><img src="img/shot4.jpg" alt="Apps Script 程式碼編輯畫面" loading="lazy"><figcaption>程式碼編輯畫面</figcaption></figure>
+<p><strong>第二步：存放權杖</strong></p>
+<ol>
+<li>左側<strong>齒輪圖示</strong>「專案設定」→ 捲到最下方「<strong>指令碼屬性</strong>」→ <strong>新增指令碼屬性</strong></li>
+<li>屬性：<code>GITHUB_TOKEN</code>；值：貼上剛才複製的權杖 → <strong>儲存指令碼屬性</strong></li>
+</ol>
+<figure class="shot"><img src="img/shot7.jpg" alt="指令碼屬性畫面" loading="lazy"><figcaption>指令碼屬性畫面</figcaption></figure>
+<p><strong>第三步：手動執行一次並授權</strong></p>
+<ol>
+<li>回到左側 <code>&lt; &gt;</code> 編輯器 → 上方函式選單確認是 <code>checkIntelFreshness</code> → 按 <strong>執行</strong></li>
+<li>第一次執行會跳出授權視窗，要求允許「連線到外部服務」與「以你的名義傳送電子郵件」→ 選擇你的帳號 → 允許
+    （依帳號類型不同，可能會多一道確認畫面）</li>
+<li>下方「執行記錄」顯示「執行完畢」即可。若網站在門檻時間內有更新，程式會直接結束、不寄信，這是正常的。</li>
+</ol>
+<p><strong>第四步：設定定時執行</strong></p>
+<ol>
+<li>左側<strong>鬧鐘圖示</strong>「觸發條件」→ 右下 <strong>新增觸發條件</strong></li>
+<li>依序選擇：<ul>
+<li>選擇您要執行的功能：<code>checkIntelFreshness</code></li>
+<li>選取活動來源：<strong>時間驅動</strong></li>
+<li>選取時間型觸發條件類型：<strong>小時計時器</strong></li>
+<li>選取小時間隔：<strong>每 6 小時</strong></li>
+<li>錯誤通知設定：<strong>每天通知我</strong></li>
+</ul>
+</li>
+<li><strong>儲存</strong></li>
+</ol>
+<figure class="shot"><img src="img/shot5.jpg" alt="編輯觸發條件畫面" loading="lazy"><figcaption>編輯觸發條件畫面</figcaption></figure></aside>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>MAX_HOURS 要去哪裡改？我在設定畫面找不到。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>啊，它不是畫面上的設定，是<strong>程式碼的第 2 行</strong>。直接改數字，再按儲存就好。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-scratch.jpg" alt="Allan 講師（抓頭）"><div class="bubble"><div class="who">Allan 講師<span>抓頭</span></div><p>原來是程式碼裡的一行。妳早說嘛。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>不寫程式的人最常卡住的地方</h4><p>AI 說「把 MAX_HOURS 改成 12」時，它腦中想的是程式碼；不寫程式的人想的是設定畫面。
+卡住時直接問「<strong>這個要去哪裡改？</strong>」，請 AI 講到「哪個畫面、第幾行、按哪個按鈕」為止。</p></aside>
+<h3>場景 7：故意讓它觸發一次</h3>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>設好了。可是我怎麼知道它真的會動？總不能等 28 小時。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p><strong>故意讓它觸發。</strong> 把 <code>MAX_HOURS</code> 暫時調得很小，小到現在一定超過，手動執行一次，看會不會補跑、會不會寄信。</p></div></div>
+<p class="direction">11 月 28 日上午 10:11，Allan 的信箱收到一封信</p>
+<div class="mail"><p>標題：<strong>【情資看板】已 4 小時未更新，已自動補跑</strong>
+最後更新時間：2026-11-28 06:10
+已觸發「情資自動更新」，約一分鐘後完成。</p>
+<figure class="shot"><img src="img/shot8.jpg" alt="Gmail 收到的補跑通知信" loading="lazy"><figcaption>Gmail 收到的補跑通知信</figcaption></figure></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>來了！GitHub 那邊呢？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>Actions 頁面出現一筆由 Apps Script 觸發的執行紀錄，網站的更新時間也變成 10:11 了。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-surprise.jpg" alt="阿拉蕾（驚訝）"><div class="bubble"><div class="who">阿拉蕾<span>驚訝</span></div><p>而且還有一個意外收穫：同一時間另一筆執行因為 GitHub 暫時的狀況失敗了，您也收到了 GitHub 寄的<strong>失敗通知</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-wink.jpg" alt="Allan 講師（眨眼）"><div class="bubble"><div class="who">Allan 講師<span>眨眼</span></div><p>等於順便驗證了另一條通知路徑。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>控制措施要測試，不能只設計</h4><p>「把門檻暫時調低、讓它觸發一次、確認信有寄到、補跑有發生、再改回正式值」，這就是<strong>控制措施的有效性測試</strong>。
+稽核時常見的情況是：告警規則設好了，但從來沒有被觸發過，沒人知道它會不會響。
+驗證完畢後<strong>記得改回正式值</strong>，並留下測試紀錄（本個案的證據：那封信與 GitHub 的執行紀錄）。</p></aside>
+<h3>場景 8：要跑多頻繁才夠？</h3>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><blockquote class="said">「一般而言，情資的網站更新頻率最多就是一天一次。那觸發的頻率，需要為 6 小時或一天 2 次以上嗎？」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>情資本身一天一次就夠了。但有一個例外：<strong>iThome 的 RSS 只保留大約 28 小時的文章</strong>。如果一天只跑一次，又剛好延遲幾個小時，就可能漏抓。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>那要看漏抓的代價。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><blockquote class="said">「iThome 完整性不重要。我改 MAX_HOURS 為 12 就好。」</blockquote></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>收到。12 小時沒更新就補跑，Apps Script 每 6 小時看一次。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>Allan 為什麼這樣說</h4><p>技術上可以把頻率一直往上加，但 Allan 問的是「<strong>漏掉的代價是什麼</strong>」。
+iThome 資安日報漏一則，其他來源仍會涵蓋重大弱點，對使用者影響有限。所以他不追求完整，而是選一個<strong>夠用、好維護</strong>的門檻。
+這是業務判斷，不是技術判斷，只有使用者能做。</p></aside>
+<h3>場景 9：最後的通知路徑表</h3>
+<p class="direction">阿拉蕾舉著平板，上面是一張表</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>現在每一種「出事」的情況，都有人會告訴您：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>情況</th>
+<th>會發生什麼</th>
+<th>驗證狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排程延遲或沒啟動</td>
+<td>Apps Script 自動補跑並寄信</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已實測</td>
+</tr>
+<tr>
+<td>補跑請求被拒（如權杖到期）</td>
+<td>寄「自動補跑失敗」的信</td>
+<td><span class="dot wait" aria-label="待驗證"></span> 尚未被真實情境觸發過</td>
+</tr>
+<tr>
+<td>執行了但出錯</td>
+<td>GitHub 寄失敗通知</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已實測</td>
+</tr>
+<tr>
+<td>Apps Script 自己出錯（如讀不到網站）</td>
+<td>Google 每天彙整寄錯誤通知</td>
+<td><span class="dot wait" aria-label="待驗證"></span> 已設定，尚未被觸發過</td>
+</tr>
+<tr>
+<td>需要立即更新</td>
+<td>到 GitHub 按 Run workflow</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已操作多次</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>「尚未被觸發過」那兩列，妳誠實寫出來了。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>這是習慣二：<strong>驗證了什麼、沒驗證什麼</strong>，都要講。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>還有一件事：連監控程式本身，也要有人盯。所以觸發條件裡那個「錯誤通知：每天通知我」不能關。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>控制措施是否持續有效</h4><p>這張表就是管理階層與稽核員最該看的東西：</p>
+<ul>
+<li>每一種失效情境都有對應的偵測與通知</li>
+<li>每一條路徑都標示是否實際驗證過</li>
+<li>尚未驗證的路徑，列入追蹤（例如權杖到期前，安排一次實際演練）</li>
+</ul>
+<p>「會自我檢查的自動化」指的就是這個：<strong>知道它有在做、知道它做得對、它沒做時會自己補上，補不了時會叫人。</strong></p></aside>
+<h3>片尾：要不要用 n8n？</h3>
+<p class="direction">兩人並肩站著，背景是新的戰情看板</p>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>說實話，過去有同樣的需求，我會直接落入 n8n 的架構。沒想到這次完全不用它就完成了。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>所以以後都不需要 n8n 了嗎？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>不是。過去選 n8n，常常是因為「不會寫程式」。現在這個理由變弱了，<strong>選擇的依據應該回到需求本身</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>流程簡單、資料公開、想完全掌握邏輯與稽核軌跡時，讓 AI 直接寫程式可能更合適；需要大量系統串接、人工審批，或要給非技術同仁維護時，工作流程平台仍然是比較好的選擇。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>而且這次省下平台，也有代價。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>對。排程可靠性、監控告警、憑證管理，這些責任要自己扛。<strong>這一集遇到的每一個問題，正是平台原本會幫你處理掉的。</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>想想你的需求</th>
+<th>比較適合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>流程簡單、資料公開、要完全掌握邏輯與稽核軌跡</td>
+<td>讓 AI 直接寫程式</td>
+</tr>
+<tr>
+<td>大量系統串接、需要人工審批、要給非技術同仁維護</td>
+<td>工作流程平台</td>
+</tr>
+<tr>
+<td>不論選哪一個</td>
+<td>排程、監控、憑證都要有人負責</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say r"><img class="face" src="img/arale-fist.jpg" alt="阿拉蕾（握拳加油）"><div class="bubble"><div class="who">阿拉蕾<span>握拳加油</span></div><p>最後，舊的 Google Sheet 和所有相依的系統，<strong>從頭到尾都沒有被動過</strong>，到現在還在運作。12 月初使用者照樣可以下載！</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>這是第一天就說好的。</p></div></div>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>自動化不是設好就好。</strong>
+你要知道它有在做、做得對，沒做時會自己補上，補不了時會叫人。
+而「它真的在運作」這件事，要由人來確認，不能只聽 AI 說完成。</p></div>
+<h3 class="end">全系列回顧</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>集數</th>
+<th>階段</th>
+<th>Allan 說了什麼</th>
+<th>為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>前導</td>
+<td>「民間企業沒有法遵問題，只需參考」</td>
+<td>先釐清適用對象，再設計工具</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Plan</td>
+<td>「別影響目前的 Google sheet，好多系統及好多 User 需要它」</td>
+<td>說了原因，AI 才能自己判斷邊界</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Do</td>
+<td>「這份清單比一句『完成了』有用一百倍」</td>
+<td>要 AI 說清楚驗證了什麼、沒驗證什麼</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Check</td>
+<td>「之前程式的規則不重要，重要是要生成合理正確的情資資料」</td>
+<td>驗收標準是正確，不是跟以前一樣</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Act</td>
+<td>「我今天似乎沒感覺情資有更新」</td>
+<td>講現象，不必先下診斷；運作與否要靠人盯</td>
+</tr>
+</tbody>
+</table></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>你現有的自動化或排程工作，如果「沒執行」，你會知道嗎？誰會通知你？</li>
+<li>你的告警規則，有沒有被實際觸發過？</li>
+<li>你的系統裡有沒有權杖或密碼？它們的範圍、效期、保管位置是什麼？</li>
+</ol>
+<blockquote><p>※ 本集關於 n8n 的比較為選擇原則，n8n 的實際功能與定價請以官方文件為準。</p></blockquote><nav class="pager"><a href="#ep3">← 第 3 集</a><a href="#ep5">延伸 1 →</a></nav></section><section class="ep" id="ep5" aria-labelledby="t5"><header class="ephead"><div class="phase">E1</div><div><p class="eyebrow">延伸篇・延伸 1・判斷・民國 115 年（2026 年）11 月 28 日</p><h2 id="t5">AI 寫程式之後，我的工作重心移到哪裡</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>工程師跟 AI 協作時最常見的盲點</li>
+<li>同一個需求的兩種交代方式，結果差在哪</li>
+<li>這個個案裡，哪些決定是 AI 做不了、要靠專業判斷的</li>
+<li>一套可以帶走的驗證設計</li>
+</ul>
+<h3>場景 1：工程師的盲點</h3>
+<p class="direction">一位工程師學員舉手，手上拿著一張寫滿技術規格的紙</p>
+<div class="say r"><img class="face" src="img/arale-wave.jpg" alt="阿拉蕾（揮手）"><div class="bubble"><div class="who">阿拉蕾<span>揮手</span></div><p>主篇講完了，這兩集是給工程師和技術顧問的。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>我在課堂上觀察到，不寫程式的人跟工程師，卡住的地方剛好相反。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>不寫程式的人是不敢開始。那工程師呢？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p><strong>講太細。</strong> 一開口就是「用 Python、用 requests 抓 RSS、存 SQLite、每天凌晨兩點用 cron 跑」。把做法全部指定好了。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>這樣不是很清楚嗎？我照做就好。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>問題就在「照做」。做法都指定好，妳就只會照做，不會告訴他 SQLite 放在哪台機器、那台機器關機了怎麼辦、凌晨兩點剛好是某個來源的維護時間。<strong>妳的判斷力被關掉了。</strong></p></div></div>
+<h3>場景 2：同一個需求，兩種交代方式</h3>
+<p class="direction">左右兩欄對照</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我把這次的需求，用兩種方式寫給大家看。左邊是示意的「指定做法版」，右邊是 Allan 實際的交代方式：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th></th>
+<th>指定做法版（示意）</th>
+<th>目的與限制版（Allan 實際的說法）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>怎麼講</td>
+<td>「用 Python 寫爬蟲抓四個網站，存成 Excel，每天用排程跑，上傳到 Google Drive」</td>
+<td>「能不能建立自動化情資更新機制？不一定要依照上述模式，但 Excel 表的欄位需求是必要的……別影響目前的 Google sheet……」</td>
+</tr>
+<tr>
+<td>AI 收到的資訊</td>
+<td>做法</td>
+<td>現況、目標、能放手的、不能妥協的、不能碰的與原因</td>
+</tr>
+<tr>
+<td>AI 能做的事</td>
+<td>照做</td>
+<td>提出架構、指出風險、判斷邊界</td>
+</tr>
+<tr>
+<td>這次實際的結果</td>
+<td>—</td>
+<td>AI 提出 GitHub Actions＋GitHub Pages 的架構，完全不碰舊 Sheet</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>我當時其實也預設會用 n8n 來串。如果我一開始就說「用 n8n 做」，就不會有這次的架構。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>講目的與限制，讓我提方案；您再用專業來審。</p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>給工程師的交代原則</h4><ol>
+<li><strong>講目的，不講做法</strong>：要解決什麼問題，給誰用。</li>
+<li><strong>講限制，而且講原因</strong>：不能碰什麼、為什麼。原因讓 AI 能推論出你沒說到的邊界。</li>
+<li><strong>講驗收標準</strong>：什麼叫做對。</li>
+<li><strong>保留否決權</strong>：AI 提方案，你審。你有偏好的技術可以說，但說成「我傾向用 X，你覺得呢」，不要說「用 X」。</li>
+</ol></aside>
+<h3>場景 3：AI 做不了的五個決定</h3>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>回頭看這次的過程，程式幾乎都是我寫的。那 Allan 老師做了什麼？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>做判斷。妳列出來給大家看。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><div class="tw"><table>
+<thead>
+<tr>
+<th>時間點</th>
+<th>Allan 的決定</th>
+<th>為什麼 AI 做不了</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 3 集</td>
+<td>「之前程式的規則不重要，重要是要生成合理正確的情資資料」</td>
+<td>驗收標準是業務決定，AI 只會選最容易量化的目標</td>
+</tr>
+<tr>
+<td>第 3 集</td>
+<td>威脅程度維持人工覆核，不追求自動化</td>
+<td>答案在組織的資產清單裡</td>
+</tr>
+<tr>
+<td>第 3 集</td>
+<td>舊看板不動，新系統另做看板，逐步取代</td>
+<td>要衡量舊系統使用者的風險，AI 只看得到權限的牆</td>
+</tr>
+<tr>
+<td>第 4 集</td>
+<td>用自己的帳號改排程檔，測試 AI 的推測</td>
+<td>AI 的推測未經驗證，要有人實際去試</td>
+</tr>
+<tr>
+<td>第 4 集</td>
+<td>「iThome 完整性不重要」，門檻定 12 小時</td>
+<td>漏抓的代價是業務判斷</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>你看，這五個決定沒有一個需要寫程式。但每一個都需要<strong>懂這個領域、懂使用者、懂風險</strong>。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>所以工程師的價值，從「寫」移到了「判斷」。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>對。而且判斷的品質，決定了 AI 寫出來的東西能不能用。</p></div></div>
+<h3>場景 4：把 AI 的推測當假設</h3>
+<p class="direction">一張實驗紀錄卡，寫著「假設／驗證方法／結果」</p>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>第 4 集有一段值得工程師特別看。排程不啟動時，阿拉蕾說了什麼？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>我說：「排程檔最後修改者不是有效的 GitHub 帳號，可能因此不啟動。」而且我有標明，這是<strong>未驗證的推測</strong>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>這個標示非常重要。工程師拿到 AI 的診斷，第一個反應常常是直接照著修。但那只是假設。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>您的做法是：用自己的帳號改一次，看排程會不會開始跑。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>結果排程確實開始跑了，但晚了將近七小時。所以我能下的結論只有「改了之後會動」，不能說「原因一定就是那個」。<strong>也可能剛好那時候 GitHub 恢復了。</strong></p></div></div>
+<aside class="box tip"><div class="lab">教學重點</div><h4>對 AI 診斷的態度</h4><ul>
+<li>要求 AI 區分「我查到的事實」和「我的推測」。</li>
+<li>推測就是假設：設計一個最便宜的驗證方法，去試。</li>
+<li>結論只寫到證據能支持的程度。</li>
+</ul></aside>
+<h3>場景 5：一套帶得走的驗證設計</h3>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>最後，我把這次用到的驗證方法整理成一張表：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>驗證方法</th>
+<th>本個案的做法</th>
+<th>驗證的是什麼</th>
+<th>限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>回測對照組</strong></td>
+<td>拿 2026 年 11 月 110 筆跟原 Sheet 比</td>
+<td>跟舊結果像不像</td>
+<td>舊結果也可能錯</td>
+</tr>
+<tr>
+<td><strong>權威標準答案</strong></td>
+<td>36 個同時公布指標與期限的 CVE，36/36</td>
+<td>判定邏輯對不對</td>
+<td>只涵蓋有公布的 CVE</td>
+</tr>
+<tr>
+<td><strong>差異逐筆歸因</strong></td>
+<td>13 筆不同，逐筆說出原因</td>
+<td>不一致是設計還是缺陷</td>
+<td>需要人逐筆看</td>
+</tr>
+<tr>
+<td><strong>時間驗證</strong></td>
+<td>等排程自己跑</td>
+<td>系統會不會自己運作</td>
+<td>要等時間過去，<strong>最容易被跳過</strong></td>
+</tr>
+<tr>
+<td><strong>故意觸發</strong></td>
+<td>暫時調低 MAX_HOURS</td>
+<td>告警與補跑會不會動</td>
+<td>測完要改回來</td>
+</tr>
+<tr>
+<td><strong>路徑盤點</strong></td>
+<td>通知路徑表，標示驗證狀態</td>
+<td>每一種失效有沒有人知道</td>
+<td>有兩條路徑尚未被真實觸發</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>第四列是這次真的漏掉的。阿拉蕾說完成的時候，驗證的是手動觸發，不是排程。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-cry.jpg" alt="阿拉蕾（流淚）"><div class="bubble"><div class="who">阿拉蕾<span>流淚</span></div><p>這個我記住了。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>工程師審 AI 的成果時，可以拿這張表逐列問：「這一項你驗證了嗎？怎麼驗證的？」</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>給技術顧問</h4><p>這張表可以直接對應到控制措施的測試方法：設計有效性（邏輯對不對）與執行有效性（有沒有持續運作）。
+只做前者、沒做後者，是導入自動化最常見的稽核發現。</p></aside>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>AI 寫程式之後，工程師的價值從「寫」移到「判斷」。</strong>
+講目的與限制讓 AI 提方案；把 AI 的推測當假設；用驗證設計去審它的成果。</p></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>回想你最近交代給 AI 的一件事，你講的是做法，還是目的與限制？</li>
+<li>你審 AI 寫的程式時，看的是程式碼本身，還是它驗證了什麼？</li>
+</ol><nav class="pager"><a href="#ep4">← 第 4 集</a><a href="#ep6">延伸 2 →</a></nav></section><section class="ep" id="ep6" aria-labelledby="t6"><header class="ephead"><div class="phase">E2</div><div><p class="eyebrow">延伸篇・延伸 2・架構・民國 115 年（2026 年）11 月 28 日</p><h2 id="t6">平台還是程式碼？省下的平台，責任誰扛</h2></div></header><h3>本集你會看到</h3>
+<ul>
+<li>這次的架構拆開來，每一塊是什麼</li>
+<li>如果用工作流程平台來做，哪些事會由平台處理</li>
+<li>自建的責任清單：省下平台之後，要自己扛的事</li>
+<li>選擇的判斷方式</li>
+</ul>
+<aside class="box tip"><div class="lab">提醒</div><h4>說明</h4><p>本集討論的是選擇原則。文中提到工作流程平台（例如 n8n）通常具備的能力為一般性描述，各平台的實際功能、版本差異與定價，請以官方文件為準。</p></aside>
+<h3>場景 1：把架構拆開來看</h3>
+<p class="direction">阿拉蕾的平板上是五個積木，分別寫著「排程、執行、資料、呈現、監控」</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>這次的系統可以拆成五塊：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>元件</th>
+<th>本個案的做法</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>排程</strong></td>
+<td>GitHub Actions 排程，一天六個時間點</td>
+<td>免費，但不保證準時</td>
+</tr>
+<tr>
+<td><strong>執行</strong></td>
+<td>Python 程式，由 GitHub Actions 執行</td>
+<td>免費</td>
+</tr>
+<tr>
+<td><strong>資料</strong></td>
+<td>GitHub repo 裡每月一個 JSON 檔，所有變更有版本紀錄</td>
+<td>免費</td>
+</tr>
+<tr>
+<td><strong>呈現</strong></td>
+<td>GitHub Pages：戰情看板、明細查詢、Excel、CSV</td>
+<td>公開 repo 免費</td>
+</tr>
+<tr>
+<td><strong>監控與矯正</strong></td>
+<td>Google Apps Script 每 6 小時檢查，超過 12 小時未更新就補跑並寄信</td>
+<td>免費</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>全部免費，而且沒有一台自己要維護的主機。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>程式碼、資料、變更紀錄都在同一個 repo，稽核軌跡天生就有。</p></div></div>
+<h3>場景 2：如果用工作流程平台</h3>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>過去同樣的需求，我會直接落入 n8n 的架構。妳說說看，差在哪？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>工作流程平台通常會把一些「基礎建設」包好。我用這次真的遇到的問題來對照：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>這次遇到的問題</th>
+<th>自建（本個案）</th>
+<th>工作流程平台通常的做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排程沒啟動、延遲將近七小時</td>
+<td>自己加時間點、自己架監控補跑</td>
+<td>由平台自己的排程器負責；自架的話，可靠性取決於你的主機</td>
+</tr>
+<tr>
+<td>沒執行時沒有任何通知</td>
+<td>另寫 Apps Script 監控</td>
+<td>通常有執行紀錄與錯誤處理流程，但「沒執行」仍需另外監控</td>
+</tr>
+<tr>
+<td>權杖要建、要存、要換</td>
+<td>Fine-grained token 存在指令碼屬性，效期一年</td>
+<td>通常有集中的憑證管理</td>
+</tr>
+<tr>
+<td>介面描述與實際畫面不同</td>
+<td>照 AI 的描述去 GitHub 找設定</td>
+<td>平台介面也會改版，問題類似</td>
+</tr>
+<tr>
+<td>判定邏輯要能稽核</td>
+<td>程式碼與每筆判定依據都在 repo</td>
+<td>邏輯分散在節點設定中，稽核需看流程圖與執行紀錄</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>所以<strong>這次後半段遇到的每一個問題，正是平台原本會處理掉的</strong>。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-think.jpg" alt="阿拉蕾（思考）"><div class="bubble"><div class="who">阿拉蕾<span>思考</span></div><p>不過「沒執行就不會通知」這件事，用平台也一樣要想。監控者要放在被監控者外面，這個原則不會因為換工具就消失。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-wink.jpg" alt="Allan 講師（眨眼）"><div class="bubble"><div class="who">Allan 講師<span>眨眼</span></div><p>說得好。</p></div></div>
+<h3>場景 3：自建的責任清單</h3>
+<p class="direction">一張清單，標題「省下平台之後，這些是你的」</p>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>省下平台，這些責任就要自己扛。我把本個案怎麼處理、還剩什麼沒處理，一起列出來：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>責任</th>
+<th>本個案的處理</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>排程可靠性</strong></td>
+<td>一天六個時間點，分鐘避開整點</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已處理，但不保證準時</td>
+</tr>
+<tr>
+<td><strong>監控告警</strong></td>
+<td>Apps Script 監控＋GitHub 失敗通知＋Apps Script 錯誤通知</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 兩條已實測，<span class="dot wait" aria-label="待驗證"></span> 兩條尚未被真實觸發</td>
+</tr>
+<tr>
+<td><strong>憑證管理</strong></td>
+<td>單一 repo、只開 Actions、效期一年、存在指令碼屬性</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已處理，<span class="dot wait" aria-label="待驗證"></span> 到期更新程序待演練</td>
+</tr>
+<tr>
+<td><strong>來源網站改版</strong></td>
+<td>抓到 0 筆時讓執行失敗，GitHub 寄信</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 已設計</td>
+</tr>
+<tr>
+<td><strong>文件與設定一致</strong></td>
+<td>排程改成六次後，註解與 README 仍寫五次</td>
+<td><span class="chip warn">注意</span> 已發現，待修正</td>
+</tr>
+<tr>
+<td><strong>人工覆核</strong></td>
+<td>新紀錄標 <code>"auto": true</code>，建議月底發佈前覆核</td>
+<td><span class="dot wait" aria-label="待驗證"></span> 程序待建立</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>這張表我會建議客戶放進 ISMS 的文件裡。每一列都是一個要有人負責的控制點。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>自建自動化的控制點</h4><p>不論自建或用平台，稽核時都可以用同一組問題檢視：</p>
+<ol>
+<li>排程沒執行，誰會知道？多久會知道？</li>
+<li>憑證的範圍、效期、保管位置、更新程序？</li>
+<li>自動判定的結果，哪些需要人工覆核？覆核紀錄在哪？</li>
+<li>設定變更時，文件有沒有同步？</li>
+</ol></aside>
+<h3>場景 4：怎麼選</h3>
+<div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>所以以後該選哪一個？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>過去選 n8n，常常是因為「不會寫程式」。現在這個理由變弱了，選擇的依據應該回到需求本身。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><div class="tw"><table>
+<thead>
+<tr>
+<th>需求特性</th>
+<th>比較適合</th>
+<th>本個案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>流程簡單、直線</td>
+<td>讓 AI 直接寫程式</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 蒐集 → 評估 → 產出</td>
+</tr>
+<tr>
+<td>資料公開</td>
+<td>讓 AI 直接寫程式</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 四個公開來源</td>
+</tr>
+<tr>
+<td>要完全掌握邏輯與稽核軌跡</td>
+<td>讓 AI 直接寫程式</td>
+<td><span class="dot ok" aria-label="已驗證"></span> 每筆判定依據都要可追溯</td>
+</tr>
+<tr>
+<td>大量系統串接</td>
+<td>工作流程平台</td>
+<td>—</td>
+</tr>
+<tr>
+<td>需要人工審批節點</td>
+<td>工作流程平台</td>
+<td>—</td>
+</tr>
+<tr>
+<td>要交給非技術同仁維護</td>
+<td>工作流程平台</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>本個案剛好落在左邊。但如果明天客戶說：「情資進來後，要經過資安主管在系統上核准，再自動開工單給 IT」，那就是右邊了。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>而且不論選哪一邊，排程、監控、憑證都要有人負責。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-laugh.jpg" alt="Allan 講師（大笑）"><div class="bubble"><div class="who">Allan 講師<span>大笑</span></div><p>工具會變，責任不會。</p></div></div>
+<h3 class="end">本集一句話</h3>
+<div class="key"><p><strong>選工具的依據要回到需求本身，而不是「會不會寫程式」。</strong>
+省下平台之後，排程可靠性、監控告警、憑證管理的責任要自己扛；這個個案後半段遇到的問題，正是平台原本會處理掉的。</p></div>
+<h3 class="end">課後思考</h3>
+<ol>
+<li>拿你手上一個自動化需求，對照場景 4 的表格，它落在哪一邊？</li>
+<li>如果你選擇自建，場景 3 的責任清單裡，哪幾項你現在還沒有人負責？</li>
+</ol>
+<blockquote><p>※ 本集關於工作流程平台的描述為一般性選擇原則，n8n 等平台的實際功能與定價請以官方文件為準。</p></blockquote><nav class="pager"><a href="#ep5">← 延伸 1</a><span></span></nav></section></main>
+<footer class="wrap">初稿版本：民國 115 年 11 月 28 日。主篇 5 集＋延伸篇 2 集。截圖中的寄件信箱與指令碼 ID 已遮蔽。</footer>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('.ep'));
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(){
+    var id=(location.hash||'#ep0').slice(1);
+    if(!document.getElementById(id)||!/^ep\d$/.test(id)) id='ep0';
+    secs.forEach(function(s){s.hidden=s.id!==id});
+    tabs.forEach(function(t){ if(t.dataset.ep===id) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('hashchange',function(){show();window.scrollTo(0,0)});
+  show();
+})();
+</script>
