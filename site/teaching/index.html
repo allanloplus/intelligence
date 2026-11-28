@@ -342,10 +342,18 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 <li><strong>建立 GitHub 帳號與 repo</strong>：github.com → 右上「+」→ New repository → 輸入名稱 → 勾選 Add a README file（或隨意放一個檔案）→ Create repository。
     ※ 之後要用免費的 GitHub Pages 發佈網站，repo 請設為 <strong>Public</strong>；若資料不宜公開，需另外評估付費方案或其他發佈方式。</li>
 <li><strong>讓 Claude 能存取 GitHub</strong>：到 claude.ai/code，依畫面指示連結 GitHub 帳號，並在要使用的 repo 上安裝 Claude GitHub App（可只授權單一 repo）。</li>
-<li><strong>開一個工作階段</strong>：在 claude.ai/code 選擇剛建立的 repo，開新的 session，就可以開始用中文交代工作。</li>
-<li><strong>AI 的成果會變成 Pull Request（PR）</strong>：AI 在 <code>claude/…</code> 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 <strong>Merge pull request</strong>，才會進入正式的 <code>main</code> 分支。</li>
+<li>
+<p><strong>開一個工作階段</strong>：在 Claude 應用程式的 Code 分頁（或網頁版 claude.ai/code）按「<strong>新增</strong>」。輸入框下方的工具列由左到右是：</p>
+<ul>
+<li><strong>雲端環境</strong>：決定 AI 的工作環境能連到哪些網站。本個案要抓四個情資網站，所以選「允許網路完整存取」。</li>
+<li><strong>repo</strong>：選剛建立的 repo（本個案為 <code>intelligence</code>）。</li>
+<li><strong>分支</strong>：選要從哪個分支開始，通常是 <code>main</code>。AI 不會直接改 <code>main</code>，而是另外建一個 <code>claude/</code> 開頭的分支，在上面工作。</li>
+</ul>
+<p>選好之後，在「描述任務或提出問題」的輸入框用中文交代工作即可。
+4. <strong>AI 的成果會變成 Pull Request（PR）</strong>：AI 在 <code>claude/…</code> 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 <strong>Merge pull request</strong>，才會進入正式的 <code>main</code> 分支。</p>
+</li>
 </ol>
-<div class="todo"><span>畫面待補</span>claude.ai/code 選擇 repo 開 session 的畫面</div></aside>
+<figure class="shot"><img src="img/shot17.jpg" alt="開新工作階段的畫面" loading="lazy"><figcaption>開新工作階段的畫面。紅框由左到右是雲端環境、repo（intelligence）、分支（main）；上方是點開雲端環境後的選單</figcaption></figure></aside>
 <aside class="box isms"><div class="lab">ISMS 旁註</div><h4>最小授權與變更核准</h4><p>Claude GitHub App 可以只授權單一 repo，這是最小權限原則。
 「AI 在分支工作、人核准合併」對應變更管理：每一次變更都有申請（PR）、有審查、有核准者（合併的人），而且全部留在 GitHub 紀錄裡。</p></aside>
 <h3>場景 2：Allan 的第一段話</h3>
@@ -548,7 +556,7 @@ Allan 刻意區分「像不像」和「對不對」，因為驗收標準是後�
 <li><strong>手動執行一次</strong>：repo 上方 <strong>Actions</strong> → 左側選「<strong>情資自動更新</strong>」→ 右側 <strong>Run workflow</strong> → 選 <code>main</code> → 綠色 <strong>Run workflow</strong>。</li>
 <li><strong>確認結果</strong>：執行完成（綠色勾勾）後，網站網址會顯示在該次執行的頁面上。本個案為 <code>https://allanloplus.github.io/intelligence/</code>。</li>
 </ol>
-<div class="todo"><span>畫面待補</span>Settings → Pages → Source 選 GitHub Actions 的畫面</div></aside>
+<figure class="shot"><img src="img/shot16.jpg" alt="GitHub Pages 設定畫面" loading="lazy"><figcaption>repo 的 Settings → 左側 Pages → Build and deployment 的 Source 選 GitHub Actions；設定完成後，上方會顯示「Your site is live at」與網站網址</figcaption></figure></aside>
 <h3>場景 6：第一天的結算</h3>
 <div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>所以第一天結束，我們有什麼？</p></div></div>
 <div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><ul>
@@ -862,15 +870,24 @@ Allan 的判斷是<strong>換一個目標</strong>：真正的需求是「有一
 <aside class="box howto"><div class="lab">動手做</div><h4>建立 GitHub 權杖（Fine-grained token）</h4><ol>
 <li>GitHub 右上角<strong>頭像</strong> → <strong>Settings</strong>（<span class="chip warn">注意</span> 是帳號的 Settings，不是 repo 的）</li>
 <li>左側最下方 <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Fine-grained tokens</strong> → <strong>Generate new token</strong></li>
-<li><strong>Token name</strong>：取一個看得懂的名字，例如「情資監控補跑」</li>
-<li><strong>Expiration</strong>：選 Custom，設為一年後</li>
-<li><strong>Repository access</strong>：選 <strong>Only select repositories</strong> → 選你的 repo（本個案為 <code>intelligence</code>）</li>
+<li><strong>Token name</strong>：取一個看得懂的名字，本個案取名 <code>intel-apps-script</code></li>
+<li><strong>Expiration</strong>：預設是 30 天，改選 <strong>Custom</strong>，設為一年後</li>
+</ol>
+<figure class="shot"><img src="img/shot19.jpg" alt="建立新權杖：名稱與效期" loading="lazy"><figcaption>建立新權杖的上半部，紅框為 Token name 與 Expiration；Resource owner 維持自己的帳號</figcaption></figure>
+<ol>
+<li><strong>Repository access</strong>：<span class="chip warn">注意</span> 預設選在 <strong>Public repositories</strong>，一定要改選 <strong>Only select repositories</strong>，再選你的 repo（本個案為 <code>intelligence</code>）</li>
 <li><strong>Permissions</strong>：按 <strong>Add permissions</strong> → 勾選 <strong>Actions</strong> → 把 Access 改為 <strong>Read and write</strong>
     （系統會自動加上 Metadata：Read-only，這是必要的）</li>
+</ol>
+<figure class="shot"><img src="img/shot20.jpg" alt="建立新權杖：Repository access 與 Permissions" loading="lazy"><figcaption>Repository access 與 Permissions，紅框為要改選的 Only select repositories 與 Add permissions 按鈕</figcaption></figure>
+<ol>
 <li>最下方 <strong>Generate token</strong> → <strong>立刻複製</strong>權杖。這個畫面離開後就再也看不到了。</li>
 </ol>
 <p><span class="chip warn">注意</span> 權杖等同密碼：不要貼在對話、文件、程式碼裡。下一步會把它存在 Apps Script 的「指令碼屬性」中。</p>
-<div class="todo"><span>畫面待補</span>GitHub 權杖 Repository access 與 Permissions 設定畫面（權杖值請遮蔽）</div></aside>
+<p><strong>建好之後，檢查一次設定對不對</strong></p>
+<figure class="shot"><img src="img/shot21.jpg" alt="權杖清單與到期日" loading="lazy"><figcaption>權杖清單：本個案的 intel-apps-script，到期日為 2027 年 11 月 28 日，正好一年</figcaption></figure>
+<figure class="shot"><img src="img/shot22.jpg" alt="權杖詳細設定" loading="lazy"><figcaption>點進權杖看詳細設定。Repository access 只有 allanloplus/intelligence；Repository permissions 只有 metadata 讀取與 actions 讀寫，沒有其他權限</figcaption></figure>
+<p>這一步就是最小權限的驗收：範圍只有一個 repo、權限只有 Actions、效期一年。</p></aside>
 <aside class="box isms"><div class="lab">ISMS 旁註</div><h4>憑證管理</h4><ul>
 <li><strong>最小權限</strong>：單一 repo、單一權限（Actions）。</li>
 <li><strong>有效期限</strong>：一年，並有到期前提醒與失效時的告警。</li>

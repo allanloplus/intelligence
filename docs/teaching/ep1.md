@@ -3,7 +3,7 @@
 
 > 形式：對話式圖文｜時間：民國 115 年（2026 年）11 月 26 日下午
 > 角色：**Allan 講師**／**阿拉蕾**（AI 小助理）
-> 圖示標記：【表情：…】對應角色設定圖；【畫面：…】為配圖說明；【畫面待補】為尚待提供的截圖
+> 圖示標記：【表情：…】對應角色設定圖；【畫面：…】為配圖說明
 
 ---
 
@@ -42,10 +42,15 @@ AI 提案、人核准。這本身就是一個控制點！
 > 1. **建立 GitHub 帳號與 repo**：github.com → 右上「+」→ New repository → 輸入名稱 → 勾選 Add a README file（或隨意放一個檔案）→ Create repository。
 >    ※ 之後要用免費的 GitHub Pages 發佈網站，repo 請設為 **Public**；若資料不宜公開，需另外評估付費方案或其他發佈方式。
 > 2. **讓 Claude 能存取 GitHub**：到 claude.ai/code，依畫面指示連結 GitHub 帳號，並在要使用的 repo 上安裝 Claude GitHub App（可只授權單一 repo）。
-> 3. **開一個工作階段**：在 claude.ai/code 選擇剛建立的 repo，開新的 session，就可以開始用中文交代工作。
+> 3. **開一個工作階段**：在 Claude 應用程式的 Code 分頁（或網頁版 claude.ai/code）按「**新增**」。輸入框下方的工具列由左到右是：
+>    - **雲端環境**：決定 AI 的工作環境能連到哪些網站。本個案要抓四個情資網站，所以選「允許網路完整存取」。
+>    - **repo**：選剛建立的 repo（本個案為 `intelligence`）。
+>    - **分支**：選要從哪個分支開始，通常是 `main`。AI 不會直接改 `main`，而是另外建一個 `claude/` 開頭的分支，在上面工作。
+>
+>    選好之後，在「描述任務或提出問題」的輸入框用中文交代工作即可。
 > 4. **AI 的成果會變成 Pull Request（PR）**：AI 在 `claude/…` 分支上工作，成果以 PR 呈現。你在 GitHub 上看過內容、按 **Merge pull request**，才會進入正式的 `main` 分支。
 >
-> 【畫面待補：claude.ai/code 選擇 repo 開 session 的畫面】
+> 【畫面：開新工作階段的畫面。紅框由左到右是雲端環境、repo（intelligence）、分支（main）；上方是點開雲端環境後的選單（截圖 17）】
 
 > **📋 ISMS 旁註｜最小授權與變更核准**
 > Claude GitHub App 可以只授權單一 repo，這是最小權限原則。
