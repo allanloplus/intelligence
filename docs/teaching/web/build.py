@@ -155,8 +155,9 @@ if missing:
     print('MISSING faces', missing, file=sys.stderr)
 
 PH = {'前導': '序', 'Plan': 'P', 'Do': 'D', 'Check': 'C', 'Act': 'A', '判斷': 'E1', '架構': 'E2'}
+SHORT = ['需求由來', '交代工作', '系統長出來了', '什麼叫做對', '它沒在跑', '從寫到判斷', '平台還是程式碼']
 LAB = lambda n: f'延伸 {n[1:]}' if n.startswith('E') else f'第 {n} 集'
-tabs = ''.join(f'<a class="tab" href="#ep{k}" data-ep="ep{k}"><b>{PH.get(ph, ph)}</b><span>{LAB(n)}</span><em>{html.escape(t)}</em></a>'
+tabs = ''.join(f'<a class="tab" href="#ep{k}" data-ep="ep{k}" title="{html.escape(t)}"><b>{PH.get(ph, ph)}</b><span>{LAB(n)}</span><em>{SHORT[k]}</em></a>'
                for k, (n, ph, t, _, _) in enumerate(eps))
 sections = ''
 for k, (n, ph, t, meta, body) in enumerate(eps):
