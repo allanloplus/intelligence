@@ -41,15 +41,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* tabs */
 .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
-.rail .wrap{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding-block:8px}
-.tab{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;text-decoration:none;color:var(--muted);padding:6px 8px;border-radius:8px;min-width:0}
+.rail .wrap{max-width:1180px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding-block:8px}
+.tab{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;text-decoration:none;color:var(--ink);padding:8px 10px;border-radius:8px;min-width:0}
 .tab b{grid-row:span 2;font-family:var(--f-head);font-size:20px;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:var(--bg);color:var(--navy)}
-.tab span{font-size:12px;line-height:1.3}
-.tab em{font-style:normal;font-size:13px;line-height:1.35;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab span{font-size:12px;line-height:1.3;color:var(--muted)}
+.tab em{font-style:normal;font-size:15px;font-weight:700;line-height:1.35;color:var(--ink);white-space:nowrap}
 .tab[aria-current="page"] b{background:var(--navy);color:var(--paper)}
 .tab[aria-current="page"]{background:var(--navy-soft)}
 .tab:focus-visible,.pager a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-@media (max-width:980px){.tab em{display:none}.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}}
+@media (max-width:1100px){.tab em{font-size:13px}}
+@media (max-width:900px){.tab em{display:none}.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}}
 @media (max-width:640px){.tab b{width:32px;height:32px;font-size:16px}.tab span{font-size:11px}.tab{grid-template-columns:1fr;justify-items:center;text-align:center;padding:4px}.tab b{grid-row:auto}.tab em{display:none}.mast .wrap{grid-template-columns:1fr}.cast{order:-1}}
 
 /* episode */
@@ -135,7 +136,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <figure><img src="img/arale-wave.jpg" alt="AI 小助理阿拉蕾">阿拉蕾</figure>
   </div>
 </div></header>
-<nav class="rail" aria-label="集數"><div class="wrap"><a class="tab" href="#ep0" data-ep="ep0"><b>序</b><span>第 0 集</span><em>一張表是怎麼長大的</em></a><a class="tab" href="#ep1" data-ep="ep1"><b>P</b><span>第 1 集</span><em>交代工作，不是寫提示詞</em></a><a class="tab" href="#ep2" data-ep="ep2"><b>D</b><span>第 2 集</span><em>第一天，系統長出來了，但還不能信</em></a><a class="tab" href="#ep3" data-ep="ep3"><b>C</b><span>第 3 集</span><em>什麼叫「做對」？要有標準答案</em></a><a class="tab" href="#ep4" data-ep="ep4"><b>A</b><span>第 4 集</span><em>它沒在跑，而且沒人告訴我</em></a><a class="tab" href="#ep5" data-ep="ep5"><b>E1</b><span>延伸 1</span><em>AI 寫程式之後，我的工作重心移到哪裡</em></a><a class="tab" href="#ep6" data-ep="ep6"><b>E2</b><span>延伸 2</span><em>平台還是程式碼？省下的平台，責任誰扛</em></a></div></nav>
+<nav class="rail" aria-label="集數"><div class="wrap"><a class="tab" href="#ep0" data-ep="ep0" title="一張表是怎麼長大的"><b>序</b><span>第 0 集</span><em>需求由來</em></a><a class="tab" href="#ep1" data-ep="ep1" title="交代工作，不是寫提示詞"><b>P</b><span>第 1 集</span><em>交代工作</em></a><a class="tab" href="#ep2" data-ep="ep2" title="第一天，系統長出來了，但還不能信"><b>D</b><span>第 2 集</span><em>系統長出來了</em></a><a class="tab" href="#ep3" data-ep="ep3" title="什麼叫「做對」？要有標準答案"><b>C</b><span>第 3 集</span><em>什麼叫做對</em></a><a class="tab" href="#ep4" data-ep="ep4" title="它沒在跑，而且沒人告訴我"><b>A</b><span>第 4 集</span><em>它沒在跑</em></a><a class="tab" href="#ep5" data-ep="ep5" title="AI 寫程式之後，我的工作重心移到哪裡"><b>E1</b><span>延伸 1</span><em>從寫到判斷</em></a><a class="tab" href="#ep6" data-ep="ep6" title="平台還是程式碼？省下的平台，責任誰扛"><b>E2</b><span>延伸 2</span><em>平台還是程式碼</em></a></div></nav>
 <main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>本集你會看到</h3>
 <ul>
 <li>一份「威脅情資紀錄表」從哪裡來、為什麼後來又多了五個欄位</li>
