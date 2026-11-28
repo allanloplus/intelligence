@@ -179,16 +179,18 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
   </div>
 </div></header>
 <nav class="rail" aria-label="集數"><div class="wrap"><a class="tab" href="#ep0" data-ep="ep0" title="一張表是怎麼長大的"><b>序</b><span>第 0 集</span><em>需求由來</em></a><a class="tab" href="#ep1" data-ep="ep1" title="交代工作，不是寫提示詞"><b>P</b><span>第 1 集</span><em>交代工作</em></a><a class="tab" href="#ep2" data-ep="ep2" title="第一天，系統長出來了，但還不能信"><b>D</b><span>第 2 集</span><em>系統長出來了</em></a><a class="tab" href="#ep3" data-ep="ep3" title="什麼叫「做對」？要有標準答案"><b>C</b><span>第 3 集</span><em>什麼叫做對</em></a><a class="tab" href="#ep4" data-ep="ep4" title="它沒在跑，而且沒人告訴我"><b>A</b><span>第 4 集</span><em>它沒在跑</em></a><a class="tab" href="#ep5" data-ep="ep5" title="AI 寫程式之後，我的工作重心移到哪裡"><b>E1</b><span>延伸 1</span><em>從寫到判斷</em></a><a class="tab" href="#ep6" data-ep="ep6" title="平台還是程式碼？省下的平台，責任誰扛"><b>E2</b><span>延伸 2</span><em>平台還是程式碼</em></a></div></nav>
-<main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>先看成果：第一天就做出來的畫面</h3>
-<figure class="shot big"><img src="img/shot12.jpg" alt="情資網站戰情看板（上半）" loading="lazy"><figcaption>「資安內外部情資蒐集紀錄｜Allan's 戰情看板」。這個畫面在第一天開工後的第二個小時就上線了　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
-<aside class="box result"><div class="lab">成果</div><h4>這個個案最後做出了什麼</h4><ul>
+<main class="wrap"><section class="ep" id="ep0" aria-labelledby="t0"><header class="ephead"><div class="phase">序</div><div><p class="eyebrow">第 0 集・前導</p><h2 id="t0">一張表是怎麼長大的</h2></div></header><h3>先看畫面：改版的第一步</h3>
+<figure class="shot big"><img src="img/shot12.jpg" alt="情資網站戰情看板（上半）" loading="lazy"><figcaption>「資安內外部情資蒐集紀錄｜Allan's 戰情看板」。這是 AI 改版的第一步，開工後的第二個小時就上線了　<a href="https://allanloplus.github.io/intelligence/" target="_blank" rel="noopener">開啟實際網站 ↗</a></figcaption></figure>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>這是我交出的第一個畫面。民國 115 年 11 月 26 日下午開工，第二個小時它就上線了。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>看起來已經完成了，對吧？</p></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>但這只是第一步。畫面有了，不代表它每天會自己更新、判定是對的、哪天沒更新會有人知道。接下來的三天，全部花在這些看不見的地方。</p></div></div>
+<aside class="box result"><div class="lab">成果</div><h4>三天後，它多了什麼</h4><ul>
 <li><strong>每天自動蒐集</strong>：TWCERT、資安院 NICS、iThome 資安日報、TechNews 四個來源，一天六個時間點</li>
-<li><strong>自動評估弱點</strong>：依指引表一判定處置期限，曝露與未曝露兩種並列；以 36 個官方公布的 CVE 驗證，36/36 一致</li>
-<li><strong>三年資料可查詢下載</strong>：戰情看板、明細查詢、每月與年度 Excel、CSV</li>
+<li><strong>判定有依據</strong>：弱點處置期限依指引表一判定，曝露與未曝露兩種並列；以 36 個官方公布的 CVE 驗證，36/36 一致</li>
 <li><strong>會自我檢查</strong>：超過 12 小時沒更新，自動補跑並寄信通知</li>
+<li><strong>三年資料可查詢下載</strong>：戰情看板、明細查詢、每月與年度 Excel、CSV</li>
 <li><strong>舊系統零影響</strong>：原本的 Google Sheet 與相依系統全程沒有被修改</li>
 </ul>
-<p>這個畫面，在民國 115 年 11 月 26 日開工後的<strong>第二個小時</strong>就做出來了。接下來的三天，花在看不見的地方：驗證弱點判定對不對、排程會不會自己跑、沒跑時有沒有人知道、能不能自己補上。</p>
 <p><strong>做出畫面很快，難的是讓它持續正確地運作。</strong> 程式由 AI 撰寫，但每一個關鍵決定都是 Allan 做的。這個系列要講的，就是他在每一步說了什麼、為什麼這樣說。</p></aside>
 <h3>本集你會看到</h3>
 <ul>
