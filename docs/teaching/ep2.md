@@ -166,7 +166,7 @@
 > 3. **手動執行一次**：repo 上方 **Actions** → 左側選「**情資自動更新**」→ 右側 **Run workflow** → 選 `main` → 綠色 **Run workflow**。
 > 4. **確認結果**：執行完成（綠色勾勾）後，網站網址會顯示在該次執行的頁面上。本個案為 `https://allanloplus.github.io/intelligence/`。
 >
-> 【畫面待補：Settings → Pages → Source 選 GitHub Actions 的畫面】
+> 【畫面：repo 的 Settings → 左側 Pages → Build and deployment 的 Source 選 GitHub Actions；設定完成後，上方會顯示「Your site is live at」與網站網址（截圖 16）】
 
 ---
 
