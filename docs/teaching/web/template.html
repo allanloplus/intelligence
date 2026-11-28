@@ -120,6 +120,9 @@ blockquote.said{margin:6px 0 12px;padding:10px 14px;border-left:4px solid var(--
 .box.isms .lab{background:var(--navy);color:var(--paper)}
 .box.howto{border:2px solid var(--teal)}
 .box.howto .lab{background:var(--teal);color:var(--paper)}
+.box.result{border:2px solid var(--sun);background:var(--sun-soft)}
+.box.result .lab{background:var(--sun);color:#1c2230}
+.box.result h4{font-family:var(--f-head);font-size:20px}
 .box.aside .lab{background:var(--bg);color:var(--muted)}
 .box ol,.box ul{padding-left:1.4em;margin:0 0 12px}
 .box li{margin:3px 0}
@@ -130,6 +133,11 @@ blockquote{margin:12px 0;padding:0 16px;border-left:3px solid var(--line);color:
 .todo span{font-weight:700;color:var(--wait);margin-right:8px}
 .shot{margin:14px 0}
 .shot img{width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+.shot.big{margin:18px -24px 22px;padding:14px;background:var(--navy);border-radius:14px}
+.shot.big img{border:0;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.shot.big figcaption{color:#dfe6f2;font-size:14px;margin-top:10px}
+.shot.big figcaption a{color:var(--sun)}
+@media (max-width:860px){.shot.big{margin-inline:0}}
 .shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
 
 /* tables / code */
