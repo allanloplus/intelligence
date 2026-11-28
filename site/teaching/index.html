@@ -184,6 +184,39 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 <div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>這是我交出的第一個畫面。民國 115 年 11 月 26 日下午開工，第二個小時它就上線了。</p></div></div>
 <div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>看起來已經完成了，對吧？</p></div></div>
 <div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>但這只是第一步。畫面有了，不代表它每天會自己更新、判定是對的、哪天沒更新會有人知道。接下來的三天，全部花在這些看不見的地方。</p></div></div>
+<aside class="box aside"><div class="lab">小插曲</div><h4>改版改了什麼：不只是前端</h4><p>新的畫面背後，資料的存放方式也換掉了：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th></th>
+<th>改版前</th>
+<th>改版後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>資料存放</strong></td>
+<td>Google Sheet，每年換一份新的</td>
+<td>GitHub repo 的 <code>data</code> 資料夾，每月一個資料檔（JSON）</td>
+</tr>
+<tr>
+<td><strong>資料怎麼進來</strong></td>
+<td>本機執行 bat 產生 Excel，再手動複製貼上</td>
+<td>程式每天自動蒐集、評估後寫入資料檔</td>
+</tr>
+<tr>
+<td><strong>改了什麼查得到嗎</strong></td>
+<td>只看得到最新內容</td>
+<td>每一次新增、修改都有版本紀錄：誰、何時、改了哪一筆</td>
+</tr>
+<tr>
+<td><strong>前端</strong></td>
+<td>個人網站連到 Sheet 下載；舊看板讀 Sheet</td>
+<td>新的戰情看板、明細查詢、Excel 與 CSV 下載，都由資料檔產生</td>
+</tr>
+</tbody>
+</table></div>
+<p>換句話說，Google Sheet 從「唯一的資料來源」變成「不再被新系統使用、但照常運作的舊系統」。新系統只在第一天<strong>唯讀</strong>讀過它一次，把三年的歷史資料搬過來。</p></aside>
 <aside class="box result"><div class="lab">成果</div><h4>三天後，它多了什麼</h4><ul>
 <li><strong>每天自動蒐集</strong>：TWCERT、資安院 NICS、iThome 資安日報、TechNews 四個來源，一天六個時間點</li>
 <li><strong>判定有依據</strong>：弱點處置期限依指引表一判定，曝露與未曝露兩種並列；以 36 個官方公布的 CVE 驗證，36/36 一致</li>
@@ -482,13 +515,24 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 <div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>我原本以為這種需求一定要用 n8n 之類的工作流程平台來串。</p></div></div>
 <div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>這次不用。資料都是公開的、流程是直線的，我直接寫程式，交給 GitHub 每天執行就好。</p></div></div>
 <div class="say a"><img class="face" src="img/allan-worry.jpg" alt="Allan 講師（正經）"><div class="bubble"><div class="who">Allan 講師<span>正經</span></div><p>這個選擇的代價，我們第 4 集再算。</p></div></div>
-<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>資料存在哪裡、誰能改</h4><p>每月一個 JSON 資料檔放在 repo 裡，所有新增、修改都有版本紀錄：誰、何時、改了什麼。
-稽核時要佐證「這筆情資何時進來、後來有沒有被改過」，翻 GitHub 的歷史紀錄即可。</p></aside>
 <h3>場景 2：三年的歷史資料搬家</h3>
 <div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>我要求保留過去三年的資料。</p></div></div>
 <div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>我從原本的 Google Sheet 唯讀讀出 2023 到 2026 年的資料，一共 1,908 筆，轉成新系統的格式。之後整理為 1,904 筆。</p></div></div>
 <div class="say a"><img class="face" src="img/allan-smile.jpg" alt="Allan 講師（微笑）"><div class="bubble"><div class="who">Allan 講師<span>微笑</span></div><p>所以客戶到新網站，一樣查得到三年前的情資。</p></div></div>
 <div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>對。不過 2026 年 10 月以前的月份，原本就沒有弱點五欄的資料，那五欄會留白。指引是 115 年 11 月才訂的，我不會回頭去補舊資料。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-think.jpg" alt="Allan 講師（思考）"><div class="bubble"><div class="who">Allan 講師<span>思考</span></div><p>搬過來之後，資料放在哪裡？還是放在 Google Sheet 嗎？</p></div></div>
+<div class="say r"><img class="face" src="img/arale-explain.jpg" alt="阿拉蕾（攤手說明）"><div class="bubble"><div class="who">阿拉蕾<span>攤手說明</span></div><p>不是。這是這次改版最大的變化：<strong>資料不再存在 Google Sheet</strong>，改存在 GitHub repo 的 <code>data</code> 資料夾，每個月一個資料檔，例如 <code>data/2026/2026-11.json</code>。</p></div></div>
+<div class="say a"><img class="face" src="img/allan-surprise.jpg" alt="Allan 講師（驚訝）"><div class="bubble"><div class="who">Allan 講師<span>驚訝</span></div><p>為什麼要換？Sheet 大家都會用。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-tablet.jpg" alt="阿拉蕾（平板展示）"><div class="bubble"><div class="who">阿拉蕾<span>平板展示</span></div><p>三個原因：</p>
+<ol>
+<li><strong>不用再手動貼上</strong>：程式蒐集完直接寫進資料檔，不經過人工複製。</li>
+<li><strong>每一次變更都有紀錄</strong>：哪一天新增了哪幾筆、哪一筆的期限被重新評估改掉了，GitHub 都記得。</li>
+<li><strong>跟舊系統完全分開</strong>：新系統不寫入舊 Sheet，舊的看板和下載網頁照常運作，12 月初使用者照樣能下載。</li>
+</ol></div></div>
+<div class="say a"><img class="face" src="img/allan-finger.jpg" alt="Allan 講師（豎指頭）"><div class="bubble"><div class="who">Allan 講師<span>豎指頭</span></div><p>第三點最重要。這就是我第一天說的「別影響目前的 Google sheet」。</p></div></div>
+<div class="say r"><img class="face" src="img/arale-thumb.jpg" alt="阿拉蕾（眨眼比讚）"><div class="bubble"><div class="who">阿拉蕾<span>眨眼比讚</span></div><p>而且網站、Excel、CSV 全部從同一份資料檔產生，不會有「網站跟 Excel 不一樣」的問題。</p></div></div>
+<aside class="box isms"><div class="lab">ISMS 旁註</div><h4>資料來源單一化</h4><p>改版前，同一份資料要經過「bat 產生 Excel → 手動貼到 Sheet → 各系統讀 Sheet」三手，每一手都可能出錯，也看不出被改過。
+改版後只有一個資料來源，所有產出都由它產生，所有變更都有版本紀錄。稽核時要追「這筆資料何時進來、後來有沒有被改」，翻 GitHub 的 History 就有答案。</p></aside>
 <h3>場景 3：阿拉蕾的第一個坦白</h3>
 <p class="direction">阿拉蕾抓頭，頭上一個問號；背景是 Allan 的筆電，上面一支被鎖起來的 bat 檔</p>
 <div class="say r"><img class="face" src="img/arale-question.jpg" alt="阿拉蕾（疑問抓頭）"><div class="bubble"><div class="who">阿拉蕾<span>疑問抓頭</span></div><p>老師，我要先坦白一件事。</p></div></div>
