@@ -660,26 +660,6 @@
   "auto": false
  },
  {
-  "id": "de2e0134cdd0",
-  "date": "2025-03-31",
-  "source": "精誠科技業務通知",
-  "title": "Mail主旨：本公司之母公司精誠資訊股份有限公司資安事件通知",
-  "url": "如附件XX",
-  "origin": "外部資訊",
-  "category": "外部：安全事件情報",
-  "severity": "現行不影響",
-  "riskScope": "",
-  "affected": "",
-  "countermeasure": "僅列入知識庫",
-  "progress": "OK，此為廠商通知函，經了解發生資安事件為廠商母公司，且經檢測後廠商所提供之服務皆正常，僅加強觀察不需做其他處置",
-  "kev": "",
-  "automatable": "",
-  "impact": "",
-  "dueInternal": "",
-  "duePublic": "",
-  "auto": false
- },
- {
   "id": "be1928cf35df",
   "date": "2025-03-31",
   "source": "經濟日報",
