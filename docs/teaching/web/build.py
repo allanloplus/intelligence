@@ -96,6 +96,8 @@ def render_episode(text):
         l = lines[i]
         if not l.strip() or l.strip() == '---':
             i += 1; continue
+        if l.startswith('#### '):
+            out.append(f'<h4 class="sub">{html.escape(l[5:])}</h4>'); i += 1; continue
         if l.startswith('### '):
             h = re.sub(f'[{EMOJI}]\\s*', '', l[4:])
             cls = ' class="end"' if h in ('本集一句話', '課後思考', '全系列回顧', '帶得走的工具卡', '附錄：本集引用') else ''
